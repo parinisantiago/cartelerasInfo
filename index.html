@@ -101,12 +101,25 @@
 		
 		<div class="tab-content">
 			<div id="institucional" role="tabpanel" class="tab-pane col-xs-12 cartelera fade in active">
-				<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalCartel" data-backdrop="static" data-modify="false">
-					Publicar en cartelera
-				</button>
-				<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInscriptos" data-backdrop="static" data-modify="false">
-					Ver inscriptos
-				</button>
+				<div class="col-xs-12 opciones-cartelera">
+					<div class="btn-group  btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button class="btn btn-primary" data-toggle="modal" data-target="#modalCartel" data-backdrop="static" data-modify="false">
+								Publicar en cartelera
+							</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button class="btn btn-primary" data-toggle="modal" data-target="#modalInscriptos">
+								Ver inscriptos
+							</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button class="btn btn-success">
+								Recibir Notificaciones
+							</button>
+						</div>
+					</div>
+				</div>
 				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
 					<div class="cartel-header col-xs-12">
 						<div class="btn-group pull-right" role="group" aria-label="...">
@@ -491,7 +504,15 @@
 			</div>
 
 			<div id="laboral" role="tabpanel" class="tab-pane col-xs-12 fade cartelera">
-				
+				<div class="col-xs-12 opciones-cartelera">
+					<div class="btn-group  btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button class="btn btn-warning">
+								Dejar de recibir Notificaciones
+							</button>
+						</div>
+					</div>
+				</div>
 				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
 					<div class="cartel-header col-xs-12">
 						<div class="btn-group pull-right" role="group" aria-label="...">
