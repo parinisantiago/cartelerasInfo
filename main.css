@@ -106,3 +106,7 @@
 .editar:hover, .editar:focus{
 	color: orange;
 }
+
+.listarBotones{
+	margin-left: 1em;
+}
