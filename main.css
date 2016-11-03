@@ -1,0 +1,108 @@
+.fade{
+    transition-duration: 1.5s;
+}
+
+.in{
+    transition-duration: 1s;
+}
+
+.nav-tabs, .nav-tabs li.active{
+	background: #d1d1d1; /* Old browsers */
+	background: -moz-linear-gradient(top, #d1d1d1 0%, #ffffff 50%, #d1d1d1 100%) !important; /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #d1d1d1 0%,#ffffff 50%,#d1d1d1 100%) !important; /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #d1d1d1 0%,#ffffff 50%,#d1d1d1 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	border-color: transparent;
+}
+
+
+
+.nav-tabs li.active a, .nav-tabs li.active a:focus, .nav-tabs li.active a:hover, ul.nav-tabs li:hover a:hover{
+	background: -moz-radial-gradient(center, ellipse cover, rgba(122,122,122,0.65) 0%, rgba(122,122,122,0) 69%, rgba(122,122,122,0) 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(122,122,122,0.65) 0%,rgba(122,122,122,0) 69%,rgba(122,122,122,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center, rgba(122,122,122,0.65) 0%,rgba(122,122,122,0) 69%,rgba(122,122,122,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	border-color: transparent;
+	border-bottom-color: gray;
+	border: none !important;
+}
+
+.cartelera{
+    background-color: yellow;
+    padding-bottom: 2%;
+    padding-right: 2%;
+	height: 100%;
+	background-image: url('http://bricomanias.com/wp-content/2013/01/enmarcar-un-panel-de-corcho2.jpg');
+	min-height: 83vh;
+}
+
+.cartel{
+    margin-top: 1.5em;
+    background-color: white;
+    padding-left: 2.5em;
+	padding-right: 2.5em;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+	
+	transition: 0.5s;
+	
+	min-height: 12em;
+	
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cartel:hover{
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 14px 30px 0 rgba(0, 0, 0, 0.39);
+}
+
+.cartel-header{
+	height:	2em;
+	top: 0px;
+	padding: 0px;
+}
+
+.cartel-footer{
+	position: absolute;
+	left: 0px;
+	bottom: 0.5em;
+	padding-right:3em;
+}
+
+.cartel-resumido p{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cartel-resumido .nota .comentario{
+	display:none;
+}
+
+.nota{
+	
+}
+
+.nota-titulo{
+	font-weight: bold;
+}
+
+.nota-texto{
+
+}
+
+.eliminar{
+	color: red;
+}
+.eliminar:focus{
+	color: red;
+}
+
+.eliminar:hover{
+	color: red;
+}
+
+.editar{
+	color: orange;
+}
+
+.editar:hover, .editar:focus{
+	color: orange;
+}

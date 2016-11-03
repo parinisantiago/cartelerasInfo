@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta author="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div id="nav">
+		<nav id="logueado" class="navbar navbar-default">
+			<strong class="navbar-text">
+				Administrador
+			</strong>
+			
+			<div class="btn-group navbar-btn">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-bell" aria-hidden="true">
+					<span class="badge">2</span>
+				</button>
+				<ul class="dropdown-menu">
+					<li ><a href="#" >Borrar Todo</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#">Notificacion 1 </a></li>
+					<li><a href="#">Notificacion 2</a></li>
+				</ul>
+			</div>
+			<button type="submit" class="btn btn-default navbar-btn pull-right" >Desloguear</button>
+		</nav>
+	</div>
+
+	<div class="col-xs-12">
+		<div class="col-xs-12 col-sm-10">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for ="usuario">
+						Buscar Usuario: 
+					</label>
+					<input list="usuarios" name="usuario" id="usuario" >
+
+					<datalist id="usuarios">
+						<option value="Pepe">
+						<option value="Juan">
+						<option value="Pablo">
+						<option value="Martin">
+						<option value="Analia">
+						<option value="Agustin">
+						<option value="Esteban">
+					</datalist>
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-12 col-sm-2">
+			<button class="btn btn-info pull-right" data-toggle="modal" data-target="#modalNuevoUsuario" >Nuevo Usuario</button>
+		</div>
+		<br>	
+		<hr>
+		<div class="col-xs-12">
+			<strong>Usuario: Pepe</strong>
+			<button class="btn btn-danger pull-right" onclikc="confirm('¿Esta seguro?');">Eliminar Usuario</button>
+		</div>
+		<table class="table table-striped table-hover">
+			<tr>
+				<th>Cartelera</th>
+				<th>Permisos</th>
+			</tr>
+			<tr>
+				<td>Eventos</td>
+				<td>
+					<form class="form-inline">
+						<div class="form-group">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoPublicar" value="publicar" >Publicar
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoEliminar" value="eliminar" >Eliminar
+							</label>
+						</div>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>Laboral</td>
+				<td>
+					<form class="form-inline">
+						<div class="form-group">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoPublicar" value="publicar" >Publicar
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoEliminar" value="eliminar" >Eliminar
+							</label>
+						</div>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>Primer A&ntilde;o</td>
+				<td>
+					<form class="form-inline">
+						<div class="form-group">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoPublicar" value="publicar" checked>Publicar
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoEliminar" value="eliminar" checked>Eliminar
+							</label>
+						</div>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>Segundo A&ntilde;o</td>
+				<td>
+					<form class="form-inline">
+						<div class="form-group">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoPublicar" value="publicar" checked>Publicar
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="PermisoEliminar" value="eliminar" checked>Eliminar
+							</label>
+						</div>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<button class="btn btn-primary">Guardar Cambios</button>
+		</div>
+	</div>
+	
+	<!-- modal de los carteles para editar/crear -->
+	
+	<div class="modal fade" id="modalNuevoUsuario" tabindex="-1" role="dialog" aria-labelledby="Editar cartel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="modalHeader">Nuevo Usuario</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="modalNuevoUsuarioNombre" class="control-label">Nombre:</label>
+							<input type="text" class="form-control" id="modalNuevoUsuarioNombre" name="nombre">
+						</div>
+						<div class="form-group">
+							<label for="modalNuevoUsuarioAdmin" class="control-label">
+								<input type="checkbox" value="" name="admin">
+								Es Administrador
+							</label>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" id="modalNuevoUsuarioEnviar">Crear</button>
+				</div>
+			</div>
+		  </div>
+	</div>
+	
+</body>
+</html>
