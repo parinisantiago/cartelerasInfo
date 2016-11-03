@@ -101,6 +101,9 @@
 				<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalCartel" data-backdrop="static" data-modify="false">
 					Publicar en cartelera
 				</button>
+				<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInscriptos" data-backdrop="static" data-modify="false">
+					Ver inscriptos
+				</button>
 				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
 					<div class="cartel-header col-xs-12">
 						<div class="btn-group pull-right" role="group" aria-label="...">
@@ -1215,7 +1218,29 @@
 			</div>
 		  </div>
 	</div>
-	
+	<div class="modal fade" id="modalInscriptos" tabindex="-1" role="dialog" aria-labelledby="Editar cartel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="modalInscriptosh4">Listado de inscriptos</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group">
+						<li class="list-group-item"> Pepe </li>
+						<li class="list-group-item"> Matilda </li>
+						<li class="list-group-item"> Rogelio </li>
+						<li class="list-group-item"> María </li>
+						<li class="list-group-item"> Silvia </li>
+						<li class="list-group-item"> Saul </li>
+						<li class="list-group-item"> Osvaldo </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
 		$('#modalCartel').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
