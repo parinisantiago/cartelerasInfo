@@ -5,18 +5,18 @@ import java.util.Date;
 public class Comentario {
 	private String texto;
 	private Date fecha;
-	private Usuario usuario;
+	private Usuario creador;
 	private boolean habilitado;
 	
 	public Comentario() {
 		super();
 	}
 
-	public Comentario(String texto, Date fecha, Usuario usuario) {
+	public Comentario(String texto, Date fecha, Usuario creador) {
 		super();
 		this.texto = texto;
 		this.fecha = fecha;
-		this.usuario = usuario;
+		this.creador = creador;
 	}
 
 	public String getTexto() {
@@ -35,12 +35,12 @@ public class Comentario {
 		this.fecha = fecha;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getCreador() {
+		return creador;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setCreador(Usuario creador) {
+		this.creador = creador;
 	}
 
 	public boolean isHabilitado() {

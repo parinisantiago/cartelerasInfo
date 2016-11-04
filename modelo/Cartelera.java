@@ -9,6 +9,8 @@ public class Cartelera {
 	private String titulo;
 	private List<Anuncio> anuncios;
 	private Set<Usuario> interesados;
+	private Set<Usuario> usuarioEliminar;
+	private Set<Usuario> usuarioPublicar;
 	private boolean habilitado;
 	
 	public Cartelera(){
@@ -68,9 +70,35 @@ public class Cartelera {
 		this.interesados.add(usuario);
 	}
 	
-	public void removeInteresado(Usuario usuario){
-		this.interesados.remove(usuario);
+	public Set<Usuario> getUsuarioPublicar() {
+		return usuarioPublicar;
 	}
+
+	public void setUsuarioPublicar(Set<Usuario> usuarioPublicar) {
+		this.usuarioPublicar = usuarioPublicar;
+	}
+	
+	public void addUsuarioPublicar(Usuario usuarioPublicar){
+		this.usuarioPublicar.add(usuarioPublicar);
+	}
+	public void removeUsuarioPublicar(Usuario usuarioPublicar){
+		this.usuarioPublicar.remove(usuarioPublicar);
+	}
+
+	public Set<Usuario> getUsuarioEliminar() {
+		return usuarioEliminar;
+	}
+
+	public void setUsuarioEliminar(Set<Usuario> usuarioEliminar) {
+		this.usuarioEliminar = usuarioEliminar;
+	}
+	
+	public void addUsuarioEliminar(Usuario usuarioEliminar){
+		this.usuarioEliminar.add(usuarioEliminar);
+	}
+	public void removeUsuarioEliminar(Usuario usuarioEliminar){
+		this.usuarioEliminar.remove(usuarioEliminar);
+	}	
 
 	public boolean isHabilitado() {
 		return habilitado;

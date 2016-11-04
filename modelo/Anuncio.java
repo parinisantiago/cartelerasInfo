@@ -8,7 +8,7 @@ public class Anuncio {
 	private String titulo;
 	private String cuerpo;
 	private boolean comentarioHabilitado;
-	private Usuario posteador;
+	private Usuario creador;
 	private Date fecha;
 	private List<Comentario> comentarios;
 	private boolean habilitado;
@@ -61,12 +61,12 @@ public class Anuncio {
 		this.comentarioHabilitado = comentarioHabilitado;
 	}
 
-	public Usuario getPosteador() {
-		return posteador;
+	public Usuario getCreador() {
+		return creador;
 	}
 
-	public void setPosteador(Usuario posteador) {
-		this.posteador = posteador;
+	public void setCreador(Usuario creador) {
+		this.creador = creador;
 	}
 
 	public Date getFecha() {

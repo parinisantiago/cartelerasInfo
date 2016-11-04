@@ -66,5 +66,9 @@ public class Usuario {
 	public void setRoles(List<Rol> roles) {
 		this.roles = roles;
 	}
+
+	public void addRol(Rol rol){
+		this.roles.add(rol);
+	}
 	
 }
