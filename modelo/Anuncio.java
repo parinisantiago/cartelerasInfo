@@ -17,22 +17,22 @@ public class Anuncio {
 		this.comentarios = new ArrayList<Comentario>();
 	}
 
-	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario posteador, Date fecha) {
+	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador, Date fecha) {
 		super();
 		this.titulo = titulo;
 		this.cuerpo = cuerpo;
 		this.comentarioHabilitado = comentarioHabilitado;
-		this.posteador = posteador;
+		this.creador = creador;
 		this.fecha = fecha;
 	}
 
-	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario posteador, Date fecha,
+	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador, Date fecha,
 			List<Comentario> comentarios) {
 		super();
 		this.titulo = titulo;
 		this.cuerpo = cuerpo;
 		this.comentarioHabilitado = comentarioHabilitado;
-		this.posteador = posteador;
+		this.creador = creador;
 		this.fecha = fecha;
 		this.comentarios = comentarios;
 	}
