@@ -1,0 +1,655 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta author="Tu hermana">
+    <meta author="Tu vieja">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="template.css">
+</head>
+<body>
+
+	<div id="nav">
+		<nav id="logueado" class="navbar navbar-default">
+			<a href="index.html">
+	                <strong class="navbar-text">
+	                    Administrador
+	                </strong>
+                </a>
+			
+			<div class="btn-group navbar-btn">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+					<span class="badge">2</span>
+				</button>
+				<ul class="dropdown-menu">
+					<li ><a href="#" >Borrar Todo</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#">Notificacion 1 </a></li>
+					<li><a href="#">Notificacion 2</a></li>
+				</ul>
+			</div>
+			
+			<a href="listaUsuarios.html" class="btn btn-default">
+				Usuarios
+			</a>
+			<a href="listaCarteleras.html" class="btn btn-default">
+				Carteleras
+			</a>			
+			<a href="templates.html" class="btn btn-default">
+				Manejar Template
+			</a>
+			
+			<button type="submit" class="btn btn-default navbar-btn pull-right" >Desloguear</button>
+			
+		</nav>
+	</div>
+	<div class="col-xs-12 template">
+		<script>
+		var anchoMinimizado="col-md-3";
+		var offsetAnchoMinimizado="col-md-offset-1";
+		var anchoMaximizado="col-md-12";
+		var offsetAnchoMaximizado="col-md-offset-0";
+		
+		function setAnchoMinimizado( value ){
+			var oldValue = anchoMinimizado;
+			anchoMinimizado="col-md-"+value;
+			var newValue = anchoMinimizado;
+			$.each($(".cartel-resumido"), function( k, v ) {
+				if( $(v).hasClass(oldValue) ){
+					$(v).removeClass(oldValue);
+				}
+				$(v).toggleClass(newValue);
+			});
+		}
+		
+		function setOffsetAnchoMinimizado( value ){
+			var oldValue = offsetAnchoMinimizado;
+			offsetAnchoMinimizado="col-md-offset-"+value;
+			var newValue = offsetAnchoMinimizado;
+			$.each($(".cartel-resumido"), function( k, v ) {
+				if( $(v).hasClass(oldValue) ){
+					$(v).removeClass(oldValue);
+				}
+				$(v).toggleClass(newValue);
+			});
+		}
+		
+		function setAnchoMaximizado( value ){
+			var oldValue = anchoMaximizado;
+			anchoMaximizado="col-md-"+value;
+			var newValue = anchoMaximizado;
+			$.each($(".cartel:not(.cartel-resumido)"), function( k, v ) {
+				if( $(v).hasClass(oldValue) ){
+					$(v).removeClass(oldValue);
+				}
+				$(v).toggleClass(newValue);
+			});
+		}
+		
+		function setOffsetAnchoMaximizado( value ){
+			var oldValue = offsetAnchoMaximizado;
+			offsetAnchoMaximizado="col-md-offset-"+value;
+			var newValue = offsetAnchoMaximizado;
+			$.each($(".cartel:not(.cartel-resumido)"), function( k, v ) {
+				if( $(v).hasClass(oldValue) ){
+					$(v).removeClass(oldValue);
+				}
+				$(v).toggleClass(newValue);
+			});
+		}
+		
+		
+		function setColorTexto( value ){
+			$.each($(".cartel"), function( k, v ) {
+					v.style.color=value;
+			});
+		}
+		
+		function setColorFondo( value ){
+			$.each($(".cartel"), function( k, v ) {
+					v.style.backgroundColor=value;
+			});
+		}
+		
+		function setFontType( value ){
+			$.each($(".cartel"), function( k, v ) {
+					v.style.fontFamily=value;
+			});
+		}
+		
+		function serBordeRedondo( value ){
+			$.each($(".cartel"), function( k, v ) {
+					v.style.borderRadius=value+"px";
+					v.style.paddingLeft=value/4+"px";
+					v.style.paddingRight=value/4+"px";
+			});
+		}
+		
+		</script>
+		<form>
+			<fieldset>
+				<legend>Tama&ntilde;o</legend>
+				<div class="form-group">
+					<label for="anchoMinimizado">Ancho cartel minimizado</label>
+					<input type="range" class="miBarrita" name="anchoMinimizado" id="anchoMinimizado" min="1" max="12" oninput="setAnchoMinimizado(this.value);" value="3">
+				</div>
+				<div class="form-group">
+					<label for="offsetAnchoMinimizado">Ancho offset entre carteles (minimizado)</label>
+					<input type="range" class="miBarrita" name="offsetAnchoMinimizado" id="offsetAnchoMinimizado" min="0" max="12" oninput="setOffsetAnchoMinimizado(this.value);" value="1">
+				</div>
+				<div class="form-group">				
+					<label for="anchoMaximizado">Ancho cartel maximizado</label>
+					<input type="range" class="miBarrita" name="anchoMaximizado" id="anchoMaximizado" min="1" max="12" oninput="setAnchoMaximizado(this.value);" value="12">
+				</div>
+				<div class="form-group">
+					<label for="offsetAnchoMaximizado">Ancho offset entre carteles (maximizado)</label>
+					<input type="range" class="miBarrita" name="offsetAnchoMaximizado" id="offsetAnchoMaximizado" min="0" max="12" oninput="setOffsetAnchoMaximizado(this.value);" value="0">
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Colores y tipografia</legend>
+				<div class="form-group">
+					<label for="backgroundColor">Color de fondo</label>
+					<input type="color" name="backgroundColor" id="backgroundColor" oninput="setColorFondo(this.value);" value="#FFFFFF">
+					<label for="textColor">Color de texto</label>
+					<input type="color" name="textColor" id="textColor" oninput="setColorTexto(this.value);" value="#000000">
+					<label for="textFontType">Fuente:</label>
+					<select name="textFontType" id="textFontType" onchange="setFontType(this.value);">
+						<option>Arial</option>
+						<option>Arial Black</option>
+						<option>Book Antiqua</option>
+						<option>Courier New</option>
+						<option>Georgia</option>
+						<option selected="true">Helvetica</option>
+						<option>Impact</option>
+						<option>Lucida Console</option>
+						<option>Lucida Sans Unicode</option>
+						<option>Palatino Linotype</option>
+						<option>Tahoma</option>
+						<option>Times New Roman</option>
+						<option>Verdana</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="bordeRedondo">Redondeado de borde de los carteles</label>
+					<input type="range" class="miBarrita" name="bordeRedondo" id="bordeRedondo" min="0" max="200" oninput="serBordeRedondo(this.value);" value="0">
+				</div>
+			</fieldset>
+			</fieldset>
+			<fieldset>
+				<legend>Otros campos (proximamente)</legend>
+			</fieldset>
+		</form>
+	
+	</div>
+	<div class="col-xs-12">
+		<h3>Muestra Template</h3>
+	</div>
+		<div class="muestra-carteles">
+			<div id="institucional" role="tabpanel" class="tab-pane col-xs-12 cartelera fade in active">
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+				
+				<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1">
+					<div class="cartel-header col-xs-12">
+						<div class="btn-group pull-right" role="group" aria-label="...">
+							<a href="#" class="editar" data-toggle="tooltip" title="Editar si es dueño o admin"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a href="#" class="eliminar" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						</div>
+					</div>
+					<div class="nota col-xs-12">
+						<p class="text-center nota-titulo">
+							Titulo del cartel
+						</p>
+						<p class="nota-texto">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus rutrum leo, et varius leo vestibulum sit amet. Vestibulum pharetra ultricies diam. Suspendisse diam diam, fringilla id odio et, lobortis dictum nibh. Ut nec lectus mauris. Vestibulum volutpat vitae magna ac ultrices. Proin quis hendrerit lectus. Vivamus ultrices eu ipsum in placerat. Proin sit amet enim ut mauris ornare auctor a at enim. Curabitur sed egestas nisl. Morbi ex velit, porttitor ut lobortis quis, ultricies at elit. Pellentesque elementum porta eros eu tristique. Nullam luctus sem ac nisi volutpat ultrices. Vestibulum leo turpis, dignissim vitae interdum ut, consectetur eu tellus. Cras mattis semper velit at ullamcorper. In fringilla libero et justo tincidunt consectetur.
+						</p>
+					</div>
+					<div class="cartel-footer col-xs-12">
+						<a href="#" class="pull-right" onClick="mostrarArticulo(this.parentNode.parentNode);">Ver mas</a>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		
+		
+	<script>
+		
+		function mostrarArticulo( node ){
+			$(node).toggleClass(anchoMinimizado);
+			$(node).toggleClass(anchoMaximizado);
+			$(node).toggleClass(offsetAnchoMinimizado);
+			$(node).toggleClass(offsetAnchoMaximizado);
+			$(node).toggleClass("cartel-resumido");
+		}
+		
+		$('[data-toggle="tooltip"]').tooltip(); 
+		function noClick(event){
+			event.preventDefault();
+		}
+	</script>
+</body>
+</html>
