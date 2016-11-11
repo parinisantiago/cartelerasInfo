@@ -1,11 +1,34 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Cartelera {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Columns;
+
+@Entity
+@Table(name="cartelera")
+public class Cartelera implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9137874459530674411L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
+	@Column(nullable = false)
 	private String titulo;
 	private List<Anuncio> anuncios;
 	private Set<Usuario> interesados;
@@ -49,7 +72,7 @@ public class Cartelera {
 	public void setAnuncios(List<Anuncio> notas) {
 		this.anuncios = notas;
 	}
-
+	
 	public void addAnuncio(Anuncio anuncio){
 		this.anuncios.add(anuncio);
 	}
