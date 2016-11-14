@@ -1,6 +1,7 @@
 package modeloDAOJPA;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,9 +19,11 @@ public abstract class JpaDao<T> implements Dao<T>
 	protected Query query;
 	protected Class<T> entityClass;
 	
-	public JpaDao()
+	
+	public JpaDao(Class<T> eClass)
 	{
 		entityManager = EMF.getEMF().createEntityManager();
+		entityClass = eClass;
 	}
 	
 	public boolean persist(T entity)
@@ -40,7 +43,7 @@ public abstract class JpaDao<T> implements Dao<T>
 		}
 		finally
 		{
-			entityManager.close();
+			//entityManager.close();
 		}
 		return true;
 	}
@@ -62,7 +65,7 @@ public abstract class JpaDao<T> implements Dao<T>
 		}
 		finally
 		{
-			entityManager.close();
+			//entityManager.close();
 		}
 		return true;
 	}
@@ -84,15 +87,29 @@ public abstract class JpaDao<T> implements Dao<T>
 		}
 		finally
 		{
-			entityManager.close();
+			//entityManager.close();
 		}
 		return true;
 	}
 	
 	@Override
-	public List<T> selectAll(T entity) {
-		Query consulta = EMF.getEMF().createEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
-		List<T> resultado = (List<T>) consulta.getResultList();
+	public List<T> selectAll() {
+		entityTransaction = null;
+		List<T> resultado = new ArrayList<T>();
+		try
+		{
+			entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			
+			Query consulta = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
+			resultado = (List<T>) consulta.getResultList();
+			entityTransaction.rollback();
+		}
+		catch (RuntimeException e)
+		{
+			if ( entityTransaction != null && entityTransaction.isActive() ) entityTransaction.rollback();
+			throw e;
+		}
 		return resultado;
 	}
 	

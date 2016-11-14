@@ -36,8 +36,15 @@ public class Pruebas extends HttpServlet {
 		
 		dao.persist(rol);
 		
-		//rol = dao.getById(new Long(1));
-		//System.out.println(rol.getNombre());
+		rol = new Rol();
+		rol.setNombre("alala");
+		dao.persist(rol);
+		
+		System.out.println("all: "+dao.selectAll());
+		
+		rol.setNombre("sin nombre"); 
+		rol = dao.getById(new Long(1));
+		System.out.println("nombre de bd con id 1: "+rol.getNombre());
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

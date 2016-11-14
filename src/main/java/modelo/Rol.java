@@ -40,5 +40,11 @@ public class Rol implements Serializable{
 		this.nombre = nombre;
 	}
 
+	@Override
+	public String toString() {
+		return "id = " + id.toString() + " nombre: " + getNombre();
+	}
+
+	
 
 }
