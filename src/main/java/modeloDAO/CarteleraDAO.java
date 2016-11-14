@@ -1,4 +1,4 @@
-package modeloDAOJPA;
+package modeloDAO;
 
 import java.util.List;
 

@@ -13,7 +13,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="rol")
 public class Rol implements Serializable{
-	
+
+	private static final long serialVersionUID = 8131275885237673765L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;

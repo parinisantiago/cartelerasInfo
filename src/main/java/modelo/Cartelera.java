@@ -13,15 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Columns;
 
-@Entity
 @Table(name="cartelera")
 public class Cartelera implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 9137874459530674411L;
 
 	@Id

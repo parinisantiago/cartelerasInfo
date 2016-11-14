@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modeloDAOJPA.RolDAOJPA;
+import modelo.Rol;
+import modeloDAO.RolDAO;
+import modeloDAOJPA.RolJpaDAO;
 
 /**
  * Servlet implementation class Pruebas
@@ -27,8 +29,16 @@ public class Pruebas extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RolDAOJPA rol = new RolDAOJPA();
-		rol.nose();
+		Rol rol = new Rol();
+		rol.setNombre("lorelei");
+
+		RolDAO dao = new RolJpaDAO();
+		
+		dao.persist(rol);
+		
+		//rol = dao.getById(new Long(1));
+		//System.out.println(rol.getNombre());
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import modelo.Cartelera;
 import modelo.Usuario;
+import modeloDAO.CarteleraDAO;
 
 public class CarteleraJpaDAO extends JpaDao<Cartelera> implements CarteleraDAO {
 

@@ -1,10 +1,14 @@
 package modeloDAOJPA;
 
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import modeloDAO.Dao;
 
 public abstract class JpaDao<T> implements Dao<T> 
 {
@@ -86,9 +90,10 @@ public abstract class JpaDao<T> implements Dao<T>
 	}
 	
 	@Override
-	public boolean selectAll(T entity) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<T> selectAll(T entity) {
+		Query consulta = EMF.getEMF().createEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
+		List<T> resultado = (List<T>) consulta.getResultList();
+		return resultado;
 	}
 	
 }
