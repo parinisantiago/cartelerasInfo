@@ -112,5 +112,33 @@ public abstract class JpaDao<T> implements Dao<T>
 		}
 		return resultado;
 	}
+
+	@Override
+	public T getById(Long id) {		
+		entityTransaction = null;
+		T resultado = null;
+		
+		try
+		{
+			entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			
+			Query consulta = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id");
+			consulta.setParameter("id", id);
+			resultado = (T) consulta.getSingleResult();
+			entityTransaction.rollback();
+		}
+		catch (RuntimeException e)
+		{
+			if ( entityTransaction != null && entityTransaction.isActive() ) entityTransaction.rollback();
+			throw e;
+			
+		}
+		return resultado;
+	}
+
+	public Class<T> getEntityClass() {
+		return entityClass;
+	}
 	
 }

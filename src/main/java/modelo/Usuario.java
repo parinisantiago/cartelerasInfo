@@ -8,6 +8,7 @@ public class Usuario {
 	private String password;
 	private boolean habilitado;
 	private List<Rol> roles;
+	private List<Notificacion> notificaciones;
 	
 	public Usuario(){
 		this.roles = new ArrayList<Rol>();
@@ -69,6 +70,18 @@ public class Usuario {
 
 	public void addRol(Rol rol){
 		this.roles.add(rol);
+	}
+	
+	public List<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+	public void setNotificaciones(List<Notificacion> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
+
+	public void addNotificacion(Notificacion notificacion){
+		this.notificaciones.add(notificacion);
 	}
 	
 }
