@@ -1,16 +1,21 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +24,7 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	private String user;
@@ -26,36 +32,91 @@ public class Usuario {
 	private boolean habilitado;
 	
 	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
-	private List<Comentario> comentarios;
+	private List<Comentario> comentarios = new ArrayList<Comentario>();
 	
 	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
-	private List<Anuncio> misAnuncios;
+	private List<Anuncio> misAnuncios  = new ArrayList<Anuncio>();
 	
 	//TODO mapear
-	private List<Rol> roles;
+	@OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@JoinColumn(name="idRol")
+	private Rol rol;
 	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
-	private List<Notificacion> notificaciones;
+	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 	
 	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
-	private Set<Cartelera> intereses;
+	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
-	public Usuario(){
-		this.roles = new ArrayList<Rol>();
-	}
+	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
 	
-	public Usuario(String user, List<Rol> roles) {
-		super();
-		this.user = user;
-		this.roles = roles;
+	public Long getId() {
+		return id;
 	}
 
-	public Usuario(String user, String password, boolean habilitado, List<Rol> roles) {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
+	public Set<Cartelera> getIntereses() {
+		return intereses;
+	}
+
+	public void setIntereses(Set<Cartelera> intereses) {
+		this.intereses = intereses;
+	}
+
+	public Set<Cartelera> getCartelerasEliminar() {
+		return cartelerasEliminar;
+	}
+
+	public void setCartelerasEliminar(Set<Cartelera> cartelerasEliminar) {
+		this.cartelerasEliminar = cartelerasEliminar;
+	}
+
+	public Set<Cartelera> getCartelerasModificar() {
+		return cartelerasModificar;
+	}
+
+	public void setCartelerasModificar(Set<Cartelera> cartelerasModificar) {
+		this.cartelerasModificar = cartelerasModificar;
+	}
+
+	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	private Set<Cartelera> cartelerasModificar;
+	
+	public Usuario(){
+	}
+	
+	public Usuario(String user,Rol rol) {
+		super();
+		this.user = user;
+		this.rol = rol;
+	}
+
+	public Usuario(String user, String password, boolean habilitado, Rol rol) {
 		super();
 		this.user = user;
 		this.password = password;
 		this.habilitado = habilitado;
-		this.roles = roles;
+		this.rol = rol;
 	}
 
 	public String getUser() {
@@ -90,18 +151,14 @@ public class Usuario {
 		this.setHabilitado(true);
 	}
 
-	public List<Rol> getRoles() {
-		return roles;
+	public Rol getRoles() {
+		return this.rol;
 	}
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
+	public void setRoles(Rol rol) {
+		this.rol = rol;
 	}
 
-	public void addRol(Rol rol){
-		this.roles.add(rol);
-	}
-	
 	public List<Notificacion> getNotificaciones() {
 		return notificaciones;
 	}
@@ -112,6 +169,19 @@ public class Usuario {
 
 	public void addNotificacion(Notificacion notificacion){
 		this.notificaciones.add(notificacion);
+		//notificacion.setUsuario(this);
 	}
 	
+	public List<Anuncio> getMisAnuncios(){
+		return this.misAnuncios;
+	}
+	
+	public void setMisAnuncios(List<Anuncio> misAnuncios){
+		this.misAnuncios = misAnuncios;
+	}
+	
+	public void addAnuncio(Anuncio anuncio){
+		this.misAnuncios.add(anuncio);
+		anuncio.setCreador(this);
+	}
 }
