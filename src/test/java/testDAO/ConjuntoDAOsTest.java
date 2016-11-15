@@ -30,12 +30,11 @@ public class ConjuntoDAOsTest {
 			
 			Date hoy = new Date(); 
 			Rol rol = new Rol("docente");
-			List<Rol> roles = new ArrayList<Rol>();
-			roles.add(rol);
+
 			
 			Notificacion notificacion = new Notificacion("sea usted notificado");
 			
-			Usuario usuario = new Usuario("juan", "1234", true, roles);
+			Usuario usuario = new Usuario("juan", "1234", true, rol);
 			usuario.addNotificacion(notificacion);
 			
 			Comentario comentario = new Comentario("buen dia", hoy, usuario);
@@ -70,7 +69,7 @@ public class ConjuntoDAOsTest {
 			assertEquals("lectura Comentario", resultado.getAnuncios().get(0).getComentarios().get(0).getFecha(), hoy);
 			assertEquals("lectura Usuario", resultado.getAnuncios().get(0).getComentarios().get(0).getCreador().getUser(), "juan");
 			assertEquals("lectura Notificacion", resultado.getAnuncios().get(0).getComentarios().get(0).getCreador().getNotificaciones().get(0).getDescripcion(), "sea usted notificado");
-			assertEquals("lectura Rol", resultado.getAnuncios().get(0).getComentarios().get(0).getCreador().getRoles().get(0).getNombre(), "docente");
+			assertEquals("lectura Rol", resultado.getAnuncios().get(0).getComentarios().get(0).getCreador().getRol().getNombre(), "docente");
 			
 			entityManager.close();
 			
