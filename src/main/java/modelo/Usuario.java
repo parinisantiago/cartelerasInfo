@@ -2,13 +2,43 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="usuario")
 public class Usuario {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
 	private String user;
 	private String password;
 	private boolean habilitado;
+	
+	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
+	private List<Comentario> comentarios;
+	
+	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
+	private List<Anuncio> misAnuncios;
+	
+	//TODO mapear
 	private List<Rol> roles;
+	
+	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
 	private List<Notificacion> notificaciones;
+	
+	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	private Set<Cartelera> intereses;
 	
 	public Usuario(){
 		this.roles = new ArrayList<Rol>();

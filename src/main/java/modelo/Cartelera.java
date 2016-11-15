@@ -6,14 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
+@Entity
 @Table(name="cartelera")
 public class Cartelera implements Serializable {
 
@@ -25,8 +28,15 @@ public class Cartelera implements Serializable {
 	
 	@Column(nullable = false)
 	private String titulo;
-	private List<Anuncio> anuncios;
+	
+	@ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(
+		name="intereses_usuario_cartelera",
+	    joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
 	private Set<Usuario> interesados;
+	
+	private List<Anuncio> anuncios;
 	private Set<Usuario> usuarioEliminar;
 	private Set<Usuario> usuarioPublicar;
 	private boolean habilitado;

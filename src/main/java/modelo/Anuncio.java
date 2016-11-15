@@ -1,15 +1,42 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Anuncio {
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="anuncio")
+public class Anuncio implements Serializable {
+	
+	private static final long serialVersionUID = 8111941024423804489L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
 	private String titulo;
 	private String cuerpo;
 	private boolean comentarioHabilitado;
+	
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@JoinColumn(name="misAnuncios")
+	
 	private Usuario creador;
 	private Date fecha;
+	
+	@OneToMany(mappedBy="anuncio", cascade={CascadeType.ALL})
 	private List<Comentario> comentarios;
 	private boolean habilitado;
 	
