@@ -31,11 +31,30 @@ public class Anuncio implements Serializable {
 	private boolean comentarioHabilitado;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="misAnuncios")
-	
+	@JoinColumn(name="idCreador")
 	private Usuario creador;
 	private Date fecha;
 	
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@JoinColumn(name="idCartelera")
+	private Cartelera cartelera;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Cartelera getCartelera() {
+		return cartelera;
+	}
+
+	public void setCartelera(Cartelera cartelera) {
+		this.cartelera = cartelera;
+	}
+
 	@OneToMany(mappedBy="anuncio", cascade={CascadeType.ALL})
 	private List<Comentario> comentarios;
 	private boolean habilitado;
@@ -114,6 +133,7 @@ public class Anuncio implements Serializable {
 	
 	public void addComentario(Comentario comentario){
 		this.comentarios.add(comentario);
+		comentario.setAnuncio(this);
 	}
 
 	public boolean isHabilitado() {
