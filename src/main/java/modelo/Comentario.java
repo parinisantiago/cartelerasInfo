@@ -23,20 +23,27 @@ public class Comentario implements Serializable{
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="comentarios")
+	@JoinColumn(name="idAnuncio")
 	private Anuncio anuncio;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	private String texto;
 	private Date fecha;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="comentarios")
+	@JoinColumn(name="idCreador")
 	private Usuario creador;
 	
 	private boolean habilitado;
 	
 	public Comentario() {
-		super();
 	}
 
 	public Comentario(String texto, Date fecha, Usuario creador) {
@@ -46,6 +53,14 @@ public class Comentario implements Serializable{
 		this.creador = creador;
 	}
 
+	public void setAnuncio(Anuncio anuncio){
+		this.anuncio = anuncio;
+	}
+	
+	public Anuncio getAnuncio(){
+		return this.anuncio;
+	}
+	
 	public String getTexto() {
 		return texto;
 	}
