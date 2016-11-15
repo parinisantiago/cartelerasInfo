@@ -19,7 +19,7 @@ public class Notificacion {
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="notificaciones")
+	@JoinColumn(name="idUsuario")
 	private Usuario usuario;
 	private String descripcion;
 
@@ -41,5 +41,20 @@ public class Notificacion {
 		this.descripcion = descripcion;
 	}
 
+	public Usuario getUsuario(){
+		return this.usuario;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setUsuario(Usuario usuario){
+		this.usuario = usuario;
+	}
 
 }
