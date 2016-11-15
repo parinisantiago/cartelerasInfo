@@ -13,7 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +26,7 @@ public class Cartelera implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id")
 	private Long id;
 	
 	@Column(nullable = false)
@@ -36,9 +39,30 @@ public class Cartelera implements Serializable {
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
 	private Set<Usuario> interesados;
 	
+	@OneToMany(mappedBy="cartelera")
 	private List<Anuncio> anuncios;
-	private Set<Usuario> usuarioEliminar;
-	private Set<Usuario> usuarioPublicar;
+	
+	@ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(
+		name="cartelera_usuarioEliminar",	
+		joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
+	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
+	
+	@ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(
+		name="cartelera_usuarioModificar",	
+		joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
+	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	private boolean habilitado;
 	
 	public Cartelera(){
