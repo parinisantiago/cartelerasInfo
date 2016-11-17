@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,19 +13,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="comentario")
 public class Comentario implements Serializable{
 	private static final long serialVersionUID = -4661212242115460013L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id@GeneratedValue
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="idAnuncio")
-	private Anuncio anuncio;
+	@ManyToOne(cascade={CascadeType.ALL})
+	private Anuncio anuncio; 
+	
+	@Column(nullable = false)
+	private String texto;
+
+	@Column(nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecha;
+	
+	@ManyToOne(cascade={CascadeType.ALL})
+	private Usuario creador;
+
+	@Column(nullable = false)
+	private boolean habilitado;
+	
+	public Comentario() {
+		super();
+	}
+
+	public Comentario(String texto, Date fecha, Usuario usuario) {
+		super();
+		this.texto = texto;
+		this.fecha = fecha;
+		this.creador = usuario;
+	}
 	
 	public Long getId() {
 		return id;
@@ -34,24 +59,6 @@ public class Comentario implements Serializable{
 		this.id = id;
 	}
 
-	private String texto;
-	private Date fecha;
-	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="idCreador")
-	private Usuario creador;
-	
-	private boolean habilitado;
-	
-	public Comentario() {
-	}
-
-	public Comentario(String texto, Date fecha, Usuario creador) {
-		super();
-		this.texto = texto;
-		this.fecha = fecha;
-		this.creador = creador;
-	}
 
 	public void setAnuncio(Anuncio anuncio){
 		this.anuncio = anuncio;

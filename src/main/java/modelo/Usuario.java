@@ -22,13 +22,17 @@ import javax.persistence.Table;
 @Table(name="usuario")
 public class Usuario {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@Id@GeneratedValue
+	@Column(name="usuario_id")
 	private Long id;
 	
+	@Column(nullable = false, unique=true)
 	private String user;
+	
+	@Column(nullable = false)
 	private String password;
+	
+	@Column(nullable = false)
 	private boolean habilitado;
 	
 	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
@@ -37,9 +41,8 @@ public class Usuario {
 	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
 	private List<Anuncio> misAnuncios  = new ArrayList<Anuncio>();
 	
-	//TODO mapear
-	@OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="idRol")
+
+	@OneToOne
 	private Rol rol;
 	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
@@ -50,6 +53,9 @@ public class Usuario {
 	
 	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
 	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
+	
+	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	private Set<Cartelera> cartelerasModificar;
 	
 	public Long getId() {
 		return id;
@@ -99,9 +105,7 @@ public class Usuario {
 		this.cartelerasModificar = cartelerasModificar;
 	}
 
-	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
-	private Set<Cartelera> cartelerasModificar;
-	
+
 	public Usuario(){
 	}
 	

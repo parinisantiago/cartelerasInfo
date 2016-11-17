@@ -17,10 +17,10 @@ public class Rol implements Serializable{
 	private static final long serialVersionUID = 8131275885237673765L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 	
-	@Column(name = "nombre")
+	@Column(nullable = false, unique=true)
 	private String nombre;
 	
 	public Rol(){

@@ -24,36 +24,35 @@ public class Cartelera implements Serializable {
 
 	private static final long serialVersionUID = 9137874459530674411L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "id")
+	@Id@GeneratedValue
+	@Column(name="cartelera_id")
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private String titulo;
 	
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JoinTable(
 		name="intereses_usuario_cartelera",
-	    joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
-	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
+	    joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
 	private Set<Usuario> interesados;
 	
-	@OneToMany(mappedBy="cartelera")
+	@OneToMany(mappedBy="cartelera", cascade={CascadeType.ALL})
 	private List<Anuncio> anuncios;
 	
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JoinTable(
 		name="cartelera_usuarioEliminar",	
-		joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
-	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
+		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
 	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
 	
 	@ManyToMany(cascade={CascadeType.ALL})
 	@JoinTable(
 		name="cartelera_usuarioModificar",	
-		joinColumns=@JoinColumn(name="cartelera_id", referencedColumnName="id"),
-	    inverseJoinColumns=@JoinColumn(name="usuario_id", referencedColumnName="id"))
+		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
+	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
 	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
 	public Long getId() {
 		return id;
