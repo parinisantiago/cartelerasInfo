@@ -48,7 +48,7 @@ public class Usuario {
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
 	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 	
-	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	@ManyToMany(mappedBy="interesados", cascade={CascadeType.REMOVE})
 	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
 	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})

@@ -31,24 +31,24 @@ public class Cartelera implements Serializable {
 	@Column(nullable = false, unique=true)
 	private String titulo;
 	
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany
 	@JoinTable(
 		name="intereses_usuario_cartelera",
 	    joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
 	private Set<Usuario> interesados;
 	
-	@OneToMany(mappedBy="cartelera", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="cartelera")
 	private List<Anuncio> anuncios;
 	
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany
 	@JoinTable(
 		name="cartelera_usuarioEliminar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
 	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
 	
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany()
 	@JoinTable(
 		name="cartelera_usuarioModificar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
