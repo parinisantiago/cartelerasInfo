@@ -19,7 +19,7 @@ public class RolJpaDAOTest extends JpaDAOTest {
 		//al setear la clase, borrara la tabla cada vez que se ejecute un metodo test
 		clazz = dao.getClass();
 		if( entity == null ){
-			entity = new Rol("test");
+			entity = new Rol("PERRO");
 		}
 	}
 
@@ -46,10 +46,17 @@ public class RolJpaDAOTest extends JpaDAOTest {
 	public void testSelectAll() {
 		Rol entity1 = entity;
 		Rol entity2 = new Rol("test2");
+		Rol entity3 = new Rol("test3");
 		
+		dao.persist(entity3);
 		dao.persist(entity1);
 		dao.persist(entity2);
 		List<Rol> result = dao.selectAll();
+		
+		assertTrue(result.size() == 3);
+		
+		
+		result = dao.selectAll();
 		
 		assertTrue(result.size() == 2);
 	}
@@ -64,7 +71,7 @@ public class RolJpaDAOTest extends JpaDAOTest {
 		
 		Rol result = dao.getById((long) 1);
 		
-		assertTrue(result.getNombre().equals("test"));
+		assertTrue(result.getNombre().equals("PERRO"));
 	}
 
 }
