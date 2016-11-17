@@ -55,10 +55,6 @@ public class RolJpaDAOTest extends JpaDAOTest {
 		
 		assertTrue(result.size() == 3);
 		
-		
-		result = dao.selectAll();
-		
-		assertTrue(result.size() == 2);
 	}
 	
 	@Test
