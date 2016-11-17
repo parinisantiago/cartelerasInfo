@@ -24,7 +24,7 @@ public class Comentario implements Serializable{
 	@Id@GeneratedValue
 	private Long id;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	private Anuncio anuncio; 
 	
 	@Column(nullable = false)
@@ -34,7 +34,7 @@ public class Comentario implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	private Usuario creador;
 
 	@Column(nullable = false)

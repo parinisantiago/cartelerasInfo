@@ -38,17 +38,17 @@ public class Anuncio implements Serializable {
 	@Column(nullable = false)
 	private boolean comentarioHabilitado;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	private Usuario creador;
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	private Cartelera cartelera;
 	
-	@OneToMany(mappedBy="anuncio", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="anuncio")
 	private List<Comentario> comentarios;
 	
 	@Column(nullable = false)

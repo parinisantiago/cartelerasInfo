@@ -35,26 +35,26 @@ public class Usuario {
 	@Column(nullable = false)
 	private boolean habilitado;
 	
-	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="creador")
 	private List<Comentario> comentarios = new ArrayList<Comentario>();
 	
-	@OneToMany(mappedBy="creador", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="creador")
 	private List<Anuncio> misAnuncios  = new ArrayList<Anuncio>();
 	
 
 	@OneToOne
 	private Rol rol;
 	
-	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="usuario")
 	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 	
-	@ManyToMany(mappedBy="interesados", cascade={CascadeType.REMOVE})
+	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="interesados", cascade={CascadeType.ALL})
+	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> cartelerasModificar;
 	
 	public Long getId() {
