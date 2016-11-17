@@ -38,7 +38,7 @@ public class Cartelera implements Serializable {
 	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
 	private Set<Usuario> interesados;
 	
-	@OneToMany(mappedBy="cartelera")
+	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="cartelera")
 	private List<Anuncio> anuncios;
 	
 	@ManyToMany

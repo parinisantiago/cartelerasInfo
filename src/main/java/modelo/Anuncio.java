@@ -48,7 +48,7 @@ public class Anuncio implements Serializable {
 	@ManyToOne
 	private Cartelera cartelera;
 	
-	@OneToMany(mappedBy="anuncio")
+	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="anuncio")
 	private List<Comentario> comentarios;
 	
 	@Column(nullable = false)
