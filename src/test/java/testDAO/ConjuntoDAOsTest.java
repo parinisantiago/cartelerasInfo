@@ -38,7 +38,7 @@ public class ConjuntoDAOsTest {
 	private Notificacion notificacionB;
 	private RolJpaDAO rolDAO = DAOFactory.getRolDao();
 	private UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
-	private AnuncioJpaDAO AnuncioDAO = DAOFactory.getAnuncioDao();
+	private AnuncioJpaDAO anuncioDAO = DAOFactory.getAnuncioDao();
 	private CarteleraJpaDAO carteleraDAO = DAOFactory.getCarteleraDao();
 	private ComentarioJpaDAO comentarioDAO = DAOFactory.getComentarioDao();
 	private NotificacionJpaDAO notificacionDAO = DAOFactory.getNotificacionDao();
@@ -113,6 +113,68 @@ public class ConjuntoDAOsTest {
 		this.usuarioA = new Usuario("Santiago", "Santiago", true, this.rolA);
 		assertTrue(usuarioDAO.persist(this.usuarioA));
 		
+		//anuncio
+		this.anuncioA = new Anuncio("este es el titulo","el cuerpo",true, this.usuarioA, new Date());
+		this.anuncioB = new Anuncio("titulo 2","el cuerpo",true, this.usuarioA,new Date());
+		
+		assertTrue(anuncioDAO.persist(this.anuncioA));
+		assertTrue(anuncioDAO.persist(this.anuncioB));
+		
+		anuncios = anuncioDAO.selectAll();
+		
+		assertTrue(anuncios.size() == 2);
+		
+		this.anuncioA = anuncioDAO.getById(new Long(7));
+		this.anuncioA.setCuerpo("vamos a cambiar el texto");
+		assertTrue(anuncioDAO.update(this.anuncioA));
+		this.anuncioA = anuncioDAO.getById(new Long(7));
+		assertTrue(this.anuncioA.getCuerpo().equals("vamos a cambiar el texto"));
+		
+		this.anuncioA = anuncioDAO.getById(new Long(7));
+		assertTrue(anuncioDAO.update(this.anuncioA));
+		
+		assertTrue(anuncioDAO.remove(this.anuncioA));
+		
+		anuncios = anuncioDAO.selectAll();
+		
+		assertTrue(anuncios.size() == 1);
+		
+		
+		//comentario
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		
+		this.comentarioA = new Comentario("esto es un comentario", new Date(), this.usuarioA);
+		this.comentarioB = new Comentario("esto es un comentario", new Date(), this.usuarioA);
+		
+		assertTrue(comentarioDAO.persist(this.comentarioA));
+		assertTrue(comentarioDAO.persist(this.comentarioB));
+		
+		comentarios = comentarioDAO.selectAll();
+		
+		assertTrue(comentarios.size() == 2);
+		
+		this.comentarioA = comentarioDAO.getById(new Long(9));
+		this.comentarioA.setTexto("vamos a cambiar el texto");
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		this.comentarioA = comentarioDAO.getById(new Long(9));
+		assertTrue(this.comentarioA.getTexto().equals("vamos a cambiar el texto"));
+		
+		this.comentarioA = comentarioDAO.getById(new Long(9));
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		
+		assertTrue(comentarioDAO.remove(this.comentarioA));
+		
+		comentarios = comentarioDAO.selectAll();
+		
+		assertTrue(comentarios.size() == 1);
+		
+		this.comentarioA = comentarioDAO.getById(new Long(10));
+		this.anuncioA = anuncioDAO.getById(new Long(8));
+		this.comentarioA.setAnuncio(this.anuncioA);
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		
+		this.anuncioA = anuncioDAO.getById(new Long(8));
+		assertTrue(this.anuncioA.getComentarios().size() == 1);
 		//cartelera
 		this.carteleraA = new Cartelera("taller de java 2016");
 		this.carteleraB = new Cartelera("Cartelera Random");
@@ -120,11 +182,14 @@ public class ConjuntoDAOsTest {
 		this.usuarioB = usuarioDAO.getById(new Long(6));
 		this.carteleraA.addInteresado(this.usuarioA);
 		this.carteleraA.addInteresado(this.usuarioB);
-		
+		this.carteleraA.addUsuarioEliminar(this.usuarioA);
+		this.carteleraB.addUsuarioEliminar(this.usuarioA);
+		this.carteleraB.addUsuarioEliminar(this.usuarioB);
+		this.carteleraA.addUsuarioPublicar(this.usuarioA);
 		assertTrue(carteleraDAO.persist(this.carteleraA));
 		assertTrue(carteleraDAO.persist(this.carteleraB));
 		
-		this.carteleraA = carteleraDAO.getById(new Long(7));
+		this.carteleraA = carteleraDAO.getById(new Long(11));
 		
 		assertTrue(this.carteleraA.getTitulo().equals("taller de java 2016"));
 
@@ -136,11 +201,14 @@ public class ConjuntoDAOsTest {
 		
 		assertTrue(carteleraDAO.update(this.carteleraA));
 
-		this.carteleraA = carteleraDAO.getById(new Long(7));
+		this.carteleraA = carteleraDAO.getById(new Long(11));
 		assertTrue(this.carteleraA.getInteresados().size() == 1);
 		
 		this.usuarioB = usuarioDAO.getById(new Long(5));
 		assertTrue(this.usuarioB.getIntereses().size() == 1);
+		
+		
+		
 		
 	}
 	
