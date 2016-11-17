@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="anuncio")
@@ -23,21 +26,34 @@ public class Anuncio implements Serializable {
 	private static final long serialVersionUID = 8111941024423804489L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 	
+	@Column(nullable = false)
 	private String titulo;
+	
+	@Column(nullable = false)
 	private String cuerpo;
+	
+	@Column(nullable = false)
 	private boolean comentarioHabilitado;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="idCreador")
+	@ManyToOne(cascade={CascadeType.ALL})
 	private Usuario creador;
+	
+	@Column(nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name="idCartelera")
+	@ManyToOne(cascade={CascadeType.ALL})
 	private Cartelera cartelera;
+	
+	@OneToMany(mappedBy="anuncio", cascade={CascadeType.ALL})
+	private List<Comentario> comentarios;
+	
+	@Column(nullable = false)
+	private boolean habilitado;
+	
 	
 	public Long getId() {
 		return id;
@@ -55,10 +71,6 @@ public class Anuncio implements Serializable {
 		this.cartelera = cartelera;
 	}
 
-	@OneToMany(mappedBy="anuncio", cascade={CascadeType.ALL})
-	private List<Comentario> comentarios;
-	private boolean habilitado;
-	
 	public Anuncio() {
 		this.comentarios = new ArrayList<Comentario>();
 	}
@@ -133,7 +145,7 @@ public class Anuncio implements Serializable {
 	
 	public void addComentario(Comentario comentario){
 		this.comentarios.add(comentario);
-		comentario.setAnuncio(this);
+	//	comentario.setAnuncio(this);
 	}
 
 	public boolean isHabilitado() {
