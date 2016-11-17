@@ -15,8 +15,11 @@ import javax.persistence.Query;
 import org.junit.Test;
 
 import modelo.*;
+import modeloDAOJPA.AnuncioJpaDAO;
 import modeloDAOJPA.CarteleraJpaDAO;
+import modeloDAOJPA.ComentarioJpaDAO;
 import modeloDAOJPA.DAOFactory;
+import modeloDAOJPA.NotificacionJpaDAO;
 import modeloDAOJPA.RolJpaDAO;
 import modeloDAOJPA.UsuarioJpaDAO;
 
@@ -33,14 +36,25 @@ public class ConjuntoDAOsTest {
 	private Cartelera carteleraB;
 	private Notificacion notificacionA;
 	private Notificacion notificacionB;
+	private RolJpaDAO rolDAO = DAOFactory.getRolDao();
+	private UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
+	private AnuncioJpaDAO AnuncioDAO = DAOFactory.getAnuncioDao();
+	private CarteleraJpaDAO carteleraDAO = DAOFactory.getCarteleraDao();
+	private ComentarioJpaDAO comentarioDAO = DAOFactory.getComentarioDao();
+	private NotificacionJpaDAO notificacionDAO = DAOFactory.getNotificacionDao();
+	private List<Rol> roles;
+	private List<Usuario> usuarios;
+	private List<Comentario> comentarios;
+	private List<Cartelera> carteleras;
+	private List<Anuncio> anuncios;
+	private List<Notificacion> notificaciones;
+
 	
 	@Test
-	public void testRol(){
-		RolJpaDAO rolDAO = DAOFactory.getRolDao();
+	public void todo(){
+		//roles
 		this.rolA = new Rol("Administrador");
 		this.rolB = new Rol("Profesor");
-		List<Rol> roles;
-		
 		
 		assertTrue(rolDAO.persist(this.rolA));
 		assertTrue(rolDAO.persist(this.rolB));
@@ -62,16 +76,13 @@ public class ConjuntoDAOsTest {
 		assertTrue(rolDAO.remove(this.rolA));
 		roles = rolDAO.selectAll();
 		assertTrue(roles.size() == 1);
-	}
-	
-	@Test
-	public void testUsuario(){
-		UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
-		RolJpaDAO rolDAO = DAOFactory.getRolDao();
+		
 		this.rolA = new Rol("Administrador");
 		rolDAO.persist(this.rolA);
 		this.rolA = rolDAO.getById(new Long(3));
 		this.rolB = rolDAO.getById(new Long(2));
+		
+		//usuario
 		this.usuarioA = new Usuario("Santiago", "Santiago", true, this.rolA);
 		this.usuarioB = new Usuario("Agustin", "Agustin", true, this.rolB);
 		List<Usuario> usuarios;
@@ -101,10 +112,84 @@ public class ConjuntoDAOsTest {
 		assertTrue(usuarios.size() == 1);
 		this.usuarioA = new Usuario("Santiago", "Santiago", true, this.rolA);
 		assertTrue(usuarioDAO.persist(this.usuarioA));
+		
+		//cartelera
+		this.carteleraA = new Cartelera("taller de java 2016");
+		this.carteleraB = new Cartelera("Cartelera Random");
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		this.usuarioB = usuarioDAO.getById(new Long(6));
+		this.carteleraA.addInteresado(this.usuarioA);
+		this.carteleraA.addInteresado(this.usuarioB);
+		
+		assertTrue(carteleraDAO.persist(this.carteleraA));
+		assertTrue(carteleraDAO.persist(this.carteleraB));
+		
+		this.carteleraA = carteleraDAO.getById(new Long(7));
+		
+		assertTrue(this.carteleraA.getTitulo().equals("taller de java 2016"));
+
+		this.carteleras = carteleraDAO.selectAll();
+		assertTrue(this.carteleras.size() == 2);
+		assertTrue(this.carteleraA.getInteresados().size() == 2);
+		
+		this.carteleraA.getInteresados().remove(this.usuarioB);
+		
+		assertTrue(carteleraDAO.update(this.carteleraA));
+
+		this.carteleraA = carteleraDAO.getById(new Long(7));
+		assertTrue(this.carteleraA.getInteresados().size() == 1);
+		
+		this.usuarioB = usuarioDAO.getById(new Long(5));
+		assertTrue(this.usuarioB.getIntereses().size() == 1);
+		
 	}
 	
-	
 	/*
+	@Test
+	public void testRol(){
+		RolJpaDAO rolDAO = DAOFactory.getRolDao();
+		this.rolA = new Rol("Administrador");
+		this.rolB = new Rol("Profesor");
+		List<Rol> roles;
+		
+		
+		
+	}
+	
+	@Test
+	public void testUsuario(){
+		UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
+		RolJpaDAO rolDAO = DAOFactory.getRolDao();
+		
+	}
+	
+	@Test
+	public void testCartelera(){
+
+		CarteleraJpaDAO carteleraDAO = DAOFactory.getCarteleraDao();
+		UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
+		this.carteleraA = new Cartelera("taller de java 2016");
+		this.carteleraB = new Cartelera("Cartelera Random");
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		this.usuarioB = usuarioDAO.getById(new Long(6));
+		this.carteleraA.addInteresado(this.usuarioA);
+		this.carteleraA.addInteresado(this.usuarioB);
+		
+		assertTrue(carteleraDAO.persist(this.carteleraA));
+		assertTrue(carteleraDAO.persist(this.carteleraB));
+		
+		this.carteleraA = carteleraDAO.getById(new Long(7));
+		
+		assertTrue(this.carteleraA.getTitulo().equals("taller de java 2016"));
+		
+		this.carteleraA.getInteresados().remove(this.usuarioB);
+		
+		assertTrue(carteleraDAO.update(this.carteleraA));
+		
+		this.usuarioA.getIntereses().remove(this.carteleraA);
+		assertTrue(usuarioDAO.update(this.usuarioA));
+	}
+	
 	@Test
 	public void testGeneral() {
 		try {
