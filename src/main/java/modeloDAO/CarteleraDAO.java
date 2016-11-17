@@ -8,5 +8,5 @@ import modelo.Cartelera;
 import modelo.Usuario;
 
 public interface CarteleraDAO extends Dao<Cartelera> {
-
+	Cartelera getByTitulo( String titulo );
 }
