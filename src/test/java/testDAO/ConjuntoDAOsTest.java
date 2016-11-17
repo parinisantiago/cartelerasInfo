@@ -112,69 +112,6 @@ public class ConjuntoDAOsTest {
 		assertTrue(usuarios.size() == 1);
 		this.usuarioA = new Usuario("Santiago", "Santiago", true, this.rolA);
 		assertTrue(usuarioDAO.persist(this.usuarioA));
-		
-		//anuncio
-		this.anuncioA = new Anuncio("este es el titulo","el cuerpo",true, this.usuarioA, new Date());
-		this.anuncioB = new Anuncio("titulo 2","el cuerpo",true, this.usuarioA,new Date());
-		
-		assertTrue(anuncioDAO.persist(this.anuncioA));
-		assertTrue(anuncioDAO.persist(this.anuncioB));
-		
-		anuncios = anuncioDAO.selectAll();
-		
-		assertTrue(anuncios.size() == 2);
-		
-		this.anuncioA = anuncioDAO.getById(new Long(7));
-		this.anuncioA.setCuerpo("vamos a cambiar el texto");
-		assertTrue(anuncioDAO.update(this.anuncioA));
-		this.anuncioA = anuncioDAO.getById(new Long(7));
-		assertTrue(this.anuncioA.getCuerpo().equals("vamos a cambiar el texto"));
-		
-		this.anuncioA = anuncioDAO.getById(new Long(7));
-		assertTrue(anuncioDAO.update(this.anuncioA));
-		
-		assertTrue(anuncioDAO.remove(this.anuncioA));
-		
-		anuncios = anuncioDAO.selectAll();
-		
-		assertTrue(anuncios.size() == 1);
-		
-		
-		//comentario
-		this.usuarioA = usuarioDAO.getById(new Long(5));
-		
-		this.comentarioA = new Comentario("esto es un comentario", new Date(), this.usuarioA);
-		this.comentarioB = new Comentario("esto es un comentario", new Date(), this.usuarioA);
-		
-		assertTrue(comentarioDAO.persist(this.comentarioA));
-		assertTrue(comentarioDAO.persist(this.comentarioB));
-		
-		comentarios = comentarioDAO.selectAll();
-		
-		assertTrue(comentarios.size() == 2);
-		
-		this.comentarioA = comentarioDAO.getById(new Long(9));
-		this.comentarioA.setTexto("vamos a cambiar el texto");
-		assertTrue(comentarioDAO.update(this.comentarioA));
-		this.comentarioA = comentarioDAO.getById(new Long(9));
-		assertTrue(this.comentarioA.getTexto().equals("vamos a cambiar el texto"));
-		
-		this.comentarioA = comentarioDAO.getById(new Long(9));
-		assertTrue(comentarioDAO.update(this.comentarioA));
-		
-		assertTrue(comentarioDAO.remove(this.comentarioA));
-		
-		comentarios = comentarioDAO.selectAll();
-		
-		assertTrue(comentarios.size() == 1);
-		
-		this.comentarioA = comentarioDAO.getById(new Long(10));
-		this.anuncioA = anuncioDAO.getById(new Long(8));
-		this.comentarioA.setAnuncio(this.anuncioA);
-		assertTrue(comentarioDAO.update(this.comentarioA));
-		
-		this.anuncioA = anuncioDAO.getById(new Long(8));
-		assertTrue(this.anuncioA.getComentarios().size() == 1);
 		//cartelera
 		this.carteleraA = new Cartelera("taller de java 2016");
 		this.carteleraB = new Cartelera("Cartelera Random");
@@ -189,7 +126,7 @@ public class ConjuntoDAOsTest {
 		assertTrue(carteleraDAO.persist(this.carteleraA));
 		assertTrue(carteleraDAO.persist(this.carteleraB));
 		
-		this.carteleraA = carteleraDAO.getById(new Long(11));
+		this.carteleraA = carteleraDAO.getById(new Long(7));
 		
 		assertTrue(this.carteleraA.getTitulo().equals("taller de java 2016"));
 
@@ -201,7 +138,7 @@ public class ConjuntoDAOsTest {
 		
 		assertTrue(carteleraDAO.update(this.carteleraA));
 
-		this.carteleraA = carteleraDAO.getById(new Long(11));
+		this.carteleraA = carteleraDAO.getById(new Long(7));
 		assertTrue(this.carteleraA.getInteresados().size() == 1);
 		
 		this.usuarioB = usuarioDAO.getById(new Long(5));
@@ -209,7 +146,83 @@ public class ConjuntoDAOsTest {
 		
 		
 		
+		//anuncio
+		this.anuncioA = new Anuncio("este es el titulo","el cuerpo",true, this.usuarioA, new Date());
+		this.anuncioB = new Anuncio("titulo 2","el cuerpo",true, this.usuarioA,new Date());
 		
+		assertTrue(anuncioDAO.persist(this.anuncioA));
+		assertTrue(anuncioDAO.persist(this.anuncioB));
+		
+		anuncios = anuncioDAO.selectAll();
+		
+		assertTrue(anuncios.size() == 2);
+		
+		this.anuncioA = anuncioDAO.getById(new Long(9));
+		this.anuncioA.setCuerpo("vamos a cambiar el texto");
+		assertTrue(anuncioDAO.update(this.anuncioA));
+		this.anuncioA = anuncioDAO.getById(new Long(9));
+		assertTrue(this.anuncioA.getCuerpo().equals("vamos a cambiar el texto"));
+		
+		this.anuncioA = anuncioDAO.getById(new Long(9));
+		assertTrue(anuncioDAO.update(this.anuncioA));
+		
+		assertTrue(anuncioDAO.remove(this.anuncioA));
+		
+		anuncios = anuncioDAO.selectAll();
+		
+		assertTrue(anuncios.size() == 1);
+		
+		this.anuncioA = anuncioDAO.getById(new Long(10));
+		this.carteleraA = carteleraDAO.getById(new Long(8));
+		this.anuncioA.setCartelera(this.carteleraA);
+		assertTrue(anuncioDAO.update(this.anuncioA));
+		
+		this.carteleraA = carteleraDAO.getById(new Long(8));
+		assertTrue(this.carteleraA.getAnuncios().size() == 1);
+		
+		this.carteleraA = carteleraDAO.getById(new Long(8));
+		
+		//comentario
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		
+		this.comentarioA = new Comentario("esto es un comentario", new Date(), this.usuarioA);
+		this.comentarioB = new Comentario("esto es un comentario", new Date(), this.usuarioA);
+		
+		assertTrue(comentarioDAO.persist(this.comentarioA));
+		assertTrue(comentarioDAO.persist(this.comentarioB));
+		
+		comentarios = comentarioDAO.selectAll();
+		
+		assertTrue(comentarios.size() == 2);
+		
+		this.comentarioA = comentarioDAO.getById(new Long(11));
+		this.comentarioA.setTexto("vamos a cambiar el texto");
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		this.comentarioA = comentarioDAO.getById(new Long(11));
+		assertTrue(this.comentarioA.getTexto().equals("vamos a cambiar el texto"));
+		
+		this.comentarioA = comentarioDAO.getById(new Long(11));
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		
+		assertTrue(comentarioDAO.remove(this.comentarioA));
+		
+		comentarios = comentarioDAO.selectAll();
+		
+		assertTrue(comentarios.size() == 1);
+		
+		this.comentarioA = comentarioDAO.getById(new Long(12));
+		this.anuncioA = anuncioDAO.getById(new Long(10));
+		this.comentarioA.setAnuncio(this.anuncioA);
+		assertTrue(comentarioDAO.update(this.comentarioA));
+		
+		this.anuncioA = anuncioDAO.getById(new Long(10));
+		assertTrue(this.anuncioA.getComentarios().size() == 1);
+		
+		this.carteleraA = carteleraDAO.getById(new Long(8));
+		carteleraDAO.remove(this.carteleraA);
+		
+		//notifiacion
+
 	}
 	
 	/*
