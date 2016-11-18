@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+
 @Entity
 @Table(name="usuario")
 public class Usuario {
@@ -45,17 +47,17 @@ public class Usuario {
 	@OneToOne
 	private Rol rol;
 	
-	@OneToMany(mappedBy="usuario")
-	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
-	
 	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="interesados")
+	@ManyToMany(mappedBy="usuarioEliminar")
 	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="interesados")
+	@ManyToMany(mappedBy="usuarioPublicar")
 	private Set<Cartelera> cartelerasModificar;
+	
+	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
+	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 	
 	public Long getId() {
 		return id;

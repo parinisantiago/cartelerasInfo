@@ -61,4 +61,31 @@ public class UsuarioJpaDAO extends JpaDao<Usuario> implements UsuarioDAO {
 		return resultado;
 	}
 
+	@Override
+	public Usuario getById(Long id) {
+		entityTransaction = null;
+		Usuario resultado = null;
+		try
+		{
+			entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			
+			Query consulta = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id");
+			consulta.setParameter("id", id);
+			resultado = (Usuario) consulta.getSingleResult();
+			resultado.getNotificaciones().size();
+			resultado.getComentarios().size();
+			resultado.getIntereses().size();
+			resultado.getMisAnuncios().size();
+			entityTransaction.rollback();
+		}
+		catch (RuntimeException e)
+		{
+			if ( entityTransaction != null && entityTransaction.isActive() ) entityTransaction.rollback();
+			throw e;
+		}
+		return resultado;
+	}
+	
+	
 }

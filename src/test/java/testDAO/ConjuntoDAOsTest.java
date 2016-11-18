@@ -15,6 +15,11 @@ import javax.persistence.Query;
 import org.junit.Test;
 
 import modelo.*;
+import modeloDAO.AnuncioDAO;
+import modeloDAO.CarteleraDAO;
+import modeloDAO.ComentarioDAO;
+import modeloDAO.NotificacionDAO;
+import modeloDAO.RolDAO;
 import modeloDAOJPA.AnuncioJpaDAO;
 import modeloDAOJPA.CarteleraJpaDAO;
 import modeloDAOJPA.ComentarioJpaDAO;
@@ -36,12 +41,12 @@ public class ConjuntoDAOsTest {
 	private Cartelera carteleraB;
 	private Notificacion notificacionA;
 	private Notificacion notificacionB;
-	private RolJpaDAO rolDAO = DAOFactory.getRolDao();
+	private RolDAO rolDAO = DAOFactory.getRolDao();
 	private UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
-	private AnuncioJpaDAO anuncioDAO = DAOFactory.getAnuncioDao();
-	private CarteleraJpaDAO carteleraDAO = DAOFactory.getCarteleraDao();
-	private ComentarioJpaDAO comentarioDAO = DAOFactory.getComentarioDao();
-	private NotificacionJpaDAO notificacionDAO = DAOFactory.getNotificacionDao();
+	private AnuncioDAO anuncioDAO = DAOFactory.getAnuncioDao();
+	private CarteleraDAO carteleraDAO = DAOFactory.getCarteleraDao();
+	private ComentarioDAO comentarioDAO = DAOFactory.getComentarioDao();
+	private NotificacionDAO notificacionDAO = DAOFactory.getNotificacionDao();
 	private List<Rol> roles;
 	private List<Usuario> usuarios;
 	private List<Comentario> comentarios;
@@ -52,6 +57,7 @@ public class ConjuntoDAOsTest {
 	
 	@Test
 	public void todo(){
+		Persistence.generateSchema("cartelerasInfo", null);
 		//roles
 		this.rolA = new Rol("Administrador");
 		this.rolB = new Rol("Profesor");
@@ -144,7 +150,7 @@ public class ConjuntoDAOsTest {
 		this.usuarioB = usuarioDAO.getById(new Long(5));
 		assertTrue(this.usuarioB.getIntereses().size() == 1);
 		
-		
+
 		
 		//anuncio
 		this.anuncioA = new Anuncio("este es el titulo","el cuerpo",true, this.usuarioA, new Date());
@@ -213,6 +219,8 @@ public class ConjuntoDAOsTest {
 		this.comentarioA = comentarioDAO.getById(new Long(12));
 		this.anuncioA = anuncioDAO.getById(new Long(10));
 		this.comentarioA.setAnuncio(this.anuncioA);
+		this.anuncioA.addComentario(comentarioA);
+		anuncioDAO.update(anuncioA);
 		assertTrue(comentarioDAO.update(this.comentarioA));
 		
 		this.anuncioA = anuncioDAO.getById(new Long(10));
@@ -222,7 +230,39 @@ public class ConjuntoDAOsTest {
 		carteleraDAO.remove(this.carteleraA);
 		
 		//notifiacion
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		this.notificacionA = new Notificacion("descripcion A");
+		this.notificacionB = new Notificacion("descripcion B");
+		
+		assertTrue(notificacionDAO.persist(this.notificacionA));
+		assertTrue(notificacionDAO.persist(this.notificacionB));
+		
+		notificaciones = notificacionDAO.selectAll();
+		
+		assertTrue(notificaciones.size() == 2);
+		
+		this.notificacionA = notificacionDAO.getById(new Long(13));
+		this.notificacionA.setDescripcion("descripcionA2");
+		assertTrue(notificacionDAO.update(this.notificacionA));
+		this.notificacionA = notificacionDAO.getById(new Long(13));
+		assertTrue(this.notificacionA.getDescripcion().equals("descripcionA2"));
+		
+		assertTrue(notificacionDAO.remove(this.notificacionB));
+		
+		notificaciones = notificacionDAO.selectAll();
+		
+		assertTrue(notificaciones.size() == 1);
+		
+		this.notificacionA = notificacionDAO.getById(new Long(13));
+		this.notificacionA.setUsuario(usuarioA);
+		this.usuarioA.addNotificacion(notificacionA);
+		usuarioDAO.update(usuarioA);
+		assertTrue(notificacionDAO.update(this.notificacionA));
+		
+		this.usuarioA = usuarioDAO.getById(new Long(5));
+		assertTrue(this.usuarioA.getNotificaciones().size() == 1);
 
+		
 	}
 	
 	/*

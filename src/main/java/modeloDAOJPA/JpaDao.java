@@ -7,7 +7,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 
 import modeloDAO.Dao;
 
@@ -56,7 +58,8 @@ public abstract class JpaDao<T> implements Dao<T>
 		{
 			entityTransaction = entityManager.getTransaction();
 			entityTransaction.begin();
-			entityManager.remove(entity);
+			//entityManager.remove(entity);
+			entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
 			entityManager.flush();
 			entityTransaction.commit();
 		} 

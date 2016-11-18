@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,24 +32,24 @@ public class Cartelera implements Serializable {
 	@Column(nullable = false, unique=true)
 	private String titulo;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="intereses_usuario_cartelera",
 	    joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
 	private Set<Usuario> interesados;
 	
-	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="cartelera")
+	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="cartelera", fetch=FetchType.EAGER)
 	private List<Anuncio> anuncios;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="cartelera_usuarioEliminar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
 	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
 	
-	@ManyToMany()
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="cartelera_usuarioModificar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),

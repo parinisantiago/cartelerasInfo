@@ -48,7 +48,7 @@ public class Anuncio implements Serializable {
 	@ManyToOne
 	private Cartelera cartelera;
 	
-	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="anuncio")
+	@OneToMany(cascade={CascadeType.ALL}, mappedBy="anuncio", fetch=FetchType.EAGER)
 	private List<Comentario> comentarios;
 	
 	@Column(nullable = false)
@@ -145,7 +145,7 @@ public class Anuncio implements Serializable {
 	
 	public void addComentario(Comentario comentario){
 		this.comentarios.add(comentario);
-	//	comentario.setAnuncio(this);
+		//comentario.setAnuncio(this);
 	}
 
 	public boolean isHabilitado() {
