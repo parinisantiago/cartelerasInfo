@@ -2,16 +2,10 @@ package testDAO;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-
-
 import org.junit.Test;
 
 import modelo.*;
@@ -20,12 +14,7 @@ import modeloDAO.CarteleraDAO;
 import modeloDAO.ComentarioDAO;
 import modeloDAO.NotificacionDAO;
 import modeloDAO.RolDAO;
-import modeloDAOJPA.AnuncioJpaDAO;
-import modeloDAOJPA.CarteleraJpaDAO;
-import modeloDAOJPA.ComentarioJpaDAO;
 import modeloDAOJPA.DAOFactory;
-import modeloDAOJPA.NotificacionJpaDAO;
-import modeloDAOJPA.RolJpaDAO;
 import modeloDAOJPA.UsuarioJpaDAO;
 
 public class ConjuntoDAOsTest {

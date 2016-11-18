@@ -2,7 +2,6 @@ package modeloDAOJPA;
 
 import javax.persistence.Query;
 
-import modelo.Cartelera;
 import modelo.Rol;
 import modeloDAO.RolDAO;
 
