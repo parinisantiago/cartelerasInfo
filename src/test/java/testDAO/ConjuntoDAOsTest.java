@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Persistence;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import modelo.*;
 import modeloDAO.AnuncioDAO;
@@ -14,6 +16,7 @@ import modeloDAO.CarteleraDAO;
 import modeloDAO.ComentarioDAO;
 import modeloDAO.NotificacionDAO;
 import modeloDAO.RolDAO;
+import modeloDAO.UsuarioDAO;
 import modeloDAOJPA.DAOFactory;
 import modeloDAOJPA.UsuarioJpaDAO;
 
@@ -30,12 +33,13 @@ public class ConjuntoDAOsTest {
 	private Cartelera carteleraB;
 	private Notificacion notificacionA;
 	private Notificacion notificacionB;
-	private RolDAO rolDAO = DAOFactory.getRolDao();
-	private UsuarioJpaDAO usuarioDAO = DAOFactory.getUsuarioDao();
-	private AnuncioDAO anuncioDAO = DAOFactory.getAnuncioDao();
-	private CarteleraDAO carteleraDAO = DAOFactory.getCarteleraDao();
-	private ComentarioDAO comentarioDAO = DAOFactory.getComentarioDao();
-	private NotificacionDAO notificacionDAO = DAOFactory.getNotificacionDao();
+	private ApplicationContext ctx = new ClassPathXmlApplicationContext("app-ctx.xml");
+	private RolDAO rolDAO = ctx.getBean(RolDAO.class);
+	private UsuarioDAO usuarioDAO = ctx.getBean(UsuarioDAO.class);
+	private AnuncioDAO anuncioDAO = ctx.getBean(AnuncioDAO.class);
+	private CarteleraDAO carteleraDAO = ctx.getBean(CarteleraDAO.class);
+	private ComentarioDAO comentarioDAO = ctx.getBean(ComentarioDAO.class);
+	private NotificacionDAO notificacionDAO = ctx.getBean(NotificacionDAO.class);
 	private List<Rol> roles;
 	private List<Usuario> usuarios;
 	private List<Comentario> comentarios;
@@ -46,8 +50,11 @@ public class ConjuntoDAOsTest {
 	
 	@Test
 	public void todo(){
-		Persistence.generateSchema("cartelerasInfo", null);
-		//roles
+
+
+		
+		rolDAO = ctx.getBean(RolDAO.class);
+		Persistence.generateSchema("cartelerasInfo", null);		//roles
 		this.rolA = new Rol("Administrador");
 		this.rolB = new Rol("Profesor");
 		
