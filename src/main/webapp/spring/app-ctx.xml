@@ -7,10 +7,10 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.2.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-	<context:component-scan base-package="src.main.java.modeloDAO, src.main.java.modeloDAOJPA"></context:component-scan>
+	<context:component-scan base-package="modeloDAO, modeloDAOJPA"></context:component-scan>
 
 <!--propiedades de la Base de Datos -->
-	<context:property-placeholder location="classpath:database.properties" />
+	
 	<!-- DataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
@@ -30,7 +30,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 <!--  Estos tag hace que /META-INF/persistence.xml ya no sea necesario -->
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="ttps.springmvc.entities" />
+		<property name="packagesToScan" value="modelo" />
 <!-- Seteo la implementación del EntityManager (JPA) de Hibernate -->
 		<property name="jpaVendorAdapter">
 
