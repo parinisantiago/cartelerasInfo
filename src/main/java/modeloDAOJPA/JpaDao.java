@@ -23,14 +23,15 @@ public abstract class JpaDao<T> implements Dao<T>
 	@PersistenceContext
 	public void setEntityManager(EntityManager em){
 		this.entityManager = em;
-		}
-		public EntityManager getEntityManager() {
+	}
+
+	public EntityManager getEntityManager() {
 		return entityManager;
-		}
+	}
 	
 	public JpaDao(Class<T> eClass)
 	{
-		entityManager = EMF.getEMF().createEntityManager();
+		//entityManager = EMF.getEMF().createEntityManager();
 		entityClass = eClass;
 	}
 	
