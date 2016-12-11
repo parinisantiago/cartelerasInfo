@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.2.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-	<context:component-scan base-package="modeloDAO, modeloDAOJPA"></context:component-scan>
+	<context:component-scan base-package="modeloDAO, modeloDAOJPA, rest, testDAO"></context:component-scan>
 
-<!--propiedades de la Base de Datos -->
-	
+	<!--propiedades de la Base de Datos -->
+
 	<!-- DataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
@@ -19,7 +19,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 			.properties -->
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/cartelerasinfo" />
 		<property name="user" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="" />
 		<property name="acquireIncrement" value="2" />
 		<property name="minPoolSize" value="20" />
 		<property name="maxPoolSize" value="50" />
@@ -27,13 +27,13 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	</bean>
 
 
-	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-<!--  Estos tag hace que /META-INF/persistence.xml ya no sea necesario -->
+	<bean id="emf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<!-- Estos tag hace que /META-INF/persistence.xml ya no sea necesario -->
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="modelo" />
-<!-- Seteo la implementación del EntityManager (JPA) de Hibernate -->
+		<!-- Seteo la implementación del EntityManager (JPA) de Hibernate -->
 		<property name="jpaVendorAdapter">
-
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
 		<property name="jpaProperties">
@@ -50,4 +50,12 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name="entityManagerFactory" ref="emf" />
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- 
+	<bean id="AnuncioDAO" class="modeloDAOJPA.AnuncioJpaDao"></bean>
+	<bean id="CarteleraDAO" class="modeloDAOJPA.CarteleraJpaDao"></bean>
+	<bean id="ComentarioDAO" class="modeloDAOJPA.ComentarioJpaDao"></bean>
+	<bean id="NotificacionDAO" class="modeloDAOJPA.NotificacionJpaDao"></bean>
+	<bean id="RolDAO" class="modeloDAOJPA.RolJpaDao"></bean>
+	<bean id="UsuarioDAO" class="modeloDAOJPA.UsuarioJpaDao"></bean>
+	 -->
 </beans>
