@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -58,19 +59,27 @@ public abstract class JpaDao<T> implements Dao<T>
 	@Override
 	public List<T> selectAll() {
 		List<T> resultado = new ArrayList<T>();
-			
-			Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
-			resultado = (List<T>) consulta.getResultList();
+			try {
+				Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
+				resultado = (List<T>) consulta.getResultList();
+			} catch (NoResultException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 			return resultado;
 	}
 
 	@Override
 	public T getById(Long id) {
 		T resultado = null;
+		try {
 			Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id");
 			consulta.setParameter("id", id);
 			resultado = (T) consulta.getSingleResult();
-	
+		} catch (NoResultException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return resultado;
 	}
 

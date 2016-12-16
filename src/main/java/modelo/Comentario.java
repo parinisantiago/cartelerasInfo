@@ -12,25 +12,33 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 @Entity
 @Table(name="comentario")
 public class Comentario implements Serializable{
 	private static final long serialVersionUID = -4661212242115460013L;
 	
 	@Id@GeneratedValue
+	@JsonView(JView.Privado.class)
 	private Long id;
 	
 	@ManyToOne
 	private Anuncio anuncio; 
 	
 	@Column(nullable = false)
+	@JsonView(JView.Publico.class)
 	private String texto;
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(JView.Publico.class)
 	private Date fecha;
 	
 	@ManyToOne
+	@JsonView(JView.Privado.class)
 	private Usuario creador;
 
 	@Column(nullable = false)
