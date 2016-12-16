@@ -60,21 +60,22 @@ public abstract class JpaDao<T> implements Dao<T>
 	@Override
 	public List<T> selectAll() {
 		List<T> resultado = new ArrayList<T>();
-			try {
-				Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
-				resultado = (List<T>) consulta.getResultList();
-			} catch (NoResultException e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-			return resultado;
+		try {
+			Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e");
+			resultado = (List<T>) consulta.getResultList();
+		} catch (NoResultException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return resultado;
 	}
 
 	@Override
 	public T getById(Long id) {
 		T resultado = null;
 		try {
-			Query consulta = this.getEntityManager().createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id");
+			Query consulta = this.getEntityManager()
+					.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id");
 			consulta.setParameter("id", id);
 			resultado = (T) consulta.getSingleResult();
 		} catch (NoResultException e) {
