@@ -46,7 +46,8 @@ public abstract class JpaDao<T> implements Dao<T>
 	public boolean remove (T entity)
 	{
 		//this.getEntityManager().remove(entity);
-		this.getEntityManager().remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+		entity = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+		this.getEntityManager().remove(entity);
 		return true;
 	}
 

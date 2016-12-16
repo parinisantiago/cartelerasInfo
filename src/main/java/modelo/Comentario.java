@@ -111,6 +111,11 @@ public class Comentario implements Serializable{
 	public void habilitar(){
 		this.setHabilitado(true);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Comentario [id=" + id + ", anuncio=" + anuncio + ", texto=" + texto + ", fecha=" + fecha + ", creador="
+				+ creador + ", habilitado=" + habilitado + "]";
+	}
 	
 }
