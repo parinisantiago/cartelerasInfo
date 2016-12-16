@@ -22,7 +22,7 @@ public class Comentario implements Serializable{
 	private static final long serialVersionUID = -4661212242115460013L;
 	
 	@Id@GeneratedValue
-	@JsonView(JView.Privado.class)
+	@JsonView(JView.Publico.class)
 	private Long id;
 	
 	@ManyToOne
