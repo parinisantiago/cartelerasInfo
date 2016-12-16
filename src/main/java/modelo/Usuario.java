@@ -16,21 +16,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 @Entity
 @Table(name="usuario")
 public class Usuario {
 	
 	@Id@GeneratedValue
 	@Column(name="usuario_id")
+	@JsonView(JView.Publico.class)
 	private Long id;
 	
 	@Column(nullable = false, unique=true)
+	@JsonView(JView.Publico.class)
 	private String user;
 	
 	@Column(nullable = false)
+	@JsonView(JView.Privado.class)
 	private String password;
 	
 	@Column(nullable = false)
+	@JsonView(JView.Privado.class)
 	private boolean habilitado;
 	
 	@OneToMany(mappedBy="creador", fetch=FetchType.EAGER)

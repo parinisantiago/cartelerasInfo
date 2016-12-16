@@ -1,6 +1,6 @@
 package rest;
 
 public class JView {
-	public interface Publico{}
-	public interface Privado extends Publico{}
+	public interface Publico{};
+	public interface Privado extends Publico{};
 }

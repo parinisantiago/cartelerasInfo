@@ -17,6 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 @Entity
 @Table(name="anuncio")
 public class Anuncio implements Serializable {
@@ -25,9 +29,11 @@ public class Anuncio implements Serializable {
 	
 	@Id
 	@GeneratedValue
+	@JsonView(JView.Publico.class)
 	private Long id;
 	
 	@Column(nullable = false)
+	@JsonView(JView.Publico.class)
 	private String titulo;
 	
 	@Column(nullable = false)

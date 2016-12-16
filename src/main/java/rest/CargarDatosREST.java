@@ -64,6 +64,7 @@ public class CargarDatosREST {
     		com.setTexto(textos[(int)Math.random()*10]);
     		com.setFecha(new Date());
     		com.setCreador(user);
+    		com.setHabilitado(true);
     		lista.add(com);
 		}
     	

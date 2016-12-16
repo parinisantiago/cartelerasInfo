@@ -25,9 +25,6 @@ public class Comentario implements Serializable{
 	@JsonView(JView.Publico.class)
 	private Long id;
 	
-	@ManyToOne
-	private Anuncio anuncio; 
-	
 	@Column(nullable = false)
 	@JsonView(JView.Publico.class)
 	private String texto;
@@ -38,10 +35,15 @@ public class Comentario implements Serializable{
 	private Date fecha;
 	
 	@ManyToOne
-	@JsonView(JView.Privado.class)
+	@JsonView(JView.Publico.class)
+	private Anuncio anuncio; 
+	
+	@ManyToOne
+	@JsonView(JView.Publico.class)
 	private Usuario creador;
-
+	
 	@Column(nullable = false)
+	@JsonView(JView.Privado.class)
 	private boolean habilitado;
 	
 	public Comentario() {
