@@ -11,5 +11,13 @@ public class ComentarioJpaDAO extends JpaDao<Comentario> implements ComentarioDA
 		super(Comentario.class);
 	}
 
-	
+	public boolean remove (Comentario entity)
+	{
+		entity.setAnuncio(null);
+		entity.setCreador(null);
+		this.update(entity);
+		entity = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+		this.getEntityManager().remove(entity);
+		return true;
+	}
 }
