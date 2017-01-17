@@ -41,7 +41,7 @@ public class ComentarioREST {
 	private UsuarioDAO daoUsuario;
 	
     @RequestMapping(value="/comentario/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Publico.class)
+    @JsonView(JView.Comentario.class)
     public ResponseEntity<Comentario> entityById(@PathVariable("id") Long id) {
     	Comentario entity = daoComentario.getById(id);
     	if( entity != null){
@@ -53,7 +53,7 @@ public class ComentarioREST {
     }
     
     @RequestMapping(value="/comentario", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Publico.class)
+    @JsonView(JView.Comentario.class)
     public ResponseEntity<List<Comentario>> entityAll() {
     	List<Comentario>  entity = daoComentario.selectAll();
     	if( entity != null){
@@ -65,7 +65,7 @@ public class ComentarioREST {
     }
     
     @RequestMapping(value="/comentario", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Publico.class)
+    @JsonView(JView.Comentario.class)
     public ResponseEntity<Comentario> entityCreate(@RequestBody String jsonString) {
     	EntityJson json = null;
 		try {
@@ -77,7 +77,6 @@ public class ComentarioREST {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("JSONREQ: "+json);
     	
     	if( json != null ){
     		Comentario nuevo = new Comentario();
@@ -148,7 +147,7 @@ public class ComentarioREST {
     }
     
     @RequestMapping(value="/comentario/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Publico.class)
+    @JsonView(JView.Comentario.class)
     public ResponseEntity<Comentario> entityUpdate(@PathVariable("id") Long id, @RequestBody String jsonString) {
     	EntityJson json = null;
 		try {
@@ -160,7 +159,7 @@ public class ComentarioREST {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("JSONREQ: "+json);
+    	
     	Comentario entity = daoComentario.getById(id);
     	if (json != null && entity!=null){
     		if(json.getFecha() != null){
@@ -181,7 +180,6 @@ public class ComentarioREST {
     				entity.setCreador(us);
     			}
     		}
-    		System.out.println("ENTITY_UPD: "+entity);
     		daoComentario.update(entity);
     		
     		return new ResponseEntity<Comentario>(HttpStatus.OK);

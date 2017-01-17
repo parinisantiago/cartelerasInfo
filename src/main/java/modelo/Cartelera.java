@@ -18,6 +18,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 @Entity
 @Table(name="cartelera")
 public class Cartelera implements Serializable {
@@ -26,9 +30,13 @@ public class Cartelera implements Serializable {
 
 	@Id@GeneratedValue
 	@Column(name="cartelera_id")
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@Column(nullable = false, unique=true)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Cartelera.class, JView.Simple.class})
 	private String titulo;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -36,9 +44,11 @@ public class Cartelera implements Serializable {
 		name="intereses_usuario_cartelera",
 	    joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
+	@JsonView(JView.Cartelera.class)
 	private Set<Usuario> interesados;
 	
 	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="cartelera", fetch=FetchType.EAGER)
+	@JsonView(JView.Cartelera.class)
 	private List<Anuncio> anuncios;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -54,6 +64,11 @@ public class Cartelera implements Serializable {
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
 	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
+	
+	@Column(nullable = false)
+	@JsonView(JView.Privado.class)
+	private boolean habilitado;
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,8 +76,6 @@ public class Cartelera implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	private boolean habilitado;
 	
 	public Cartelera(){
 		this.anuncios = new ArrayList<Anuncio>();

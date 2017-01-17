@@ -22,24 +22,28 @@ public class Comentario implements Serializable{
 	private static final long serialVersionUID = -4661212242115460013L;
 	
 	@Id@GeneratedValue
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@Column(nullable = false)
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Comentario.class, JView.Simple.class})
 	private String texto;
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Comentario.class, JView.Simple.class})
 	private Date fecha;
 	
 	@ManyToOne
-	@JsonView(JView.Publico.class)
+	@JsonView(JView.Comentario.class)
 	private Anuncio anuncio; 
 	
 	@ManyToOne
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.Comentario.class)
 	private Usuario creador;
 	
 	@Column(nullable = false)

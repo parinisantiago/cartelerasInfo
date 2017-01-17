@@ -26,11 +26,13 @@ public class Usuario {
 	
 	@Id@GeneratedValue
 	@Column(name="usuario_id")
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@Column(nullable = false, unique=true)
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Usuario.class, JView.Simple.class})
 	private String user;
 	
 	@Column(nullable = false)
@@ -42,13 +44,15 @@ public class Usuario {
 	private boolean habilitado;
 	
 	@OneToMany(mappedBy="creador", fetch=FetchType.EAGER)
+	@JsonView(JView.Usuario.class)
 	private List<Comentario> comentarios = new ArrayList<Comentario>();
 	
 	@OneToMany(mappedBy="creador")
 	private List<Anuncio> misAnuncios  = new ArrayList<Anuncio>();
-	
 
 	@OneToOne
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Usuario.class, JView.Simple.class})
 	private Rol rol;
 	
 	@ManyToMany(mappedBy="interesados")

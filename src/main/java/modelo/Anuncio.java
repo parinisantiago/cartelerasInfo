@@ -29,33 +29,45 @@ public class Anuncio implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@Column(nullable = false)
-	@JsonView(JView.Publico.class)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Anuncio.class, JView.Simple.class})
 	private String titulo;
 	
 	@Column(nullable = false)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Anuncio.class, JView.Simple.class})
 	private String cuerpo;
 	
 	@Column(nullable = false)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Anuncio.class, JView.Simple.class})
 	private boolean comentarioHabilitado;
 	
 	@ManyToOne
+	@JsonView(JView.Anuncio.class)
 	private Usuario creador;
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Anuncio.class, JView.Simple.class})
 	private Date fecha;
 	
 	@ManyToOne
+	@JsonView(JView.Anuncio.class)
 	private Cartelera cartelera;
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="anuncio", fetch=FetchType.EAGER)
+	@JsonView(JView.Anuncio.class)
 	private List<Comentario> comentarios;
 	
 	@Column(nullable = false)
+	@JsonView(JView.Privado.class)
 	private boolean habilitado;
 	
 	

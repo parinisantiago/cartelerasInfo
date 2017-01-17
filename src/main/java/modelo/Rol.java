@@ -8,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 
 @Entity
 @Table(name="rol")
@@ -17,9 +21,13 @@ public class Rol implements Serializable{
 
 	@Id
 	@GeneratedValue
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@Column(nullable = false, unique=true)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Rol.class, JView.Simple.class})
 	private String nombre;
 	
 	public Rol(){

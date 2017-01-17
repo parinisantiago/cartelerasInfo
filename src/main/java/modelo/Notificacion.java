@@ -8,18 +8,27 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import rest.JView;
+
 @Entity
 @Table(name="notificacion")
 public class Notificacion {
 	
 	@Id
 	@GeneratedValue
+	//@JsonView(JView.Publico.class)
+	@JsonView(JView.SoloID.class)
 	private Long id;
 	
 	@ManyToOne(cascade={CascadeType.ALL})
+	@JsonView(JView.Notificacion.class)
 	private Usuario usuario;
 	
 	@Column(nullable = false)
+	//@JsonView(JView.Publico.class)
+	@JsonView({JView.Notificacion.class, JView.Simple.class})
 	private String descripcion;
 
 	
