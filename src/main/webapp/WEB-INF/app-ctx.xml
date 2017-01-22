@@ -7,8 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.2.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-	<context:component-scan base-package="modeloDAO, modeloDAOJPA, rest, testDAO"></context:component-scan>
-
+	<context:component-scan base-package="modeloDAO, modeloDAOJPA, rest, testDAO, tokenJWT"></context:component-scan>
 	<!--propiedades de la Base de Datos -->
 
 	<!-- DataSource -->

@@ -19,7 +19,17 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>cartelerasInfo</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/REST/*</url-pattern>
 	</servlet-mapping>
+
+
+	<filter>
+		<filter-name>TokenJWTFilter</filter-name>
+		<filter-class>tokenJWT.TokenJWTFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>TokenJWTFilter</filter-name>
+		<url-pattern>/REST/*</url-pattern>
+	</filter-mapping>
 
 </web-app>
