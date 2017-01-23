@@ -198,4 +198,10 @@ public class Usuario {
 		this.misAnuncios.add(anuncio);
 		anuncio.setCreador(this);
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", user=" + user + ", habilitado=" + habilitado + ", rol=" + rol + "]";
+	}
+	
 }

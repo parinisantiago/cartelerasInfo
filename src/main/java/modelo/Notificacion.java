@@ -65,4 +65,9 @@ public class Notificacion {
 		this.usuario = usuario;
 	}
 
+	@Override
+	public String toString() {
+		return "Notificacion [id=" + id + ", usuario=" + usuario + ", descripcion=" + descripcion + "]";
+	}
+
 }

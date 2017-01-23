@@ -179,6 +179,10 @@ public class Cartelera implements Serializable {
 	public void habilitar(){
 		this.setHabilitado(true);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Cartelera [id=" + id + ", titulo=" + titulo + ", habilitado=" + habilitado + "]";
+	}
 	
 }

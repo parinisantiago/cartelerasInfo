@@ -179,6 +179,11 @@ public class Anuncio implements Serializable {
 	public void habilitar(){
 		this.setHabilitado(true);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Anuncio [id=" + id + ", titulo=" + titulo + ", cuerpo=" + cuerpo + ", comentarioHabilitado="
+				+ comentarioHabilitado + ", fecha=" + fecha + ", habilitado=" + habilitado + "]";
+	}
 	
 }
