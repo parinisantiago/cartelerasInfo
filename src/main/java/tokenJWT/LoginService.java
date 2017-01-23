@@ -17,6 +17,10 @@ public class LoginService {
 		
 	}
 	
+	public void logout() {
+		
+	}
+	
 	public Usuario login(String user, String password) {
 		Usuario u = usuarioDAO.getByUser(user);
 		if(u != null){

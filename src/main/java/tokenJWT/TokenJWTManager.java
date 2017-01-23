@@ -16,9 +16,6 @@ import modeloDAO.UsuarioDAO;
 
 @Service
 public class TokenJWTManager {
-
-	@Autowired
-	private UsuarioDAO usuarioDAO;
 	
 	private String secretKey = "C228D5E0E4676590B1EE28EE689FF5360E29340DF9F0AFCAB9BC536E2425D9DA";
 
@@ -34,45 +31,6 @@ public class TokenJWTManager {
 
 	public TokenJWTManager() {
 		super();
-	}
-
-	private static class EntityJson{
-		
-		private long userID;
-    	private String user;
-    	private long rolID;
-    	
-    	public EntityJson(){}
-
-		public long getUserID() {
-			return userID;
-		}
-
-		public void setUserID(long userID) {
-			this.userID = userID;
-		}
-
-		public String getUser() {
-			return user;
-		}
-
-		public void setUser(String user) {
-			this.user = user;
-		}
-
-		public long getRolID() {
-			return rolID;
-		}
-
-		public void setRolID(long rolID) {
-			this.rolID = rolID;
-		}
-
-		@Override
-		public String toString() {
-			return "EntityJson [userID=" + userID + ", user=" + user + ", rolID=" + rolID + "]";
-		}
-
 	}
 	
 	/**
@@ -92,10 +50,7 @@ public class TokenJWTManager {
 
 		//String subject = mapper.writeValueAsString(usuario);
 		
-		EntityJson jsonE = new EntityJson();
-		jsonE.setUser(usuario.getUser());
-		jsonE.setUserID(usuario.getId());
-		jsonE.setRolID(usuario.getRol().getId());
+		UserInfoToken jsonE = new UserInfoToken(usuario);
 		
 		String subject = mapper.writeValueAsString(jsonE);
 		
@@ -124,15 +79,7 @@ public class TokenJWTManager {
 
 	}
 
-	/**
-	 * Parsea el token, verifica que sea valido, y finalmente devuelve el user.
-	 * 
-	 * @param jwt
-	 *            token jwt
-	 * @return El user si el token es valido y no expiro
-	 * @throws ServiceException
-	 */
-	public Usuario parseJWT(String jwt) {
+	public UserInfoToken parseJWT(String jwt) {
 
 		Claims claims = Jwts.parser().setSigningKey(secretKey)
 									.parseClaimsJws(jwt)
@@ -141,19 +88,13 @@ public class TokenJWTManager {
 		return this.getContentJWT(content);
 	}
 
-	public Usuario getContentJWT(String contentJson) {
-		EntityJson json = null;
-		Usuario user = null;
+	public UserInfoToken getContentJWT(String contentJson) {
 		try{
-			json = mapper.readValue(contentJson, EntityJson.class);
-			//verificar que usuarioDAO no este en null el autowired no anda bien
-			user = usuarioDAO.getById(json.getUserID());
-			return user;
+			return mapper.readValue(contentJson, UserInfoToken.class);
 		} catch (Exception e) {
 			System.out.println("Error intentando parsear el payload del token: " + contentJson + e.getMessage());
 			throw new IllegalStateException("Error de parseo. El payload del token no puede parsearse");
 		}
-
 	}
 
 	public Long getTiempoMaxSeg() {

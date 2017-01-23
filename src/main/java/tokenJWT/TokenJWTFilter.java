@@ -20,6 +20,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import modelo.Rol;
 import modelo.Usuario;
+import modeloDAO.UsuarioDAO;
 
 @Component(value = "securityFilter")
 @Order(Ordered.LOWEST_PRECEDENCE)
@@ -60,11 +61,12 @@ public class TokenJWTFilter implements Filter{
 				try {
 					// Si la validacion es correcta y el token no expiro, parsea el
 					// contenido del token y devuelve el user
-					Usuario user = tokenManagerSecurity.parseJWT(jwt);
+					UserInfoToken userInfo = tokenManagerSecurity.parseJWT(jwt);
 					
 					// Seteo el user en un atributo nuevo, de esta forma
 					// ya estaria disponible para el resto de los controllers
-					request.setAttribute("user", user);
+					request.setAttribute("userID", userInfo.getUserID());
+					request.setAttribute("rol", userInfo.getRol());
 
 					chain.doFilter(req, response);
 	
@@ -74,11 +76,11 @@ public class TokenJWTFilter implements Filter{
 	
 					// ejecuta el logout para invalidar la session en banca
 					if (e.getClaims().containsKey("content")) {
-						Usuario user = tokenManagerSecurity.getContentJWT(e.getClaims().get("content").toString());
+						//Usuario user = tokenManagerSecurity.getContentJWT(e.getClaims().get("content").toString());
 						System.out.println(
 								"Expiro el tiempo de ejecucion del token, por lo que se invalida la session del usuario (logout) "
 										+ e.getMessage());
-						loginService.logout(user);
+						loginService.logout();
 					}
 					((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					response.getWriter().close();
