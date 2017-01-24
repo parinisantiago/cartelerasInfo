@@ -1,223 +1,198 @@
 package rest;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import modelo.Anuncio;
 import modelo.Cartelera;
 import modelo.Usuario;
 import modeloDAO.AnuncioDAO;
 import modeloDAO.CarteleraDAO;
+import modeloDAO.Dao;
 import modeloDAO.UsuarioDAO;
 
 @RestController
-public class AnuncioREST {
+public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
+
 	@Autowired
 	private AnuncioDAO daoAnuncio;
-	@Autowired
-	private UsuarioDAO daoUsuario;
-	@Autowired
+	
+	@Autowired 
 	private CarteleraDAO daoCartelera;
+	
+	@Autowired 
+	private UsuarioDAO daoUsuario;
+	
+	@Override	
+	protected Dao<Anuncio> getEntityDao() {
+		return daoAnuncio;
+	}
 
-    @RequestMapping(value="/anuncio/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Anuncio.class)
-    public ResponseEntity<Anuncio> entityById(@PathVariable("id") Long id) {
-    	Anuncio entity = daoAnuncio.getById(id);
-    	if( entity != null){
-    		return new ResponseEntity<Anuncio>(entity, HttpStatus.OK);
-    	}
-    	else{
-    		return new ResponseEntity<Anuncio>(HttpStatus.NOT_FOUND);
-    	}
-    }
-    
-    @RequestMapping(value="/anuncio", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Anuncio.class)
-    public ResponseEntity<List<Anuncio>> entityAll() {
-    	List<Anuncio>  entity = daoAnuncio.selectAll();
-    	if( entity != null){
-    		return new ResponseEntity<List<Anuncio>>(entity, HttpStatus.OK);
-    	}
-    	else{
-    		return new ResponseEntity<List<Anuncio>>(HttpStatus.NO_CONTENT);
-    	}
-    }
-    
-    @RequestMapping(value="/anuncio", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Anuncio.class)
-    public ResponseEntity<Anuncio> entityCreate(@RequestBody String jsonString) {
-    	EntityJson json = null;
-		try {
-			json = new ObjectMapper().readValue(jsonString, EntityJson.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-    	if( json != null ){
-    		Anuncio nuevo = new Anuncio();
-    		nuevo.setTitulo(json.getTitulo());
-    		nuevo.setCuerpo(json.getCuerpo());
-    		nuevo.setFecha(json.getFecha());
-    		nuevo.setComentarioHabilitado(json.isComentarioHabilitado());
-    		nuevo.setCreador(daoUsuario.getById(json.getCreador_id()));
-    		nuevo.setCartelera(daoCartelera.getById(json.getCartelera_id()));
-    		nuevo.setHabilitado(true);
-    		
-    		daoAnuncio.persist(nuevo);
-    		return new ResponseEntity<Anuncio>(nuevo, HttpStatus.CREATED);
-    	}
-    	else{
-    		return new ResponseEntity<Anuncio>(HttpStatus.NOT_FOUND);
-    	}
-    }
-    
-    private static class EntityJson{
-    	private String titulo;
-    	private String cuerpo;
-    	private boolean comentarioHabilitado;
-    	private Date fecha;
-    	private Long creador_id;
-    	private Long cartelera_id;
-    	
-    	public EntityJson(){}
+	@Override
+	protected Anuncio createEntity(EntityJsonAnuncio jsonEntity) {
+		Anuncio entity = new Anuncio();
+		entity.setTitulo(jsonEntity.getTitulo());
+		entity.setCuerpo( (jsonEntity.getCuerpo() != null?jsonEntity.getCuerpo():"") );
+		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
+		entity.setCartelera(daoCartelera.getById(jsonEntity.getCartelera_id()));
+		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
+		entity.setFecha( (jsonEntity.getFecha() != null?jsonEntity.getFecha():new Date()) );
+		entity.setHabilitado(true);
+		return entity;
+	}
 
-		public String getTitulo() {
-			return titulo;
+	@Override
+	protected Anuncio updateEntity(Anuncio entity, EntityJsonAnuncio jsonEntity) {
+		if(jsonEntity.getFecha() != null){
+			entity.setFecha(jsonEntity.getFecha());
 		}
-
-		public void setTitulo(String titulo) {
-			this.titulo = titulo;
+		if(jsonEntity.getTitulo() != null){
+			entity.setTitulo(jsonEntity.getTitulo());
 		}
-
-		public String getCuerpo() {
-			return cuerpo;
-		}
-
-		public void setCuerpo(String cuerpo) {
-			this.cuerpo = cuerpo;
-		}
-
-		public boolean isComentarioHabilitado() {
-			return comentarioHabilitado;
-		}
-
-		public void setComentarioHabilitado(boolean comentarioHabilitado) {
-			this.comentarioHabilitado = comentarioHabilitado;
-		}
-
-		public Date getFecha() {
-			return fecha;
-		}
-
-		public void setFecha(Date fecha) {
-			this.fecha = fecha;
-		}
-
-		public Long getCreador_id() {
-			return creador_id;
-		}
-
-		public void setCreador_id(Long creador_id) {
-			this.creador_id = creador_id;
-		}
-
-		public Long getCartelera_id() {
-			return cartelera_id;
-		}
-
-		public void setCartelera_id(Long cartelera_id) {
-			this.cartelera_id = cartelera_id;
-		}
-
-		@Override
-		public String toString() {
-			return "EntityJson [titulo=" + titulo + ", cuerpo=" + cuerpo + ", comentarioHabilitado="
-					+ comentarioHabilitado + ", fecha=" + fecha + ", creador_id=" + creador_id + ", cartelera_id="
-					+ cartelera_id + "]";
-		}
-    	
-    }
-    
-    @RequestMapping(value="/anuncio/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<Anuncio> entityRemove(@PathVariable("id") Long id) {
-    	Anuncio entity = daoAnuncio.getById(id);
-    	if( entity != null ){
-    		daoAnuncio.remove(entity);
-    		return new ResponseEntity<Anuncio>(HttpStatus.OK);
-    	}
-    	else{
-    		return new ResponseEntity<Anuncio>(HttpStatus.NOT_FOUND);
-    	}
-    }
-    
-    @RequestMapping(value="/anuncio/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Anuncio.class)
-    public ResponseEntity<Anuncio> entityUpdate(@PathVariable("id") Long id, @RequestBody String jsonString) {
-    	EntityJson json = null;
-		try {
-			json = new ObjectMapper().readValue(jsonString, EntityJson.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(jsonEntity.getCuerpo() != null){
+			entity.setCuerpo(jsonEntity.getCuerpo());
 		}
 		
-    	Anuncio entity = daoAnuncio.getById(id);
-    	if (json != null && entity!=null){
-    		if(json.getFecha() != null){
-    			entity.setFecha(json.getFecha());
-    		}
-    		if(json.getTitulo() != null){
-    			entity.setTitulo(json.getTitulo());
-    		}
-    		if(json.getCuerpo() != null){
-    			entity.setCuerpo(json.getCuerpo());
-    		}
-    		
-    		entity.setComentarioHabilitado(json.isComentarioHabilitado());
-    		
-    		if(json.getCartelera_id() != null){
-    			Cartelera c = daoCartelera.getById(json.getCartelera_id());
-    			if(c!=null){
-    				entity.setCartelera(c);
-    			}
-    		}
-    		if(json.getCreador_id() != null){
-    			Usuario us = daoUsuario.getById(json.getCreador_id());
-    			if(us!=null){
-    				entity.setCreador(us);
-    			}
-    		}
-    		daoAnuncio.update(entity);
-    		
-    		return new ResponseEntity<Anuncio>(HttpStatus.OK);
-    	}
-    	else{
-    		return new ResponseEntity<Anuncio>(HttpStatus.NOT_FOUND);
-    	}
-    }
-    
+		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
+		
+		if(jsonEntity.getCartelera_id() != null){
+			Cartelera aux = daoCartelera.getById(jsonEntity.getCartelera_id());
+			if(aux!=null){
+				entity.setCartelera(aux);
+			}
+		}
+		if(jsonEntity.getCreador_id() != null){
+			Usuario aux = daoUsuario.getById(jsonEntity.getCreador_id());
+			if(aux != null){
+				entity.setCreador(aux);
+			}
+		}
+		
+		return entity;
+	}
+
+	@Override
+	protected Class<EntityJsonAnuncio> getEntityJsonClass() {
+		return EntityJsonAnuncio.class;
+	}
+
+	@Override
+	protected boolean isValidJsonEntityToCreate(EntityJsonAnuncio jsonEntity) {
+		return (jsonEntity != null && 
+				jsonEntity.getTitulo() != null && 
+				jsonEntity.getCreador_id() != null &&
+				jsonEntity.getCartelera_id() != null &&
+				daoCartelera.getById(jsonEntity.getCartelera_id()) != null &&
+				daoUsuario.getById(jsonEntity.getCreador_id()) != null);
+	}
+
+	@Override
+	protected boolean isValidJsonEntityToUpdate(EntityJsonAnuncio jsonEntity) {
+		return (jsonEntity != null);
+	}
+
+	@Override
+	@GetMapping(value="/anuncio/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Anuncio.class)
+	public ResponseEntity<Anuncio> entityById(Long id) {
+		return super.entityById(id);
+	}
+
+	@Override
+	@GetMapping(value="/anuncio", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Anuncio.class)
+	public ResponseEntity<List<Anuncio>> entityAll() {
+		return super.entityAll();
+	}
+
+	@Override
+	@PostMapping(value="/anuncio/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Anuncio.class)
+	public ResponseEntity<Anuncio> entityCreate(String jsonString) {
+		return super.entityCreate(jsonString);
+	}
+
+	@Override
+	@PutMapping(value="/anuncio/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Anuncio.class)
+	public ResponseEntity<Anuncio> entityUpdate(Long id, String jsonString) {
+		return super.entityUpdate(id, jsonString);
+	}
+
+	@Override
+	@DeleteMapping("/anuncio/{id}")
+	public ResponseEntity<Anuncio> entityRemove(Long id) {
+		return super.entityRemove(id);
+	}
+	
+	
+}
+
+final class EntityJsonAnuncio extends EntityJsonAbstract{
+	private String titulo;
+	private String cuerpo;
+	private boolean comentarioHabilitado;
+	private Date fecha;
+	private Long creador_id;
+	private Long cartelera_id;
+	
+	public EntityJsonAnuncio() {
+		super();
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public String getCuerpo() {
+		return cuerpo;
+	}
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
+	}
+	public boolean isComentarioHabilitado() {
+		return comentarioHabilitado;
+	}
+	public void setComentarioHabilitado(boolean comentarioHabilitado) {
+		this.comentarioHabilitado = comentarioHabilitado;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	public Long getCreador_id() {
+		return creador_id;
+	}
+	public void setCreador_id(Long creador_id) {
+		this.creador_id = creador_id;
+	}
+	public Long getCartelera_id() {
+		return cartelera_id;
+	}
+	public void setCartelera_id(Long cartelera_id) {
+		this.cartelera_id = cartelera_id;
+	}
+
+	@Override
+	public String toString() {
+		return "EntityJsonAnuncio [titulo=" + titulo + ", cuerpo=" + cuerpo + ", comentarioHabilitado="
+				+ comentarioHabilitado + ", fecha=" + fecha + ", creador_id=" + creador_id + ", cartelera_id="
+				+ cartelera_id + "]";
+	}
+	
 }
