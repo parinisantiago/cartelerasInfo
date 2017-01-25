@@ -3,11 +3,11 @@ angular.module("cartelerasInfo", [])
 angular.module("cartelerasInfo").controller("loginController",["$http", function($http){
 	this.login = {};
 	
-	this.validateLogin = function($http){
+	this.validateLogin = function(login){
 		
 		var controller = this;
 		
-		http.post("/login",this.login).success(function(data){
+		$http.post("/login",login).success(function(data){
 			controller.isUser = data;
 		});
 	};

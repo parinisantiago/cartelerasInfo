@@ -11,13 +11,13 @@
 	<link rel="stylesheet" href="main.css">
 	<title>Carteleras Info</title>
 </head>
-<body ng-app="app">
+<body ng-app="cartelerasInfo">
 
     <div id="main">
 
         <div id="nav">
             <nav id="sinloguear" class="navbar navbar-default">
-                <form method="POST"  name="login" class="navbar-form navbar-left" role="search" ng-controller="loginController as loginCtrl" ng-submit="login.$valid && loginCtrl.validateLogin($http)" novalidate>
+                <form method="POST"  name="login" class="navbar-form navbar-left" role="search" ng-controller="loginController as loginCtrl" ng-submit="login.$valid && loginCtrl.validateLogin(loginCtrl.login)" novalidate>
                     <div class="form-group">
                       <label for="usuario" >usuario:</label>
                       <input ng-model="loginCtrl.login.user" name="usuario" id="usuario" type="text" class="form-control" placeholder="Usuario" required>
