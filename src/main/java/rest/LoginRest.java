@@ -53,7 +53,6 @@ public class LoginRest {
 	}
 		    	
 	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(JView.Usuario.class)
 	public ResponseEntity<?> login(@RequestBody String jsonString) {
 		try {
 			//parseo lo enviado en el post
@@ -64,7 +63,8 @@ public class LoginRest {
 			
 			//si todo salio bien, se crea el token y se envia
 			TokenJWT token = new TokenJWT(tokenManagerSecurity.createJWT(user));
-			return ResponseEntity.ok(token.toString());
+			
+			return ResponseEntity.ok("{\"token\":\""+token.toString()+"\"}");
 		} catch (Exception e) {
 			return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",e.getMessage()), HttpStatus.UNAUTHORIZED);
 		}
