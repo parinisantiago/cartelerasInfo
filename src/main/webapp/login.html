@@ -13,18 +13,18 @@
 </head>
 <body ng-app="cartelerasInfo">
 
-    <div id="main">
-
-        <div id="nav">
-            <nav id="sinloguear" class="navbar navbar-default">
-                <form method="POST"  name="login" class="navbar-form navbar-left" role="search" ng-controller="loginController as loginCtrl" ng-submit="login.$valid && loginCtrl.validateLogin(loginCtrl.login)" novalidate>
+    <div id="main" ng-controller="loginController as loginCtrl" ng-init="loginCtrl.isUser = 'init'">
+		
+        <div id="nav" >
+            <nav id="sinloguear" class="navbar navbar-default" ng-if="loginCtrl.isUser == false || loginCtrl.isUser == 'init'">
+                <form method="POST"  name="login" class="navbar-form navbar-left" role="search"  ng-submit="login.$valid && loginCtrl.validateLogin(loginCtrl.login)" novalidate>
                     <div class="form-group">
                       <label for="usuario" >usuario:</label>
                       <input ng-model="loginCtrl.login.user" name="usuario" id="usuario" type="text" class="form-control" placeholder="Usuario" required>
                     </div>
                     <div class="form-group">
                       <label for="contrasena" >contraseña:</label>
-                      <input ng-model="loginCtrl.login.pass" id="contrasena" type="pass" class="form-control" placeholder="Contraseña" required>
+                      <input ng-model="loginCtrl.login.password" id="contrasena" type="pass" class="form-control" placeholder="Contraseña" required>
                     </div>
                     <button type="submit" class="btn btn-default" >Submit</button>
                 </form>
@@ -33,4 +33,39 @@
 				</button>
             </nav>
          </div>
+         <br>
+         <div class="alert alert-danger" role="alert" ng-if="loginCtrl.isUser == false">Usuario o contraseña incorrecto</div>
+         
+            <nav id="logueado" class="navbar navbar-default" ng-if="loginCtrl.isUser == true">
+                <a href="index.html">
+	                <strong class="navbar-text">
+	                    Pablito
+	                </strong>
+                </a>
+                <div class="btn-group navbar-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                        <span class="badge">4</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ><a href="#" >Borrar Todo</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+				<button class="btn btn-default navbar-btn">
+					Mis Publicaciones
+				</button>
+                <button class="btn btn-default" onclick="toggleCarteleras()" > <!-- onmouseenter="showCarteleras()"  onmouseleave="hideCarteleras()"> -->
+                	Carteleras
+                </button>
+                
+                <a href="listaUsuarios.html" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Requiere ser Administrador">
+                	Administrar
+                </a>                
+         
+         
+         
     </div>
