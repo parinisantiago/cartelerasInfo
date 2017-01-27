@@ -4,11 +4,15 @@ angular.module("cartelerasInfo").controller("loginController",["$http", function
 	this.login = {};
 	
 	this.validateLogin = function(login){
-		
+		this.isUser = false;
 		var controller = this;
 		
-		$http.post("/login",login).success(function(data){
-			controller.isUser = data;
-		});
+		$http.post("REST/login",login).then(function(data){
+			console.log("true");
+			controller.isUser = true;
+		},function(data){
+			controller.isUser = false;
+			console.log("false");
+		})
 	};
 }]);
