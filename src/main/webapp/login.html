@@ -14,11 +14,11 @@
 </head>
 <body ng-app="cartelerasInfo">
 
-    <div id="main" ng-controller="loginController as loginCtrl" ng-init="isUser = 'init'">
+    <div id="main" ng-controller="loginController as loginCtrl">
         <div id="nav" >
-        	<loginnav ng-if="isUser == true"></loginnav>
-     		<logoutnav ng-if="isUser == false || isUser == 'init'"></logoutnav>
+        	<loginnav ng-if="isLogged()"></loginnav>
+     		<logoutnav ng-if="isNotLogged()"></logoutnav>
          </div>
          <br>
-         <div class="alert alert-danger" role="alert" ng-if="isUser == false">Usuario o contraseña incorrecto</div>
+         <div class="alert alert-danger" role="alert" ng-if="error()">Usuario o contraseña incorrecto</div>
     </div>
