@@ -1,18 +1,13 @@
 angular.module("cartelerasInfo", [])
 
-angular.module("cartelerasInfo").controller("loginController",["$http", function($http){
-	this.login = {};
+angular.module("cartelerasInfo").controller("loginController",["$scope","$http", function($scope,$http){
+	$scope.isUser = false;
 	
-	this.validateLogin = function(login){
-		this.isUser = false;
-		var controller = this;
-		
+	$scope.validateLogin = function(login){
 		$http.post("REST/login",login).then(function(data){
-			console.log("true");
-			controller.isUser = true;
+			$scope.isUser = true;
 		},function(data){
-			controller.isUser = false;
-			console.log("false");
+			$scope.isUser = false;
 		})
 	};
 }]);

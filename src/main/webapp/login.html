@@ -13,11 +13,11 @@
 </head>
 <body ng-app="cartelerasInfo">
 
-    <div id="main" ng-controller="loginController as loginCtrl" ng-init="loginCtrl.isUser = 'init'">
+    <div id="main" ng-controller="loginController as loginCtrl" ng-init="isUser = 'init'">
 		
         <div id="nav" >
-            <nav id="sinloguear" class="navbar navbar-default" ng-if="loginCtrl.isUser == false || loginCtrl.isUser == 'init'">
-                <form method="POST"  name="login" class="navbar-form navbar-left" role="search"  ng-submit="login.$valid && loginCtrl.validateLogin(loginCtrl.login)" novalidate>
+            <nav id="sinloguear" class="navbar navbar-default" ng-if="isUser == false || isUser == 'init'">
+                <form method="POST"  name="login" class="navbar-form navbar-left" role="search"  ng-submit="login.$valid && validateLogin(loginCtrl.login)" novalidate>
                     <div class="form-group">
                       <label for="usuario" >usuario:</label>
                       <input ng-model="loginCtrl.login.user" name="usuario" id="usuario" type="text" class="form-control" placeholder="Usuario" required>
@@ -34,9 +34,9 @@
             </nav>
          </div>
          <br>
-         <div class="alert alert-danger" role="alert" ng-if="loginCtrl.isUser == false">Usuario o contraseña incorrecto</div>
+         <div class="alert alert-danger" role="alert" ng-if="isUser == false">Usuario o contraseña incorrecto</div>
          
-            <nav id="logueado" class="navbar navbar-default" ng-if="loginCtrl.isUser == true">
+            <nav id="logueado" class="navbar navbar-default" ng-if="isUser == true">
                 <a href="index.html">
 	                <strong class="navbar-text">
 	                    Pablito
