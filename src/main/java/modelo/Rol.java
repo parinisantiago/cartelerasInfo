@@ -27,7 +27,7 @@ public class Rol implements Serializable{
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Rol.class, JView.Simple.class})
+	@JsonView({JView.Rol.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private String nombre;
 	
 	public Rol(){
