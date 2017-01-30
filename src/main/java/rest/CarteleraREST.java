@@ -63,14 +63,14 @@ public class CarteleraREST extends GenericREST<Cartelera, EntityJsonCartelera> {
 
 	@Override
 	@GetMapping(value="/cartelera/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@JsonView(JView.Cartelera.class)
+	@JsonView(JView.CarteleraCompleta.class)
 	public ResponseEntity<Cartelera> entityById(Long id) {
 		return super.entityById(id);
 	}
 
 	@Override
 	@GetMapping(value="/cartelera", produces = MediaType.APPLICATION_JSON_VALUE)
-	@JsonView(JView.Cartelera.class)
+	@JsonView(JView.CarteleraCompleta.class)
 	public ResponseEntity<List<Cartelera>> entityAll() {
 		return super.entityAll();
 	}

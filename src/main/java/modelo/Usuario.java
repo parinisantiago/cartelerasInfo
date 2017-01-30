@@ -32,7 +32,7 @@ public class Usuario {
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Usuario.class, JView.Simple.class})
+	@JsonView({JView.Usuario.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private String user;
 	
 	@Column(nullable = false)
@@ -52,7 +52,7 @@ public class Usuario {
 
 	@OneToOne
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Usuario.class, JView.Simple.class})
+	@JsonView({JView.Usuario.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private Rol rol;
 	
 	@ManyToMany(mappedBy="interesados")
@@ -83,6 +83,11 @@ public class Usuario {
 		this.comentarios = comentarios;
 	}
 
+	public void addComentario(Comentario comentario) {
+		this.comentarios.add(comentario);
+		
+	}
+	
 	public Rol getRol() {
 		return rol;
 	}

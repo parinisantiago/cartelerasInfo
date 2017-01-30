@@ -35,27 +35,27 @@ public class Anuncio implements Serializable {
 	
 	@Column(nullable = false)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Anuncio.class, JView.Simple.class})
+	@JsonView({JView.Anuncio.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private String titulo;
 	
 	@Column(nullable = false)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Anuncio.class, JView.Simple.class})
+	@JsonView({JView.Anuncio.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private String cuerpo;
 	
 	@Column(nullable = false)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Anuncio.class, JView.Simple.class})
+	@JsonView({JView.Anuncio.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private boolean comentarioHabilitado;
 	
 	@ManyToOne
-	@JsonView(JView.Anuncio.class)
+	@JsonView({JView.Anuncio.class, JView.CarteleraCompleta.class})
 	private Usuario creador;
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Anuncio.class, JView.Simple.class})
+	@JsonView({JView.Anuncio.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private Date fecha;
 	
 	@ManyToOne
@@ -63,8 +63,8 @@ public class Anuncio implements Serializable {
 	private Cartelera cartelera;
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="anuncio", fetch=FetchType.EAGER)
-	@JsonView(JView.Anuncio.class)
-	private List<Comentario> comentarios;
+	@JsonView({JView.Anuncio.class,JView.CarteleraCompleta.class})
+	private List<Comentario> comentarios = new ArrayList<Comentario>();
 	
 	@Column(nullable = false)
 	@JsonView(JView.Privado.class)
@@ -98,6 +98,7 @@ public class Anuncio implements Serializable {
 		this.comentarioHabilitado = comentarioHabilitado;
 		this.creador = creador;
 		this.fecha = fecha;
+		this.habilitado = true;
 	}
 
 	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador, Date fecha,
@@ -109,6 +110,7 @@ public class Anuncio implements Serializable {
 		this.creador = creador;
 		this.fecha = fecha;
 		this.comentarios = comentarios;
+		this.habilitado = true;
 	}
 
 	public String getTitulo() {

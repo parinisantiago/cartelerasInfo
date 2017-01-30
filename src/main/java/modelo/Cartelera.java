@@ -36,7 +36,7 @@ public class Cartelera implements Serializable {
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Cartelera.class, JView.Simple.class})
+	@JsonView({JView.Cartelera.class, JView.Simple.class, JView.CarteleraCompleta.class})
 	private String titulo;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -44,11 +44,11 @@ public class Cartelera implements Serializable {
 		name="intereses_usuario_cartelera",
 	    joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id",nullable=false))
-	@JsonView(JView.Cartelera.class)
+	@JsonView({JView.Cartelera.class, JView.CarteleraCompleta.class})
 	private Set<Usuario> interesados;
 	
 	@OneToMany(cascade={CascadeType.REMOVE}, mappedBy="cartelera", fetch=FetchType.EAGER)
-	@JsonView(JView.Cartelera.class)
+	@JsonView({JView.Cartelera.class, JView.CarteleraCompleta.class})
 	private List<Anuncio> anuncios;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -56,6 +56,7 @@ public class Cartelera implements Serializable {
 		name="cartelera_usuarioEliminar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
+	@JsonView(JView.CarteleraCompleta.class)
 	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -63,6 +64,7 @@ public class Cartelera implements Serializable {
 		name="cartelera_usuarioModificar",	
 		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
 	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
+	@JsonView(JView.CarteleraCompleta.class)
 	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
 	
 	@Column(nullable = false)
