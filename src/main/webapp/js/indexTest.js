@@ -1,12 +1,28 @@
-
-var app = angular.module('cartelerasInfo', []);
-
-app.controller('cartelerasCtl',function($scope, $http) {
-	
-	$scope.carteleraActiva = null;
-	$scope.carteleras = null;
+app.controller('cartelerasCtl'
+		,['$scope', 'todopoderosoDAO', '$http', 
+		function($scope, todopoderosoDAO, $http) {
+		$scope.carteleras = null;
+		$scope.carteleraActiva = null;
+		//usar sesion
+		$scope.usuario = null;
+		
+		todopoderosoDAO.getCarteleras()
+				.then(function(data){
+					$scope.carteleras = data;
+					$scope.carteleraActiva = data[0];
+				})
+				.catch(function(error){
+					console.log(error);
+					alert(error);
+				})
+		
+		var cambiarCartelera = function(cartelera){
+					console.log(cartelera);
+					$scope.carteleraActiva = cartelera;
+				}
     
-    var cargarDatos = $http.get("REST/cartelera").then(
+    //var cargarDatos = CarteleraService.getCarteleras(); 
+    					/*$http.get("REST/cartelera").then(
     						function(respuesta){
     							$scope.carteleras = respuesta.data;
     							$scope.carteleraActiva = respuesta.data[0];
@@ -17,15 +33,6 @@ app.controller('cartelerasCtl',function($scope, $http) {
 						    	console.log(respuesta);
 						    	alert("Error al cargar los datos.");
 						    });
+						    */
     
-});
-
-/*
-		$http.post("REST/login",login).then(function(data){
-			console.log("true");
-			controller.isUser = true;
-		},function(data){
-			controller.isUser = false;
-			console.log("false");
-		})
-*/
+		}]);
