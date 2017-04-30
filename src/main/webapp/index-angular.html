@@ -85,7 +85,7 @@
 			<div id="navCarteleras" class="col-xs-12 show">
 				<ul class="list-group list-unstyled" ng-repeat="cartelera in carteleras">
 					<a href="#{{cartelera.titulo}}" class="col-xs-12 col-sm-4 col-md-3"
-						ng-click="carteleraActiva = cartelera">
+						ng-click="cambiarCartelera(cartelera)">
 						<li class="list-group-item text-center">{{cartelera.titulo}}</li>
 					</a>
 				</ul>

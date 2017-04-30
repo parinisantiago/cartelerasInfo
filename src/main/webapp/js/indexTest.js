@@ -16,8 +16,7 @@ app.controller('cartelerasCtl'
 					alert(error);
 				})
 		
-		var cambiarCartelera = function(cartelera){
-					console.log(cartelera);
+		$scope.cambiarCartelera = function(cartelera){
 					$scope.carteleraActiva = cartelera;
 				}
     
