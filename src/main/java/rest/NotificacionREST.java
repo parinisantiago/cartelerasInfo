@@ -7,8 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -77,7 +79,7 @@ public class NotificacionREST extends GenericREST<Notificacion, EntityJsonNotifi
 	@Override
 	@GetMapping(value="/notificacion/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Notificacion.class)
-	public ResponseEntity<Notificacion> entityById(Long id) {
+	public ResponseEntity<Notificacion> entityById(@PathVariable("id") Long id) {
 		return super.entityById(id);
 	}
 
@@ -89,22 +91,22 @@ public class NotificacionREST extends GenericREST<Notificacion, EntityJsonNotifi
 	}
 
 	@Override
-	@PostMapping(value="/notificacion/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/notificacion", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Notificacion.class)
-	public ResponseEntity<Notificacion> entityCreate(String jsonString) {
+	public ResponseEntity<Notificacion> entityCreate(@RequestBody String jsonString) {
 		return super.entityCreate(jsonString);
 	}
 
 	@Override
 	@PutMapping(value="/notificacion/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Notificacion.class)
-	public ResponseEntity<Notificacion> entityUpdate(Long id, String jsonString) {
+	public ResponseEntity<Notificacion> entityUpdate(@PathVariable("id") Long id, @RequestBody String jsonString) {
 		return super.entityUpdate(id, jsonString);
 	}
 
 	@Override
 	@DeleteMapping("/notificacion/{id}")
-	public ResponseEntity<Notificacion> entityRemove(Long id) {
+	public ResponseEntity<Notificacion> entityRemove(@PathVariable("id") Long id) {
 		return super.entityRemove(id);
 	}
 	

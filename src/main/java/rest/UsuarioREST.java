@@ -7,8 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -84,7 +86,7 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	@Override
 	@GetMapping(value="/usuario/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Usuario.class)
-	public ResponseEntity<Usuario> entityById(Long id) {
+	public ResponseEntity<Usuario> entityById(@PathVariable("id") Long id) {
 		return super.entityById(id);
 	}
 
@@ -96,22 +98,22 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	}
 
 	@Override
-	@PostMapping(value="/usuario/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/usuario", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Usuario.class)
-	public ResponseEntity<Usuario> entityCreate(String jsonString) {
+	public ResponseEntity<Usuario> entityCreate(@RequestBody String jsonString) {
 		return super.entityCreate(jsonString);
 	}
 
 	@Override
 	@PutMapping(value="/usuario/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Usuario.class)
-	public ResponseEntity<Usuario> entityUpdate(Long id, String jsonString) {
+	public ResponseEntity<Usuario> entityUpdate(@PathVariable("id") Long id, @RequestBody String jsonString) {
 		return super.entityUpdate(id, jsonString);
 	}
 
 	@Override
 	@DeleteMapping("/usuario/{id}")
-	public ResponseEntity<Usuario> entityRemove(Long id) {
+	public ResponseEntity<Usuario> entityRemove(@PathVariable("id") Long id) {
 		return super.entityRemove(id);
 	}
 	

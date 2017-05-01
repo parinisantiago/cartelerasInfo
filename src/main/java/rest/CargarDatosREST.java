@@ -85,7 +85,7 @@ public class CargarDatosREST {
 		
 		return new ResponseEntity<List<Comentario>>(daoComentario.selectAll(), HttpStatus.OK);
     }
-	
+		
 	@RequestMapping(value="/cargardatos", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Cartelera.class)
 	public ResponseEntity<List<Cartelera>> cargaGenericaDeDatos() {

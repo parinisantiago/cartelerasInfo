@@ -7,8 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -64,7 +66,7 @@ public class CarteleraREST extends GenericREST<Cartelera, EntityJsonCartelera> {
 	@Override
 	@GetMapping(value="/cartelera/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.CarteleraCompleta.class)
-	public ResponseEntity<Cartelera> entityById(Long id) {
+	public ResponseEntity<Cartelera> entityById(@PathVariable("id") Long id) {
 		return super.entityById(id);
 	}
 
@@ -76,22 +78,22 @@ public class CarteleraREST extends GenericREST<Cartelera, EntityJsonCartelera> {
 	}
 
 	@Override
-	@PostMapping(value="/cartelera/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/cartelera", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Cartelera.class)
-	public ResponseEntity<Cartelera> entityCreate(String jsonString) {
+	public ResponseEntity<Cartelera> entityCreate(@RequestBody String jsonString) {
 		return super.entityCreate(jsonString);
 	}
 
 	@Override
 	@PutMapping(value="/cartelera/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Cartelera.class)
-	public ResponseEntity<Cartelera> entityUpdate(Long id, String jsonString) {
+	public ResponseEntity<Cartelera> entityUpdate(@PathVariable("id") Long id, @RequestBody String jsonString) {
 		return super.entityUpdate(id, jsonString);
 	}
 
 	@Override
 	@DeleteMapping("/cartelera/{id}")
-	public ResponseEntity<Cartelera> entityRemove(Long id) {
+	public ResponseEntity<Cartelera> entityRemove(@PathVariable("id") Long id) {
 		return super.entityRemove(id);
 	}
 	
