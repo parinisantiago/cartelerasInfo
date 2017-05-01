@@ -52,7 +52,8 @@ public class TokenJWTFilter implements Filter{
 			chain.doFilter(req, response);
 		}
 		else{
-			if("login".equals(path)) {
+			if( ("login".equals(splitPath[splitPath.length -1]) || "login".equals(splitPath[splitPath.length -1]) )
+					&& (req.getMethod().equals("POST")) ){
 				// sigue la cadena de ejecucion hacia el login
 				chain.doFilter(req, response);
 			} else {
@@ -90,8 +91,8 @@ public class TokenJWTFilter implements Filter{
 					((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					response.getWriter().close();
 				} catch (Exception e) {
-					System.out.println("No es un token valido, token: " + jwt + " " + e.getMessage());
-					((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					System.out.println("Error: " + e.getMessage());
+					((HttpServletResponse) response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().close();
 				}
 	
