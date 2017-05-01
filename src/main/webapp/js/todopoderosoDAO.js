@@ -32,7 +32,7 @@ app.factory("todopoderosoDAO",
 							alert("Error al cargar los datos de la cartelera con id "+id);
 					    	return null;
 					    });
-				  }
+				  },
 		    }
 		    
 		    return interfazPublica;

@@ -3,8 +3,6 @@ app.controller('cartelerasCtl'
 		function($scope, todopoderosoDAO, $http) {
 		$scope.carteleras = null;
 		$scope.carteleraActiva = null;
-		//usar sesion
-		$scope.usuario = null;
 		
 		todopoderosoDAO.getCarteleras()
 				.then(function(data){
