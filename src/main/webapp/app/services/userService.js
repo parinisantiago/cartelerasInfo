@@ -11,7 +11,6 @@ app.factory("userService",
 		    	var sJWT = interfazPublica.getToken();
 	    		if(sJWT){
 	    			var payloadObj = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(sJWT.split(".")[1]));
-	    			console.log(payloadObj);
 					var expiration = JSON.parse(payloadObj.exp);
 					//por alguna razon javascript lo lee distinto, casi como segundos...
 					return expiration*1000;
@@ -19,6 +18,11 @@ app.factory("userService",
 	    		else{
 	    			return false; 
 	    		}
+		    }
+		    
+		    var sessionExpired = function(){
+		    	alert("sesion expirada, por favor vuelva a loguearse");
+		    	interfazPublica.logout();
 		    }
 		    
 		    var tokenExpired = function(){
@@ -86,7 +90,11 @@ app.factory("userService",
 				  
 				  loginRefresh: function(){
 					  if( this.isLogged() ){
-						  if( !tokenExpired() && tokenCloseToExpired() ){
+						  if( tokenExpired() ){
+							  sessionExpired();
+						  }
+						  else{
+							  if( tokenCloseToExpired() ){
 							  console.log("actualizando token");
 							  $http({
 					        	  	method  : 'PUT',
@@ -106,6 +114,7 @@ app.factory("userService",
 				        	 				console.log(respuesta);
 				        	 				return false;
 				        	 			});
+							  }
 						  }
 					  }
 				  }

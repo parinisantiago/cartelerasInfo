@@ -3,6 +3,7 @@ package rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,18 +13,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.WebRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import ch.qos.logback.core.joran.action.ActionUtil.Scope;
 import modelo.Cartelera;
+import modelo.Usuario;
 import modeloDAO.CarteleraDAO;
 import modeloDAO.Dao;
+import modeloDAO.UsuarioDAO;
 
 @RestController
 public class CarteleraREST extends GenericREST<Cartelera, EntityJsonCartelera> {
 
 	@Autowired
 	private CarteleraDAO daoCartelera;
+	
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 	
 	@Override	
 	protected Dao<Cartelera> getEntityDao() {
@@ -95,6 +105,38 @@ public class CarteleraREST extends GenericREST<Cartelera, EntityJsonCartelera> {
 	@DeleteMapping("/cartelera/{id}")
 	public ResponseEntity<Cartelera> entityRemove(@PathVariable("id") Long id) {
 		return super.entityRemove(id);
+	}
+	
+	@PutMapping(value="/cartelera/{id}/interes")
+	@JsonView(JView.CarteleraCompleta.class)
+	public ResponseEntity<Cartelera> addInteres(@PathVariable("id") Long id) {
+		Cartelera entity = getEntityDao().getById(id);
+		long idUsuario = (long) RequestContextHolder.getRequestAttributes().getAttribute("userID", RequestAttributes.SCOPE_REQUEST);
+    	Usuario user = usuarioDAO.getById(idUsuario);
+    	if(entity!= null ){
+    		entity.addInteresado(user);
+    		getEntityDao().update(entity);
+    		return new ResponseEntity<Cartelera>(entity,HttpStatus.OK);
+    	}
+    	else{
+    		return new ResponseEntity<Cartelera>(HttpStatus.NOT_FOUND);
+    	}
+	}
+	
+	@DeleteMapping(value="/cartelera/{id}/interes")
+	@JsonView(JView.CarteleraCompleta.class)
+	public ResponseEntity<Cartelera> removeInteres(@PathVariable("id") Long id) {
+		Cartelera entity = getEntityDao().getById(id);
+		long idUsuario = (long) RequestContextHolder.getRequestAttributes().getAttribute("userID", RequestAttributes.SCOPE_REQUEST);
+    	Usuario user = usuarioDAO.getById(idUsuario);
+    	if(entity!= null ){
+    		entity.removeInteresado(user);
+    		getEntityDao().update(entity);
+    		return new ResponseEntity<Cartelera>(entity,HttpStatus.OK);
+    	}
+    	else{
+    		return new ResponseEntity<Cartelera>(HttpStatus.NOT_FOUND);
+    	}
 	}
 	
 }

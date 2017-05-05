@@ -1,11 +1,12 @@
 app.controller('cartelerasCtl'
-		,['$scope', 'todopoderosoDAO', '$http', 
-		function($scope, todopoderosoDAO, $http) {
+		,['$scope', 'todopoderosoDAO', 'userService', '$http', 
+		function($scope, todopoderosoDAO, userService, $http) {
 		$scope.carteleras = null;
 		$scope.carteleraActiva = null;
 		
 		todopoderosoDAO.getCarteleras()
 				.then(function(data){
+					console.log(data);
 					$scope.carteleras = data;
 					$scope.carteleraActiva = data[0];
 				})
@@ -17,19 +18,49 @@ app.controller('cartelerasCtl'
 		$scope.cambiarCartelera = function(cartelera){
 					$scope.carteleraActiva = cartelera;
 				}
-    
-    //var cargarDatos = CarteleraService.getCarteleras(); 
-    					/*$http.get("REST/cartelera").then(
-    						function(respuesta){
-    							$scope.carteleras = respuesta.data;
-    							$scope.carteleraActiva = respuesta.data[0];
-    							console.log($scope.carteleras);
-						    },
-						    function(respuesta){
-						    	console.log("error al cargar los datos");
-						    	console.log(respuesta);
-						    	alert("Error al cargar los datos.");
-						    });
-						    */
+		
+		$scope.addInteres = function(){
+			todopoderosoDAO.addInteres($scope.carteleraActiva)
+			.then(function(data){
+				console.log(data);
+				$scope.carteleraActiva = data;
+				console.log($scope.carteleraActiva);
+			})
+			.catch(function(error){
+				console.log(error);
+			});
+		}
+		
+		$scope.removeInteres = function(){
+			todopoderosoDAO.removeInteres($scope.carteleraActiva)
+			.then(function(data){
+				$scope.carteleraActiva = data;
+			})
+			.catch(function(error){
+				console.log(error);
+			});
+		}
+		
+		$scope.interesado = function(){
+			if(!$scope.carteleraActiva){
+				return false;
+			}
+			else{
+				if(userService.isLogged()){
+					var resultado = false;
+					var user = userService.getUserData();
+					var interesados = $scope.carteleraActiva.interesados; 
+					interesados.forEach(function(usuario) {
+					    if(usuario.id == user.userID){
+					    	resultado = true;
+					    }
+					});
+					return resultado;
+				}
+				else{
+					return false;
+				}
+			}
+		}
     
 		}]);

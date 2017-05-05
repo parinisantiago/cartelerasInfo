@@ -1,6 +1,6 @@
 app.factory("todopoderosoDAO",
-		['$http', '$q', 
-		function($http, $q){
+		['$http', '$q', 'userService',
+		function($http, $q, userService){
 		    var baseRESTurl = "REST/";
 		
 		    var interfazPublica = {
@@ -16,7 +16,7 @@ app.factory("todopoderosoDAO",
 							console.log("Error al cargar los datos de las carteleras.");
 							console.log(respuesta);
 							alert("Error al cargar los datos de las carteleras.");
-							 defered.reject(respuesta);
+							defered.reject(respuesta);
 					    });
 					
 					return promise;
@@ -33,6 +33,50 @@ app.factory("todopoderosoDAO",
 					    	return null;
 					    });
 				  },
+				  addInteres : function(cartelera){
+						var defered = $q.defer();
+				        var promise = defered.promise;
+				        $http({
+				        	  method  : 'PUT',
+				        	  url     : baseRESTurl + "cartelera/" + cartelera.id + "/interes",
+				        	  data    : '',
+				        	  headers : { 'Authorization' : userService.getToken() }
+				        	 })
+				        .then(
+							function(respuesta){
+								defered.resolve(respuesta.data);
+							},
+							function(respuesta){
+								console.log("Error al registrar interes en la cartelera "+cartelera.nombre);
+								console.log(respuesta);
+								alert("Error al registrar interes en la cartelera "+cartelera.nombre);
+								defered.reject(respuesta);
+						    });
+						
+						return promise;
+					  },
+					  removeInteres : function(cartelera){
+							var defered = $q.defer();
+					        var promise = defered.promise;
+					        $http({
+					        	  method  : 'DELETE',
+					        	  url     : baseRESTurl + "cartelera/" + cartelera.id + "/interes",
+					        	  data    : '',
+					        	  headers : { 'Authorization' : userService.getToken() }
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al quitar interes en la cartelera "+cartelera.nombre);
+									console.log(respuesta);
+									alert("Error al quitar interes en la cartelera "+cartelera.nombre);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+						  },
 		    }
 		    
 		    return interfazPublica;

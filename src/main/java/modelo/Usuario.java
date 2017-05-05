@@ -32,7 +32,7 @@ public class Usuario {
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Usuario.class, JView.Simple.class, JView.CarteleraCompleta.class})
+	@JsonView({JView.Usuario.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Cartelera.class})
 	private String user;
 	
 	@Column(nullable = false)

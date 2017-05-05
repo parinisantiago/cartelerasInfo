@@ -136,6 +136,10 @@ public class Cartelera implements Serializable {
 		this.interesados.add(usuario);
 	}
 	
+	public void removeInteresado(Usuario usuario) {
+		this.interesados.remove(usuario);
+	}
+	
 	public Set<Usuario> getUsuarioPublicar() {
 		return usuarioPublicar;
 	}
