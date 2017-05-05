@@ -1,14 +1,14 @@
 angular.module("cartelerasInfo").directive("loginnav",function(){
 	return{
-		restrict:'E',
-		templateUrl:'templates/navbar/loginnav.html'
+		restrict:'AE',
+		templateUrl:'app/views/navbar/loginnav.html'
 	}
 });
 
 angular.module("cartelerasInfo").directive("logoutnav",function(){
 	return{
-		restrict:'E',
-		templateUrl:'templates/navbar/logoutnav.html'
+		restrict:'AE',
+		templateUrl:'app/views/navbar/logoutnav.html'
 	}
 });
 
