@@ -1,3 +1,3 @@
 app.component("loginnav", {
-		templateUrl: 'app/navbar/loginnav/loginnav.html',
+		templateUrl: 'app/components/navbar/loginnav/loginnav.html',
 });
