@@ -15,5 +15,5 @@ function mainController(userService) {
 
 app.component("cpMain", {
 		controller: 'mainController',
-		templateUrl: 'app/main/main.html',
+		templateUrl: 'app/components/main/main.html',
 });
