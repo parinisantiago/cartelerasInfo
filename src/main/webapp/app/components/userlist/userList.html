@@ -1,0 +1,106 @@
+<h2>Usuarios:</h2>
+<div class="form-group col-md-6">
+	<div class="input-group">
+		<label class="sr-only" for="userSearch">Busque usuarios por nombre o rol</label>
+		<div class="input-group-addon">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</div>
+		<input type="search" ng-model="busqueda" autofocus
+			class="form-control" id="userSearch"
+			placeholder="busque usuarios por nombre o rol">
+	</div>
+</div>
+<div class="col-md-6">
+	<button class="btn btn-info col-xs-12" data-toggle="modal" data-target="#modalUsuarioCrear" ng-click="$ctrl.vaciarUsuarioActual()">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		<span>Nuevo usuario</span>
+	</button>
+</div>
+<div class="table-responsive col-xs-12">
+	<table class="table table-hover">
+	  <tr>
+	    <th>Nombre</th>
+	    <th>Rol</th>
+	    <th>Acciones</th>
+	  </tr>
+		<tr ng-repeat="user in $ctrl.usuarios | filter : busqueda" >
+			<td>{{ user.user }}</td>
+			<td>{{ user.rol.nombre }}</td>
+			<td>
+				<button class="btn btn-warning" ng-click="$ctrl.setUsuarioActual(user)" data-toggle="modal" data-target="#modalUsuarioModificar">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+					<span class="sr-only">Modificar</span>
+				</button>
+				<button class="btn btn-danger" ng-click="$ctrl.eliminarUsuario(user)">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					<span class="sr-only">Eliminar</span>
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<!-- modal de los carteles para modificar -->
+
+		<div class="modal fade" id="modalUsuarioModificar" tabindex="-1" role="dialog" aria-labelledby="Usuario">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalUsuarioHeader">Modificar usuario</h4>
+					</div>
+					<div class="modal-body">
+						<form >
+							<div class="form-group">
+								<label for="modalUsurioNombre" class="control-label">Nombre:</label>
+								<input type="text" class="form-control" ng-model="$ctrl.usuarioActual.user" required>
+							</div>
+							<div class="form-group">
+								<label for="modalCartelText" class="control-label">Rol:</label>
+								 <select ng-model="$ctrl.usuarioActual.rol" ng-options="option.nombre for option in $ctrl.roles track by option.id" required>
+								</select> 
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="modalCartelEnviar" ng-click="$ctrl.modificiarUsuario($ctrl.usuarioActual)">Guardar cambios</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!-- modal de los carteles para crear -->
+
+		<div class="modal fade" id="modalUsuarioCrear" tabindex="-1" role="dialog" aria-labelledby="Usuario">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalUsuarioHeader">Crear usuario</h4>
+					</div>
+					<div class="modal-body">
+						<form >
+							<div class="form-group">
+								<label for="modalUsurioNombre" class="control-label">Nombre:</label>
+								<input type="text" class="form-control" ng-model="$ctrl.usuarioActual.user" required>
+							</div>
+							<div class="form-group">
+								<label for="modalCartelText" class="control-label">Rol:</label>
+								 <select ng-model="$ctrl.usuarioActual.rol" ng-options="option.nombre for option in $ctrl.roles track by option.id" required>
+								</select> 
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="modalCartelEnviar" ng-click="$ctrl.crearUsuario($ctrl.usuarioActual)">Crear</button>
+					</div>
+				</div>
+			</div>
+		</div>		
