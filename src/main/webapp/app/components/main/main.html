@@ -1,2 +1,8 @@
+<div>
 <logoutnav ng-if="$ctrl.isLogged()"></logoutnav>
 <loginnav ng-if="$ctrl.isNotLogged()"></logoinnav>
+</div>
+<div ng-switch="$ctrl.body()">
+	<div ng-switch-when="abmUsuario"><user-list></user-list></div>
+	<div ng-switch-default>carteleras</div>
+</div>
