@@ -14,6 +14,10 @@ function mainController(userService) {
 }
 
 app.component("cpMain", {
+		transclude: true,
 		controller: 'mainController',
 		templateUrl: 'app/components/main/main.html',
+		bindings:{
+			loggin: '&'
+		}
 });
