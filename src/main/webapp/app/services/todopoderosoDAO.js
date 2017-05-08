@@ -76,6 +76,115 @@ app.factory("todopoderosoDAO",
 							    });
 							
 							return promise;
+					  },
+					  
+					  getUsuarios : function(){
+							var defered = $q.defer();
+					        var promise = defered.promise;
+							$http.get(baseRESTurl + "usuario").then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al cargar los datos de los usuarios.");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
+					  createUsuario : function(usuario){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        if(usuario.password != null){
+					        	passString=',"password":"'+usuario.password+'"';
+					        }
+					        else{
+					        	passString=',"password":"'+usuario.user+'"';
+					        }
+					        $http({
+					        	  method  : 'POST',
+					        	  url     : baseRESTurl + "usuario",
+					        	  data    : '{ "user":"'+usuario.user+'"'+passString+',"rol_id":"'+usuario.rol.id+'"}',
+					        	  headers : { 'Authorization' : userService.getToken() }
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al crear usuario ");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
+					  editUsuario : function(usuario){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        var passString = '';
+					        if(usuario.password != null){
+					        	passString=',"password":"'+usuario.password+'"';
+					        }
+					        $http({
+					        	  method  : 'PUT',
+					        	  url     : baseRESTurl + "usuario/" + usuario.id,
+					        	  data    : '{ "user":"'+usuario.user+'"' + passString+',"rol_id":"'+usuario.rol.id+'"}',
+					        	  headers : { 'Authorization' : userService.getToken() }
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al editar usuario");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
+					  removeUsuario : function(usuario){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        $http({
+					        	  method  : 'DELETE',
+					        	  url     : baseRESTurl + "usuario/" + usuario.id,
+					        	  data    : '',
+					        	  headers : { 'Authorization' : userService.getToken() }
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al eliminar usuario");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
+					  getRoles : function(){
+							var defered = $q.defer();
+					        var promise = defered.promise;
+							$http.get(baseRESTurl + "rol").then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al cargar los datos de los roles.");
+									console.log(respuesta);
+									alert("Error al cargar los datos de los roles.");
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
 						  },
 		    }
 		    
