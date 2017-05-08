@@ -1,7 +1,9 @@
 <nav class="navbar navbar-default">
-	<a href="index.html"> 
+	<a ng-click="publicaciones()"> 
 		<strong class="navbar-text">
+		{{usuario.user}}
 		</strong>
+		{{usuario.rol.nombre}}
 	</a>
 	<div class="btn-group navbar-btn">
 		<button type="button" class="btn btn-default dropdown-toggle"
