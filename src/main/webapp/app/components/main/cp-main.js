@@ -1,8 +1,12 @@
 app.controller('mainController', mainController);
-mainController.$inject = ['userService'];
+mainController.$inject = ['userService', 'localstorage'];
 
-function mainController(userService) {
+function mainController(userService, localstorage) {
 	var ctl = this;
+	
+	ctl.body = function(){
+		return localstorage.getSessionItem('body');
+	}
 	
 	ctl.isLogged = function(){
 		return userService.isLogged();
