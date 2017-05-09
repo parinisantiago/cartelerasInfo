@@ -93,7 +93,27 @@ app.factory("todopoderosoDAO",
 							
 							return promise;
 					  },
-					  
+					  createCartelera: function(cartelera){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        $http({
+					        	method	: 'POST',
+					        	url		: baseRESTurl + "cartelera",
+					        	data    : '{"titulo":"'+cartelera.titulo+'"}',
+					        	headers : { 'Authorization' : userService.getToken() }
+					        })
+					        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al crear usuario ");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+					  },
 					  createUsuario : function(usuario){
 						  	var defered = $q.defer();
 					        var promise = defered.promise;
