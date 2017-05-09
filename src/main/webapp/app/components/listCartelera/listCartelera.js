@@ -4,21 +4,44 @@ listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', '
 function listCarteleraController($scope, todopoderosoDAO, userService, $http) {
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
-	
+	$scope.carteleraNueva = { id:'',habilitado:'', titulo:''};
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
 				$scope.carteleras = data;
 				$scope.carteleraActiva = data[0];
-				console.log($scope.carteleraActiva.titulo)
+				console.log(userService.getUserData().rol.id);
 			})
 			.catch(function(error){
 				console.log(error);
 				alert(error);
 			})
 	
+	$scope.crearCartelera = function(cartelera){
+				cartelera.habilitado = 1;
+				todopoderosoDAO.createCartelera(cartelera)
+					.then(function(data){
+						$scope.carteleras = data;
+						$scope.carteleraActiva = data[0];
+						console.log(userService.getUserData().rol.id);
+				})
+				.catch(function(error){
+					console.log(error);
+					alert(error);
+				})
+			}
+
 	$scope.cambiarCartelera = function(cartelera){
 				$scope.carteleraActiva = cartelera;
 			}
+	
+	$scope.logueado = function(){
+		console.log(userService.isLogged());
+		return userService.isLogged();
+	}
+	
+	$scope.admin= function(){
+		return(userService.getUserData().rol.nombre == 'Admin');
+	}
 	
 	$scope.addInteres = function(){
 		todopoderosoDAO.addInteres($scope.carteleraActiva)
