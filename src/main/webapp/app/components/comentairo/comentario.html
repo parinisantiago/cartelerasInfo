@@ -1,21 +1,21 @@
-					<div class="comentario">
-								<div class="col-xs-12" ng-repeat="comentario in $ctrl.comentarios">
-									<div class="pull-right">
-										<p class="col-xs-12">{{comentario.texto}} &nbsp;{{comentario.creador.user}} @ {{comentario.fecha | date}}</p>
-									</div>
-								</div>
-								<button id="comment-button-{{$index}}"
-									class="btn btn-info collapsed center-block boton-comentar"
-									data-toggle="collapse" data-target="#comment-box-{{$index}}"
-									aria-expanded="false">Comentar</button>
+<div class="comentario">
+	<div class="col-xs-12" ng-repeat="comentario in $ctrl.comentarios">
+		<div class="pull-right">
+			<p class="col-xs-12">{{comentario.texto}} &nbsp;{{comentario.creador.user}} @ {{comentario.fecha | date}}</p>
+		</div>
+	</div>
+	<button id="comment-button-{{$index}}"
+			class="btn btn-info collapsed center-block boton-comentar"
+			data-toggle="collapse" data-target="#comment-box-{{$index}}"
+			aria-expanded="false">Comentar</button>
 
-								<form id="comment-box-{{$index}}" class="collapse form-comentar">
-									<div class="form-group">
-										<label for="exampleInputEmail1">Comentar:</label>
-										<textarea class="form-control" rows="3"></textarea>
-									</div>
-									<div class="form-group">
-										<button type="submit" class="btn btn-default center-block">Enviar</button>
-									</div>
-								</form>
-							</div>
+	<form id="comment-box-{{$index}}" class="collapse form-comentar">
+		<div class="form-group">
+			<label for="exampleInputEmail1">Comentar:</label>
+			<textarea class="form-control" rows="3"></textarea>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-default center-block">Enviar</button>
+		</div>
+	</form>
+</div>
