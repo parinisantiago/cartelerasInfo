@@ -1,0 +1,6 @@
+ <div ng-show="$ctrl.show" class="alert alert-{{ $ctrl.notificacion.tipo }}" role="alert" id="notificacionActual">
+  <button type="button" class="close" aria-label="Close" ng-click="$ctrl.nextNotificacion()">
+  	<span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{ $ctrl.notificacion.titulo }}</strong> {{ $ctrl.notificacion.cuerpo }}
+</div>
