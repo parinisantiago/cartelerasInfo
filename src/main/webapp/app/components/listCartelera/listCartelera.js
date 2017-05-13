@@ -1,7 +1,7 @@
 app.controller('listCarteleraController', listCarteleraController);
-listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', '$http'];
+listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', 'notificationService', '$http'];
 
-function listCarteleraController($scope, todopoderosoDAO, userService, $http) {
+function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http) {
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = { id:'',habilitado:'', titulo:''};
@@ -9,24 +9,21 @@ function listCarteleraController($scope, todopoderosoDAO, userService, $http) {
 			.then(function(data){
 				$scope.carteleras = data;
 				$scope.carteleraActiva = data[0];
-				console.log(userService.getUserData().rol.id);
 			})
 			.catch(function(error){
-				console.log(error);
-				alert(error);
+				notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 			})
 	
 	$scope.crearCartelera = function(cartelera){
 				cartelera.habilitado = 1;
 				todopoderosoDAO.createCartelera(cartelera)
-					.then(function(data){
+				.then(function(data){
 						$scope.carteleras = data;
 						$scope.carteleraActiva = data[0];
-						console.log(userService.getUserData().rol.id);
+						notificationService.addNotification('Cartelera creada correctamente', '', 'success');
 				})
 				.catch(function(error){
-					console.log(error);
-					alert(error);
+					notificationService.addNotificacion('Error al crear cartelera', '', 'danger');
 				})
 			}
 
@@ -35,22 +32,21 @@ function listCarteleraController($scope, todopoderosoDAO, userService, $http) {
 			}
 	
 	$scope.logueado = function(){
-		console.log(userService.isLogged());
 		return userService.isLogged();
 	}
 	
 	$scope.admin= function(){
-		return(userService.getUserData().rol.nombre == 'Admin');
+		return( userService.isLogged() && userService.getUserData().rol.nombre == 'Admin');
 	}
 	
 	$scope.addInteres = function(){
 		todopoderosoDAO.addInteres($scope.carteleraActiva)
 		.then(function(data){
 			$scope.carteleraActiva = data;
-			console.log($scope.carteleraActiva);
+			notificationService.addNotificacion('Usted se ha inscripto en ' + data.titulo, '', 'success');
 		})
 		.catch(function(error){
-			console.log(error);
+			notificationService.addNotificacion('Error al inscribirse cartelera', '', 'danger');
 		});
 	}
 	
@@ -60,7 +56,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, $http) {
 			$scope.carteleraActiva = data;
 		})
 		.catch(function(error){
-			console.log(error);
+			notificationService.addNotificacion('Error al desuscribirse', '', 'danger');
 		});
 	}
 	

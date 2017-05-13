@@ -1,15 +1,12 @@
 <div>
 	<div id="navCarteleras" class="col-xs-12 show">
-		<ul class="list-group list-unstyled" ng-repeat="cartelera in carteleras">
-			<a href="#{{cartelera.titulo}}" class="col-xs-12 col-sm-4 col-md-3" ng-click="cambiarCartelera(cartelera)">
-				<li class="list-group-item text-center">{{cartelera.titulo}}</li>
-			</a>
-		</ul>
-		<ul class="list-group list-unstyled" ng-if="admin()">
-			<a href="#" class="col-xs-12 col-sm-4 col-md-3" data-toggle="modal" data-target="#modalCarteleraCrear">
-				<li class="list-group-item text-center">Agregar Cartelera</li>
-			</a>
-		</ul>
+		<div class="col-xs-12">
+			<div class="btn-group btn-group-justified" role="group" aria-label="...">
+				<div class="btn-group" role="group" ng-repeat="cartelera in carteleras">
+					<button type="button" class="btn btn-default" ng-click="cambiarCartelera(cartelera)">{{cartelera.titulo}}</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<h3 class="text-center" id="headerCartelera">{{carteleraActiva.titulo}}</h3>
 	<div class="modal fade" id="modalInscriptos" tabindex="-1" role="dialog" aria-labelledby="Editar cartel">

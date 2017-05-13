@@ -2,7 +2,7 @@ notificationsController.$inject = ['notificationService','$timeout'];
 function notificationsController(notificationService,$timeout) {
 	var ctrl = this;
 	this.notificacion=null;
-	this.show = true;
+	this.show = false;
 	
 	this.timeout = function(notificacion){
 		
@@ -11,7 +11,6 @@ function notificationsController(notificationService,$timeout) {
 			  		params[1].nextNotificacion();
 				}
 	  		};
-	  		console.log(notificacion.tiempo);
   		$timeout(func, notificacion.tiempo, true, [notificacion, this]);
 	};
 	
@@ -41,8 +40,6 @@ function notificationsController(notificationService,$timeout) {
 			this.notificacion = notif;
 			this.show=true;
 			if(this.notificacion.desaparece){
-				console.log("crear timeout");
-				console.log(this.notificacion);
 				this.timeout(this.notificacion);
 			}
 		}

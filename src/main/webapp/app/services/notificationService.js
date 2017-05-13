@@ -7,7 +7,7 @@ app.factory("notificationService",
 				this.cuerpo = cuerpo;
 				this.tipo = typeof tipo == 'string' || typeof tipo != 'undefined'? tipo : 'info';
 				this.desaparece = typeof desaparece == 'boolean' ? desaparece : true;
-				this.tiempo = typeof tiempo == 'number'? tiempo : 2000;
+				this.tiempo = typeof tiempo == 'number'? tiempo : 3000;
 			};
 		    
 			var observers = [];

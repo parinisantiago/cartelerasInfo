@@ -1,5 +1,5 @@
-UserListController.$inject = ['todopoderosoDAO'];
-function UserListController(todopoderosoDAO) {
+UserListController.$inject = ['todopoderosoDAO', 'notificationService'];
+function UserListController(todopoderosoDAO, notificationService) {
   var ctrl = this;
   ctrl.roles = [];
   ctrl.usuarios=[];
@@ -19,11 +19,10 @@ function UserListController(todopoderosoDAO) {
 	  todopoderosoDAO.createUsuario(usuario)
 	  .then(function(data){
 		  ctrl.usuarios.push(data);
-		  console.log(data);
+		  notificationService.addNotificacion('Usuario creado correctamente', 'Nombre: '+data.user, 'success');
 		})
 		.catch(function(error){
-			console.log(error);
-			alert(error);
+			notificationService.addNotificacion('Error al crear usuario', error.data, 'danger');
 		})
   }
   
@@ -31,11 +30,10 @@ function UserListController(todopoderosoDAO) {
 	  ctrl.action='modificar'
 	  todopoderosoDAO.editUsuario(usuario)
 	  .then(function(data){
-		  console.log(data);
+		  notificationService.addNotificacion('Usuario modificado correctamente', 'Nombre: '+data.user, 'success');
 		})
 		.catch(function(error){
-			console.log(error);
-			alert(error);
+			notificationService.addNotificacion('Error al modificar usuario', error.data, 'danger');
 		})
   }
   
@@ -47,10 +45,10 @@ function UserListController(todopoderosoDAO) {
 				  ctrl.usuarioActual = usuarioVacio;
 			  }
 			  ctrl.usuarios.splice(ctrl.usuarios.indexOf(usuario) ,1);
+			  notificationService.addNotificacion('Usuario eliminado correctamente', 'Nombre: '+usuario.user, 'success');
 			})
 			.catch(function(error){
-				console.log(error);
-				alert(error);
+				notificationService.addNotificacion('Error al eliminar usuario', error.data, 'danger');
 			})
 	  }
   }
@@ -60,7 +58,7 @@ function UserListController(todopoderosoDAO) {
 		ctrl.roles = data;
 	})
 	.catch(function(error){
-		console.log(error);
+		notificationService.addNotificacion('Error al buscar roles', error.data, 'danger');
 	});
   
   todopoderosoDAO.getUsuarios()
@@ -68,7 +66,7 @@ function UserListController(todopoderosoDAO) {
 		ctrl.usuarios = data;
 	})
 	.catch(function(error){
-		console.log(error);
+		notificationService.addNotificacion('Error al buscar usuarios', error.data, 'danger');
 	});
 }
 

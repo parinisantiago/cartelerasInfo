@@ -1,7 +1,7 @@
 app.controller('loginController', loginController);
-loginController.$inject = ['userService', '$scope'];
+loginController.$inject = ['userService', 'notificationService', '$scope'];
 
-function loginController(userService, $scope) {
+function loginController(userService, notificationService, $scope) {
 	$scope.form={
 			user : '',
 			password: ''
@@ -15,6 +15,7 @@ function loginController(userService, $scope) {
 			})
 		.catch(function(error){
 			$scope.form.password='';
+			notificationService.addNotificacion('Error al loguearse', 'Usuario o contraseña inválidos', 'warning');
 		})
 	};
 }
