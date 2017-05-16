@@ -1,4 +1,1 @@
-
-<div class="cartel cartel-resumido col-xs-12 col-md-3 col-md-offset-1" ng-repeat="anuncio in $ctrl.cart.anuncios">
-	<anuncio anuncio="anuncio" elim="$ctrl.cart.usuarioEliminar.indexOf(usuario)"></anuncio>
-</div>
+<anuncio ng-repeat="anuncio in $ctrl.cart.anuncios" anuncio="anuncio" elim="$ctrl.cart.usuarioEliminar.indexOf(usuario)"></anuncio>
