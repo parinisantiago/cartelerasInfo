@@ -1,0 +1,15 @@
+<div class="btn-group navbar-btn">
+	<button type="button" class="btn btn-{{ hayNotificaciones() ? 'info' : 'default' }} dropdown-toggle"
+		data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+		<span class="badge">{{ notificaciones.length }}</span>
+	</button>
+	
+	<ul class="dropdown-menu" ng-show="hayNotificaciones()">
+		<li ><a ng-click="borrarTodo()">Borrar Todo</a></li>
+		<li role="separator" class="divider"></li>
+		<li ng-repeat="notificacion in noftificaciones | orderBy:'id'">
+			<a>{{ notificacion.descripcion }}</a>
+		</li>
+	</ul>
+</div>

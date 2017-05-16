@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -84,7 +85,13 @@ public class TokenJWTManager {
 		Claims claims = Jwts.parser().setSigningKey(secretKey)
 									.parseClaimsJws(jwt)
 									.getBody();
+		Date now = new Date(System.currentTimeMillis());
 		String content = claims.get("content").toString();
+		Date exp = new Date( new Long(claims.get("exp").toString())*1000 );
+		if(now.after(exp)){
+			throw new ExpiredJwtException(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt).getHeader(), claims, "expired token");
+		}
+		
 		return this.getContentJWT(content);
 	}
 

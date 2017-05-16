@@ -19,6 +19,9 @@ function logoutnavController(userService, $scope, localstorage) {
 		$scope.abmUsuario = function(){
 			localstorage.setSessionItem('body', 'abmUsuario');
 		}
+		$scope.configuracion = function(){
+			localstorage.setSessionItem('body', 'configuracion');
+		}
 }
 
 app.component("logoutnav", {

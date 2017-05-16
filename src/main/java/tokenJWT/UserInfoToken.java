@@ -2,29 +2,28 @@ package tokenJWT;
 
 import modelo.Rol;
 import modelo.Usuario;
-import modeloDAO.RolDAO;
 import modeloDAO.UsuarioDAO;
 
 public class UserInfoToken{
 	
-	private long userID;
+	private long id;
 	private String user;
 	private Rol rol;
 	
 	public UserInfoToken(){}
 	
 	public UserInfoToken(Usuario usuario){
-		this.userID = usuario.getId();
+		this.id = usuario.getId();
 		this.user = usuario.getUser();
 		this.rol = usuario.getRol();
 	}
 
-	public long getUserID() {
-		return userID;
+	public long getId() {
+		return id;
 	}
 
-	public void setUserID(long userID) {
-		this.userID = userID;
+	public void setId(long userID) {
+		this.id = userID;
 	}
 
 	public String getUser() {
@@ -36,7 +35,7 @@ public class UserInfoToken{
 	}
 
 	public Usuario getUsuario(UsuarioDAO dao){
-		return dao.getById(userID);
+		return dao.getById(id);
 	}
 	
 	public Rol getRol(){
@@ -45,7 +44,7 @@ public class UserInfoToken{
 
 	@Override
 	public String toString() {
-		return "UserInfoToken [userID=" + userID + ", user=" + user + ", rol=" + rol + "]";
+		return "UserInfoToken [userID=" + id + ", user=" + user + ", rol=" + rol + "]";
 	}
 
 }

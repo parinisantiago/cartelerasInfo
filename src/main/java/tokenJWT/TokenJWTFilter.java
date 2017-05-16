@@ -66,7 +66,7 @@ public class TokenJWTFilter implements Filter{
 					
 					// Seteo el user en un atributo nuevo, de esta forma
 					// ya estaria disponible para el resto de los controllers
-					request.setAttribute("userID", userInfo.getUserID());
+					request.setAttribute("userID", userInfo.getId());
 					request.setAttribute("rol", userInfo.getRol());
 
 					chain.doFilter(req, response);

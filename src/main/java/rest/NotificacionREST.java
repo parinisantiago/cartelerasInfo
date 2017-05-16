@@ -3,6 +3,7 @@ package rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -88,6 +89,18 @@ public class NotificacionREST extends GenericREST<Notificacion, EntityJsonNotifi
 	@JsonView(JView.Notificacion.class)
 	public ResponseEntity<List<Notificacion>> entityAll() {
 		return super.entityAll();
+	}
+	
+	@GetMapping(value="/notificacion/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Notificacion.class)
+	public ResponseEntity<List<Notificacion>> entityByUser(@PathVariable("id") Long id) {
+		List<Notificacion>  entity = daoNotificacion.getAllFromUser(daoUsuario.getById(id));
+    	if( entity != null){
+    		return new ResponseEntity<List<Notificacion>>(entity, HttpStatus.OK);
+    	}
+    	else{
+    		return new ResponseEntity<List<Notificacion>>(HttpStatus.NO_CONTENT);
+    	}
 	}
 
 	@Override

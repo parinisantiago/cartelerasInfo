@@ -38,7 +38,6 @@ public abstract class JpaDao<T> implements Dao<T>
 	
 	public boolean persist(T entity)
 	{
-
 		this.getEntityManager().persist(entity);
 		return true;
 	}

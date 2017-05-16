@@ -206,6 +206,44 @@ app.factory("todopoderosoDAO",
 							
 							return promise;
 						  },
+						  
+						  getNotificaciones : function(usuario){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http.get(baseRESTurl + "notificacion/user/" + usuario.id).then(
+										function(respuesta){
+											defered.resolve(respuesta.data);
+										},
+										function(respuesta){
+											console.log("Error al cargar los datos de las notificaciones del usuario "+usuario.user);
+											console.log(respuesta);
+											defered.reject(respuesta);
+									    });
+								
+								return promise;
+						  },
+						  
+						  removeNotificacion: function(notificacion){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'DELETE',
+						        	  url     : baseRESTurl + "notificacion/" + notificacion.id,
+						        	  data    : '',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al eliminar notificacion");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
 		    }
 		    
 		    return interfazPublica;
