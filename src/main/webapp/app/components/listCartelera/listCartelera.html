@@ -12,23 +12,6 @@
 		</div>
 	</div>
 	<h3 class="text-center" id="headerCartelera">{{carteleraActiva.titulo}}</h3>
-	<div class="modal fade" id="modalInscriptos" tabindex="-1" role="dialog" aria-labelledby="Editar cartel">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="modalInscriptosh4">Listado de inscriptos</h4>
-				</div>
-				<div class="modal-body">
-					<ul class="list-group" ng-repeat="usuario in carteleraActiva.interesados">
-						<li class="list-group-item">{{carteleraActiva.titulo}}-{{usuario.user}}</li>	
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="tab-content">
 		<div class="tab-pane col-xs-12 cartelera fade in active">
 			<div class="col-xs-12 opciones-cartelera">
@@ -61,7 +44,7 @@
 						<form >
 							<div class="form-group">
 								<label for="modalCarteleraNombre" class="control-label">Título:</label>
-								<input type="text" class="form-control" ng-model="$ctrl.carteleraNueva.titulo" required>
+								<input type="text" class="form-control" ng-model="$ctrl.carteleraNueva" required>
 							</div>
 						</form>
 					</div>
@@ -71,5 +54,23 @@
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
+		<!-- modal inscriptos -->
+		<div class="modal fade" id="modalInscriptos" tabindex="-1" role="dialog" aria-labelledby="Editar cartel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="modalInscriptosh4">Listado de inscriptos</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group" ng-repeat="usuario in carteleraActiva.interesados">
+						<li class="list-group-item">{{carteleraActiva.titulo}}-{{usuario.user}}</li>	
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>			
 </div>
