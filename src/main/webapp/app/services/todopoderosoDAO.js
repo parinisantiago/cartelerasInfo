@@ -114,6 +114,29 @@ app.factory("todopoderosoDAO",
 								
 								return promise;
 					  },
+					  createCartel: function(cartel){
+						  console.log('llegue al dao');
+						  console.log(cartel);
+						  var defered = $q.defer();
+						  var promise = defered.promise;
+						  $http({
+							  method	: 'POST',
+							  url		: baseRESTurl + "anuncio",
+							  data		: '{"titulo"="'+cartel.titulo+'","cuerpo"="'+cartel.cuerpo+'","comentarioHabilitado"="'+cartel.comentarios+'","fecha"="'+cartel.fecha+'","creador_id"="'+cartel.idCreador+'","cartelera_id"="'+cartel.idCartelera+'"}',
+							  headers	: {'Autorization': userService.getToken()}
+						  })
+						  .then(
+							function(respuesta){
+								defered.resolve(respuesta.data);
+							},
+							function(respuesta){
+								console.log("Error al crear el anuncio ");
+								console.log(respuesta);
+								defered.reject(respuesta);	
+							});
+						  
+						  return promise;
+					  },
 					  createUsuario : function(usuario){
 						  	var defered = $q.defer();
 					        var promise = defered.promise;
