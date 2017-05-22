@@ -4,7 +4,7 @@ listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', '
 function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http) {
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
-	$scope.carteleraNueva = { id:'',habilitado:'', titulo:''};
+	$scope.carteleraNueva = '';
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
 				$scope.carteleras = data;
@@ -15,7 +15,6 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			})
 	
 	$scope.crearCartelera = function(cartelera){
-				cartelera.habilitado = 1;
 				todopoderosoDAO.createCartelera(cartelera)
 				.then(function(data){
 						$scope.carteleras = data;
