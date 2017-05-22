@@ -1,10 +1,11 @@
 app.controller('listCarteleraController', listCarteleraController);
-listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', 'notificationService', '$http'];
+listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', 'notificationService', '$http', '$filter'];
 
-function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http) {
+function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http, $filter) {
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = '';
+	$scope.cartel= {titulo:'', contenido:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
 				$scope.carteleras = data;
@@ -13,6 +14,21 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			.catch(function(error){
 				notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 			})
+	
+	$scope.publicarCartelera= function(cartel){
+				cartel.fecha= $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+				cartel.idCreador = userService.getUserData().id;
+				cartel.idCartelera = $scope.carteleraActiva.id;
+				cartel.comentarios? cartel.comentarios = 1 : cartel.comentarios = 0;
+				todopoderosoDAO.createCartel(cartel)
+					.then(function(data){
+						notificationService.addNotification('Se agrego su anuncio correctamente', '', 'info');
+					})
+					.catch(function(error){
+						console.log(error);
+						notificationService.addNotificacion('Error al crear cartel', '', 'danger');
+					})
+			}
 	
 	$scope.crearCartelera = function(cartelera){
 				todopoderosoDAO.createCartelera(cartelera)
@@ -52,6 +68,10 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 		.catch(function(error){
 			notificationService.addNotificacion('Error al inscribirse cartelera', '', 'danger');
 		});
+	}
+	
+	$scope.publicar = function(){
+		return true;
 	}
 	
 	$scope.removeInteres = function(){
