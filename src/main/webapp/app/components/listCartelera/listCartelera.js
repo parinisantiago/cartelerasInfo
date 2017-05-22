@@ -22,7 +22,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 								$scope.carteleras = data;
 								$scope.carteleraActiva = data[data.length - 1];
 							})
-						notificationService.addNotificacion('Cartelera creada correctamente', '', 's');
+						notificationService.addNotificacion('Cartelera creada correctamente', '', 'info');
 				})
 				.catch(function(error){
 					console.log(error);
