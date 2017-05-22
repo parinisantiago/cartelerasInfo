@@ -35,8 +35,9 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 		return userService.isLogged();
 	}
 	
+	
 	$scope.admin= function(){
-		return( userService.isLogged() && userService.getUserData().rol.nombre == 'Admin');
+		return(userService.isLogged() && (userService.getUserData().rol.nombre == "Admin"));
 	}
 	
 	$scope.addInteres = function(){
