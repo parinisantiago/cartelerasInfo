@@ -25,6 +25,9 @@
 					<div class="btn-group" role="group" ng-if="!interesado()">
 						<button class="btn btn-success" ng-click="addInteres()">Recibir Notificaciones</button>
 					</div>
+					<div class="btn-group" role="group" ng-if="publicar()">
+						<button class="btn btn-primary" data-toggle="modal" data-target="#modalPublicar">Publicar en cartelera</button>
+					</div>
 				</div>
 			</div>
 			<cartelera cart="carteleraActiva"></cartelera>
@@ -44,13 +47,47 @@
 						<form >
 							<div class="form-group">
 								<label for="modalCarteleraNombre" class="control-label">Título:</label>
-								<input type="text" class="form-control" ng-model="$ctrl.carteleraNueva" required>
+								<input type="text" class="form-control" id="modalCarteleraNombre" ng-model="$ctrl.carteleraNueva" required>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 						<button type="button" class="btn btn-primary" id="modalCarteleraEnviar" ng-click="crearCartelera($ctrl.carteleraNueva)" data-dismiss="modal">Crear</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal publicar -->
+			<div class="modal fade" id="modalPublicar" tabindex="-1" role="dialog" aria-labelledby="Cartelera">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalCarteleraHeader">Publicar en cartelera</h4>
+					</div>
+					<div class="modal-body">
+						<form >
+							<div class="form-group">
+								<label for="modalPublicarNombre" class="control-label">Título:</label>
+								<input type="text" class="form-control" id="modalPublicarNombre" ng-model="$ctrl.cartel.titulo" required>
+							</div>
+							<div class="form-group">
+								<label for="modalPublicarContenido" class="control-label">Contenido:</label>
+								<textarea class="form-control" id="modalPublicarContenido" rows="5" ng-model="$ctrl.cartel.contenido" required></textarea>
+							</div>
+							<div class="form-group">	
+								<div class="checkbox">
+  									<label><input type="checkbox" value="comentario" ng-model="$ctrl.cartel.comentarios">Comentarios habilitados</label>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="modalCarteleraEnviar" ng-click="publicarCartelera($ctrl.cartel)" data-dismiss="modal">Publicar</button>
 					</div>
 				</div>
 			</div>
