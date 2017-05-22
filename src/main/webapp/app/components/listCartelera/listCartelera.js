@@ -5,7 +5,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = '';
-	$scope.cartel= {titulo:'', contenido:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
+	$scope.cartel= {titulo:'', cuerpo:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
 				$scope.carteleras = data;
@@ -19,7 +19,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				cartel.fecha= $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
 				cartel.idCreador = userService.getUserData().id;
 				cartel.idCartelera = $scope.carteleraActiva.id;
-				cartel.comentarios? cartel.comentarios = 1 : cartel.comentarios = 0;
+				cartel.comentarios? cartel.comentarios = true : cartel.comentarios = false;
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
 						notificationService.addNotification('Se agrego su anuncio correctamente', '', 'info');
