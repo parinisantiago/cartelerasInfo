@@ -5,7 +5,7 @@
 				<div class="btn-group" role="group" ng-repeat="cartelera in carteleras">
 					<button type="button" class="btn btn-default" ng-click="cambiarCartelera(cartelera)">{{cartelera.titulo}}</button>
 				</div>
-				<div class="btn-group" role="group">
+				<div class="btn-group" role="group" ng-if="admin()">
 					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCarteleraCrear">Crear cartelera</button>
 				</div>
 			</div>
