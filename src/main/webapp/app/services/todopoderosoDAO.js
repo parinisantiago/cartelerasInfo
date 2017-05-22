@@ -99,7 +99,7 @@ app.factory("todopoderosoDAO",
 					        $http({
 					        	method	: 'POST',
 					        	url		: baseRESTurl + "cartelera",
-					        	data    : '{"titulo":"'+cartelera.titulo+'"}',
+					        	data    : '{"titulo":"'+cartelera+'"}',
 					        	headers : { 'Authorization' : userService.getToken() }
 					        })
 					        .then(
@@ -107,7 +107,7 @@ app.factory("todopoderosoDAO",
 										defered.resolve(respuesta.data);
 									},
 									function(respuesta){
-										console.log("Error al crear usuario ");
+										console.log("Error al crear cartelera");
 										console.log(respuesta);
 										defered.reject(respuesta);
 								    });
