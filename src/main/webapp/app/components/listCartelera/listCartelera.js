@@ -17,11 +17,15 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.crearCartelera = function(cartelera){
 				todopoderosoDAO.createCartelera(cartelera)
 				.then(function(data){
-						$scope.carteleras = data;
-						$scope.carteleraActiva = data[0];
-						notificationService.addNotification('Cartelera creada correctamente', '', 'success');
+						todopoderosoDAO.getCarteleras()
+							.then(function(data){
+								$scope.carteleras = data;
+								$scope.carteleraActiva = data[data.length - 1];
+							})
+						notificationService.addNotificacion('Cartelera creada correctamente', '', 's');
 				})
 				.catch(function(error){
+					console.log(error);
 					notificationService.addNotificacion('Error al crear cartelera', '', 'danger');
 				})
 			}
