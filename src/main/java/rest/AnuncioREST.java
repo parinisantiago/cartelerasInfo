@@ -46,19 +46,15 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 		Anuncio entity = new Anuncio();
 		entity.setTitulo(jsonEntity.getTitulo());
 		entity.setCuerpo( (jsonEntity.getCuerpo() != null?jsonEntity.getCuerpo():"") );
-		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
+		entity.setComentarioHabilitado(true);
 		entity.setCartelera(daoCartelera.getById(jsonEntity.getCartelera_id()));
 		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
-		entity.setFecha( (jsonEntity.getFecha() != null?jsonEntity.getFecha():new Date()) );
-		entity.setHabilitado(true);
+		entity.setHabilitado(jsonEntity.isComentarioHabilitado());
 		return entity;
 	}
 
 	@Override
 	protected Anuncio updateEntity(Anuncio entity, EntityJsonAnuncio jsonEntity) {
-		if(jsonEntity.getFecha() != null){
-			entity.setFecha(jsonEntity.getFecha());
-		}
 		if(jsonEntity.getTitulo() != null){
 			entity.setTitulo(jsonEntity.getTitulo());
 		}
@@ -66,7 +62,7 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 			entity.setCuerpo(jsonEntity.getCuerpo());
 		}
 		
-		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
+		//entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
 		
 		if(jsonEntity.getCartelera_id() != null){
 			Cartelera aux = daoCartelera.getById(jsonEntity.getCartelera_id());
@@ -145,7 +141,6 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 	private String titulo;
 	private String cuerpo;
 	private boolean comentarioHabilitado;
-	private Date fecha;
 	private Long creador_id;
 	private Long cartelera_id;
 	
@@ -165,17 +160,12 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 	public void setCuerpo(String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
+	
 	public boolean isComentarioHabilitado() {
 		return comentarioHabilitado;
 	}
 	public void setComentarioHabilitado(boolean comentarioHabilitado) {
 		this.comentarioHabilitado = comentarioHabilitado;
-	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
 	}
 	public Long getCreador_id() {
 		return creador_id;
@@ -193,7 +183,7 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 	@Override
 	public String toString() {
 		return "EntityJsonAnuncio [titulo=" + titulo + ", cuerpo=" + cuerpo + ", comentarioHabilitado="
-				+ comentarioHabilitado + ", fecha=" + fecha + ", creador_id=" + creador_id + ", cartelera_id="
+				 + ", creador_id=" + creador_id + ", cartelera_id="
 				+ cartelera_id + "]";
 	}
 	
