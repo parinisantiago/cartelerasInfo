@@ -89,6 +89,7 @@ public class Anuncio implements Serializable {
 
 	public Anuncio() {
 		this.comentarios = new ArrayList<Comentario>();
+		this.fecha = new Date();
 	}
 
 	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador, Date fecha) {
@@ -101,14 +102,14 @@ public class Anuncio implements Serializable {
 		this.habilitado = true;
 	}
 
-	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador, Date fecha,
+	public Anuncio(String titulo, String cuerpo, boolean comentarioHabilitado, Usuario creador,
 			List<Comentario> comentarios) {
 		super();
 		this.titulo = titulo;
 		this.cuerpo = cuerpo;
 		this.comentarioHabilitado = comentarioHabilitado;
 		this.creador = creador;
-		this.fecha = fecha;
+		this.fecha = new Date();
 		this.comentarios = comentarios;
 		this.habilitado = true;
 	}
