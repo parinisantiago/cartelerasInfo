@@ -94,20 +94,24 @@ public class CargarDatosREST {
 			long nowMillis = System.currentTimeMillis();
 			
 			//roles
+			Rol rolAdmin = new Rol("Admin");
 			Rol rolProfesor = new Rol("Profesor");
 			Rol rolEstudiante = new Rol("Estudiante");
 			Rol rolEmpresa = new Rol("Empresa");
 			
+			daoRol.persist(rolAdmin);
 			daoRol.persist(rolProfesor);
 			daoRol.persist(rolEstudiante);
 			daoRol.persist(rolEmpresa);
 			
 			//usuarios
+			Usuario usuarioAdmin = new Usuario("Admin", "admin", true, rolAdmin);
 			Usuario usuarioEuge = new Usuario("Euge", "piturro", true, rolEstudiante);
 			Usuario usuarioAgus = new Usuario("Agus", "agus", true, rolEstudiante);
 			Usuario usuarioProfesor = new Usuario("Profe", "profe", true, rolProfesor);
 			Usuario usuarioEmpresa = new Usuario("Empresa", "empresa", true, rolEmpresa);
 			
+			daoUsuario.persist(usuarioAdmin);
 			daoUsuario.persist(usuarioAgus);
 			daoUsuario.persist(usuarioEuge);
 			daoUsuario.persist(usuarioProfesor);
