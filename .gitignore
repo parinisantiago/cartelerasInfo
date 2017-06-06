@@ -20,3 +20,4 @@ src/main/resources/META-INF/persistence.xml
 hs_err_pid*
 
 *.properties
+/target/
