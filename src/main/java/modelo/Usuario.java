@@ -44,7 +44,7 @@ public class Usuario {
 	private boolean habilitado;
 	
 	@OneToMany(mappedBy="creador", fetch=FetchType.EAGER)
-	@JsonView(JView.Usuario.class)
+	//@JsonView(JView.Usuario.class)
 	private List<Comentario> comentarios = new ArrayList<Comentario>();
 	
 	@OneToMany(mappedBy="creador")
@@ -63,6 +63,9 @@ public class Usuario {
 	
 	@ManyToMany(mappedBy="usuarioPublicar")
 	private Set<Cartelera> cartelerasModificar;
+	
+	@ManyToMany(mappedBy="usuarioCrear")
+	private Set<Cartelera> cartelerasCrear;
 	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
 	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();

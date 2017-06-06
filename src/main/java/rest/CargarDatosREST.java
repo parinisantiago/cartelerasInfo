@@ -28,6 +28,10 @@ import modeloDAO.NotificacionDAO;
 import modeloDAO.RolDAO;
 import modeloDAO.UsuarioDAO;
 
+
+// crear base de datos con 
+//CREATE DATABASE cartelerasinfo  DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+
 @RestController
 public class CargarDatosREST {
 	@Autowired
@@ -119,14 +123,23 @@ public class CargarDatosREST {
 			
 			//carteleras
 			Cartelera carteleraPrimero = new Cartelera("Primer Año");
+			carteleraPrimero.addUsuarioPublicar(usuarioAdmin);
 			carteleraPrimero.addUsuarioPublicar(usuarioProfesor);
 			carteleraPrimero.addUsuarioEliminar(usuarioProfesor);
+			carteleraPrimero.addUsuarioEliminar(usuarioAdmin);
+			carteleraPrimero.addUsuarioCrear(usuarioAdmin);
 			Cartelera carteleraSegundo = new Cartelera("Segundo Año");
 			carteleraSegundo.addUsuarioPublicar(usuarioProfesor);
+			carteleraSegundo.addUsuarioPublicar(usuarioAdmin);
 			carteleraSegundo.addUsuarioEliminar(usuarioProfesor);
+			carteleraSegundo.addUsuarioEliminar(usuarioAdmin);
+			carteleraSegundo.addUsuarioCrear(usuarioAdmin);
 			Cartelera carteleraLaboral= new Cartelera("Laboral");
+			carteleraLaboral.addUsuarioPublicar(usuarioAdmin);
 			carteleraLaboral.addUsuarioPublicar(usuarioEmpresa);
 			carteleraLaboral.addUsuarioEliminar(usuarioEmpresa);
+			carteleraLaboral.addUsuarioEliminar(usuarioAdmin);
+			carteleraLaboral.addUsuarioCrear(usuarioAdmin);
 			
 			daoCartelera.persist(carteleraPrimero);
 			daoCartelera.persist(carteleraSegundo);

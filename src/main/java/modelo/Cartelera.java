@@ -67,6 +67,14 @@ public class Cartelera implements Serializable {
 	@JsonView(JView.CarteleraCompleta.class)
 	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
 	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="cartelera_usuarioCrear",	
+			joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
+		    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
+	@JsonView(JView.CarteleraCompleta.class)
+	private Set<Usuario> usuarioCrear = new HashSet<Usuario>();
+	
 	@Column(nullable = false)
 	@JsonView(JView.Privado.class)
 	private boolean habilitado;
@@ -168,7 +176,18 @@ public class Cartelera implements Serializable {
 	}
 	public void removeUsuarioEliminar(Usuario usuarioEliminar){
 		this.usuarioEliminar.remove(usuarioEliminar);
-	}	
+	}
+	
+	public void setUsuarioCrear(Set<Usuario> usuarioCrear) {
+		this.usuarioCrear = usuarioCrear;
+	}
+	
+	public void addUsuarioCrear(Usuario usuarioCrear){
+		this.usuarioCrear.add(usuarioCrear);
+	}
+	public void removeUsuarioCrear(Usuario usuarioCrear){
+		this.usuarioCrear.remove(usuarioCrear);
+	}
 
 	public boolean isHabilitado() {
 		return habilitado;
