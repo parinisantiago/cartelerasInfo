@@ -4,7 +4,7 @@ listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', '
 function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http, $filter) {
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
-	$scope.carteleraNueva = '';
+	$scope.carteleraNueva = {titulo:''};
 	$scope.cartel= {titulo:'', cuerpo:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
@@ -22,15 +22,16 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				cartel.comentarios? cartel.comentarios = true : cartel.comentarios = false;
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
-						$scope.miCartelera = data['cartelera'].id;
 						todopoderosoDAO.getCarteleraById(data['cartelera'].id)
 						.then(function(data){
-							console.log(data)
 							$scope.carteleraActiva = data;
 						})
 						.catch(function(error){
 							notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 						})
+						cartel.titulo = ''
+						cartel.cuerpo = ''
+						cartel.comentarios = ''
 						notificationService.addNotificacion('Se agrego su anuncio correctamente', '', 'info');
 					})
 					.catch(function(error){
@@ -47,12 +48,14 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 								$scope.carteleras = data;
 								$scope.carteleraActiva = data[data.length - 1];
 							})
+						console.log(cartelera)
 						notificationService.addNotificacion('Cartelera creada correctamente', '', 'info');
 				})
 				.catch(function(error){
 					console.log(error);
 					notificationService.addNotificacion('Error al crear cartelera', '', 'danger');
 				})
+				cartelera=''
 			}
 
 	$scope.cambiarCartelera = function(cartelera){
