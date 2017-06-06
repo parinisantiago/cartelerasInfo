@@ -22,15 +22,16 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				cartel.comentarios? cartel.comentarios = true : cartel.comentarios = false;
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
-						notificationService.addNotificacion('Se agrego su anuncio correctamente', '', 'info');
-						todopoderosoDAO.getCarteleras()
+						$scope.miCartelera = data['cartelera'].id;
+						todopoderosoDAO.getCarteleraById(data['cartelera'].id)
 						.then(function(data){
-							$scope.carteleras = data;
-							$scope.carteleraActiva = data[0];
+							console.log(data)
+							$scope.carteleraActiva = data;
 						})
 						.catch(function(error){
 							notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 						})
+						notificationService.addNotificacion('Se agrego su anuncio correctamente', '', 'info');
 					})
 					.catch(function(error){
 						console.log(error);
