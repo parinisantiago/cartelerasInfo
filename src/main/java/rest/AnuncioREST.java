@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +19,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import modelo.Anuncio;
 import modelo.Cartelera;
+import modelo.Notificacion;
 import modelo.Usuario;
 import modeloDAO.AnuncioDAO;
 import modeloDAO.CarteleraDAO;
 import modeloDAO.Dao;
+import modeloDAO.NotificacionDAO;
 import modeloDAO.UsuarioDAO;
 
 @RestController
@@ -29,6 +32,9 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 
 	@Autowired
 	private AnuncioDAO daoAnuncio;
+	
+	@Autowired
+	private NotificacionDAO daoNotificacion;
 	
 	@Autowired 
 	private CarteleraDAO daoCartelera;
@@ -118,7 +124,27 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 	@PostMapping(value="/anuncio", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(JView.Anuncio.class)
 	public ResponseEntity<Anuncio> entityCreate(@RequestBody String jsonString) {
-		return super.entityCreate(jsonString);
+		Anuncio entity = null;
+    	EntityJsonAnuncio parsedEntity = mapFromJson(jsonString);
+    	if(isValidJsonEntityToCreate(parsedEntity)){
+    		entity = createEntity(parsedEntity);
+    		getEntityDao().persist(entity);
+    		
+    		//agrego notificacion para cada usuario interesado
+    		for (Usuario usuarioCartelera : entity.getCartelera().getInteresados()) {
+    			Notificacion notificacion = new Notificacion("Se ha publicado un nuevo anuncio en la cartelera " + entity.getCartelera().getTitulo() + ": " + entity.getTitulo());
+    			Usuario usuario = daoUsuario.getById(usuarioCartelera.getId());
+    			notificacion.setUsuario(usuario);
+    			daoNotificacion.persist(notificacion);
+    		}
+    		
+    		return new ResponseEntity<Anuncio>(entity, HttpStatus.CREATED);
+    	}
+    	else{
+    		return new ResponseEntity<Anuncio>(HttpStatus.NOT_FOUND);
+    	}
+    	
+    	//return super.entityCreate(jsonString);
 	}
 
 	@Override

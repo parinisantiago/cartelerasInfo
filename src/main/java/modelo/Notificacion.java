@@ -22,7 +22,7 @@ public class Notificacion {
 	@JsonView(JView.SoloID.class)
 	private Long id;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne(cascade={CascadeType.MERGE})
 	@JsonView(JView.Notificacion.class)
 	private Usuario usuario;
 	
