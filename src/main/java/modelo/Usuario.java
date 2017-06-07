@@ -64,9 +64,6 @@ public class Usuario {
 	@ManyToMany(mappedBy="usuarioPublicar")
 	private Set<Cartelera> cartelerasModificar;
 	
-	@ManyToMany(mappedBy="usuarioCrear")
-	private Set<Cartelera> cartelerasCrear;
-	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
 	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 	
