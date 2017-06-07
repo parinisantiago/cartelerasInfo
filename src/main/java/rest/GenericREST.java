@@ -168,7 +168,7 @@ public abstract class GenericREST<T, E extends EntityJsonAbstract> {
     	T entity = getEntityDao().getById(id);
     	if( entity != null ){
     		getEntityDao().remove(entity);
-    		return new ResponseEntity<T>(HttpStatus.OK);
+    		return new ResponseEntity<T>(HttpStatus.NO_CONTENT);
     	}
     	else{
     		return new ResponseEntity<T>(HttpStatus.NOT_FOUND);

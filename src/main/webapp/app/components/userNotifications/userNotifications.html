@@ -9,7 +9,9 @@
 		<li ><a ng-click="borrarTodo()">Borrar Todo</a></li>
 		<li role="separator" class="divider"></li>
 		<li ng-repeat="notificacion in notificaciones | orderBy:'id'">
-			<a>{{ notificacion.descripcion }}</a>
+			<a>{{ notificacion.descripcion }}
+				&nbsp;<span class="glyphicon glyphicon-trash eliminar" style="cursor:pointer;"aria-hidden="true" ng-click="borrar(notificacion)"></span>
+			</a>
 		</li>
 	</ul>
 </div>
