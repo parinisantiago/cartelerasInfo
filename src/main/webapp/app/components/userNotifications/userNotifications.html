@@ -8,7 +8,7 @@
 	<ul class="dropdown-menu" ng-show="hayNotificaciones()">
 		<li ><a ng-click="borrarTodo()">Borrar Todo</a></li>
 		<li role="separator" class="divider"></li>
-		<li ng-repeat="notificacion in noftificaciones | orderBy:'id'">
+		<li ng-repeat="notificacion in notificaciones | orderBy:'id'">
 			<a>{{ notificacion.descripcion }}</a>
 		</li>
 	</ul>
