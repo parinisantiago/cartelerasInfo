@@ -45,16 +45,12 @@ public class ComentarioREST extends GenericREST<Comentario, EntityJsonComentario
 		entity.setTexto( (jsonEntity.getTexto() != null?jsonEntity.getTexto():"") );
 		entity.setAnuncio(daoAnuncio.getById(jsonEntity.getAnuncio_id()));
 		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
-		entity.setFecha( (jsonEntity.getFecha() != null?jsonEntity.getFecha():new Date()) );
 		entity.setHabilitado(true);
 		return entity;
 	}
 
 	@Override
 	protected Comentario updateEntity(Comentario entity, EntityJsonComentario jsonEntity) {
-		if(jsonEntity.getFecha() != null){
-			entity.setFecha(jsonEntity.getFecha());
-		}
 		if(jsonEntity.getTexto() != null){
 			entity.setTexto(jsonEntity.getTexto());
 		}
@@ -87,8 +83,7 @@ public class ComentarioREST extends GenericREST<Comentario, EntityJsonComentario
 				jsonEntity.getCreador_id() != null &&
 				daoAnuncio.getById(jsonEntity.getAnuncio_id()) != null &&
 				daoUsuario.getById(jsonEntity.getCreador_id()) != null &&
-				jsonEntity.getTexto() != null &&
-				jsonEntity.getFecha() != null);
+				jsonEntity.getTexto() != null);
 	}
 
 	@Override
@@ -135,7 +130,6 @@ public class ComentarioREST extends GenericREST<Comentario, EntityJsonComentario
 
 final class EntityJsonComentario extends EntityJsonAbstract{
 	private String texto;
-	private Date fecha;
 	private Long creador_id;
 	private Long anuncio_id;
 	
@@ -159,14 +153,6 @@ final class EntityJsonComentario extends EntityJsonAbstract{
 		this.texto = texto;
 	}
 
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
 	public Long getCreador_id() {
 		return creador_id;
 	}
@@ -177,7 +163,7 @@ final class EntityJsonComentario extends EntityJsonAbstract{
 
 	@Override
 	public String toString() {
-		return "EntityJsonComentario [texto=" + texto + ", fecha=" + fecha + ", creador_id=" + creador_id
+		return "EntityJsonComentario [texto=" + texto + ", creador_id=" + creador_id
 				+ ", anuncio_id=" + anuncio_id + "]";
 	}
 	
