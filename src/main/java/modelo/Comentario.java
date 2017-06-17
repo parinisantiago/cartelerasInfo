@@ -28,13 +28,13 @@ public class Comentario implements Serializable{
 	
 	@Column(nullable = false)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Comentario.class, JView.Simple.class, JView.CarteleraCompleta.class})
+	@JsonView({JView.Comentario.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class,})
 	private String texto;
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Comentario.class, JView.Simple.class, JView.CarteleraCompleta.class})
+	@JsonView({JView.Comentario.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class,})
 	private Date fecha;
 	
 	@ManyToOne
@@ -43,7 +43,7 @@ public class Comentario implements Serializable{
 	
 	@ManyToOne
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Comentario.class, JView.CarteleraCompleta.class})
+	@JsonView({JView.Comentario.class, JView.CarteleraCompleta.class, JView.Anuncio.class,})
 	private Usuario creador;
 	
 	@Column(nullable = false)

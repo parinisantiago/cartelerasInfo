@@ -17,7 +17,7 @@
 	<div class="nota col-xs-12">
 		<p class="text-center nota-titulo">{{$ctrl.anuncio.titulo}}</p>
 		<p class="nota-texto">{{$ctrl.anuncio.cuerpo}}</p>
-		<comentario comentario="{{$ctrl.anuncio.comentarios}}"></comentario>
+		<comentario comentarios="$ctrl.anuncio.comentarios" ng-show="expandido"></comentario>
 	</div>
 	<div class="cartel-footer col-xs-12" ng-switch="expandido">
 		<a ng-switch-when="true" href="#" class="pull-right"
