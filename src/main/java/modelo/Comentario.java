@@ -52,8 +52,17 @@ public class Comentario implements Serializable{
 	
 	public Comentario() {
 		super();
+		this.fecha = new Date();
 	}
 
+	public Comentario(String texto, Usuario usuario) {
+		super();
+		this.texto = texto;
+		this.fecha = new Date();
+		this.creador = usuario;
+		this.habilitado = true;
+	}
+	
 	public Comentario(String texto, Date fecha, Usuario usuario) {
 		super();
 		this.texto = texto;

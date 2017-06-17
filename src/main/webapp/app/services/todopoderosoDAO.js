@@ -265,6 +265,27 @@ app.factory("todopoderosoDAO",
 								
 								return promise;
 						  },
+						  createComentario: function(usuario, texto, anuncio){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'POST',
+						        	  url     : baseRESTurl + "comentario",
+						        	  data    : '{ "texto":"'+texto+'"'+', "creador_id":"'+usuario.id+'"'+ ', "anuncio_id":"'+ anuncio.id +'"}',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al crear comentario ");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
 		    }
 		    
 		    return interfazPublica;
