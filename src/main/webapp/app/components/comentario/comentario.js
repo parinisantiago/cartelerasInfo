@@ -8,13 +8,18 @@ function comentarioController($scope, todopoderosoDAO, userService, notification
 	this.text='';
 	
 	this.comentar = function(){
-		todopoderosoDAO.createComentario(userService.getUserData(), this.text, this.anuncio)
-		.then(function(data){
-			ctrl.text='';
-		})
-		.catch(function(error){
-			notificationService.addNotificacion('Error al crear comentario', error.data, 'danger');
-		});
+		if(this.text != ''){
+			todopoderosoDAO.createComentario(userService.getUserData(), this.text, this.anuncio)
+			.then(function(data){
+				data.creador = userService.getUserData();
+				data.anuncio = ctrl.anuncio
+				ctrl.anuncio.comentarios.push(data);
+				ctrl.text='';
+			})
+			.catch(function(error){
+				notificationService.addNotificacion('Error al crear comentario', error.data, 'danger');
+			});
+		}
 	};
 }
 

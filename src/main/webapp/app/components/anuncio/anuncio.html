@@ -1,4 +1,4 @@
-<div class="cartel {{ expandido ? '': cartel-resumido}} col-xs-12 {{ expandido ? '' : 'col-md-3' }} {{ expandido ? '' : 'col-md-offset-1' }}">
+<div class="cartel {{ expandido ? '': cartel-resumido}} col-xs-12 {{ expandido ? '' : 'col-md-3' }} {{ expandido ? '' : 'col-md-offset-1' }}" id="anuncio-{{}}">
 	<div class="cartel-header col-xs-12" id="anuncio-{{$ctrl.anuncio.id}}">
 		<div class="btn-group pull-right" role="group" aria-label="...">
 			<a href="#" class="editar" data-toggle="modal"
@@ -20,9 +20,9 @@
 		<comentario comentarios="$ctrl.anuncio.comentarios" anuncio="$ctrl.anuncio" ng-show="expandido && $ctrl.anuncio.comentarioHabilitado"></comentario>
 	</div>
 	<div class="cartel-footer col-xs-12" ng-switch="expandido">
-		<a ng-switch-when="true" href="#" class="pull-right"
+		<a ng-switch-when="true" href="#anuncio-{{$ctrl.anuncio.id}}" class="pull-right"
 		ng-click="achicar()">Ver menos</a>
-		<a ng-switch-default href="#" class="pull-right"
+		<a ng-switch-default href="#anuncio-{{$ctrl.anuncio.id}}" class="pull-right"
 			ng-click="expandir()">Ver mas</a>
 	</div>
 </div>
