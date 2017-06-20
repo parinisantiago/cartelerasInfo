@@ -34,6 +34,22 @@ app.factory("userService",
 		    }
 		    
 		    var interfazPublica = {
+		    		
+		    	isAdmin: function(){
+		    		return ( this.issLogged() && this.getToken().rol.nombre == "Admin" );
+		    	},
+		    	
+		    	isEstudiante: function(){
+		    		return ( this.issLogged() && this.getToken().rol.nombre == "Estudiante" );
+		    	},
+		    	
+		    	isProfesor: function(){
+		    		return ( this.issLogged() && this.getToken().rol.nombre == "Profesor" );
+		    	},
+		    	
+		    	isEmpresa: function(){
+		    		return ( this.issLogged() && this.getToken().rol.nombre == "Empresa" );
+		    	},
 		    	
 		    	getToken: function(){
 		    		return localstorage.getItem("token");
@@ -44,7 +60,8 @@ app.factory("userService",
 		    		if(sJWT){
 		    			var payloadObj = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(sJWT.split(".")[1]));
 						var contenido = JSON.parse(payloadObj.content);
-						return contenido;		    			
+						this.loginRefresh();
+						return contenido;
 		    		}
 		    		else{
 		    			return false;
@@ -91,6 +108,7 @@ app.factory("userService",
 				  loginRefresh: function(){
 					  if( this.isLogged() ){
 						  if( tokenExpired() ){
+							  console.log("token expirado");
 							  sessionExpired();
 						  }
 						  else{

@@ -286,6 +286,22 @@ app.factory("todopoderosoDAO",
 								
 								return promise;
 						  },
+						  
+						  getAnunciosUsuario: function(usuario){
+								var defered = $q.defer();
+						        var promise = defered.promise;
+								$http.get(baseRESTurl + "/anuncio/usuario/"+usuario.id).then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al cargar los anuncios del usuario.");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
 		    }
 		    
 		    return interfazPublica;

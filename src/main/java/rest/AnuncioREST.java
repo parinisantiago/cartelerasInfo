@@ -112,6 +112,24 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 	public ResponseEntity<Anuncio> entityById(@PathVariable("id") Long id) {
 		return super.entityById(id);
 	}
+	
+	@GetMapping(value="/anuncio/usuario/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Anuncio.class)
+	public ResponseEntity<List<Anuncio>> entityByUser(@PathVariable("id") Long id) {
+		Usuario user = daoUsuario.getById(id);
+		if(user != null){
+			List<Anuncio>  entity = user.getMisAnuncios();
+	    	if( entity != null){
+	    		return new ResponseEntity<List<Anuncio>>(entity, HttpStatus.OK);
+	    	}
+	    	else{
+	    		return new ResponseEntity<List<Anuncio>>(HttpStatus.NO_CONTENT);
+	    	}
+		}
+		else{
+			return new ResponseEntity<List<Anuncio>>(HttpStatus.NO_CONTENT);
+		}
+	}
 
 	@Override
 	@GetMapping(value="/anuncio", produces = MediaType.APPLICATION_JSON_VALUE)
