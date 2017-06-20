@@ -22,6 +22,9 @@ function logoutnavController(userService, $scope, localstorage) {
 		$scope.configuracion = function(){
 			localstorage.setSessionItem('body', 'configuracion');
 		}
+		$scope.misAnuncios = function(){
+			localstorage.setSessionItem('body', 'misAnuncios');
+		}
 }
 
 app.component("logoutnav", {
