@@ -7,6 +7,8 @@ app.factory("userService",
 		    //segundos a restar a la fecha de expiracion para refrescar el token
 		    var secondsToRefresh = 500;
 		    
+		    var refreshing = false;
+		    
 		    var getTokenExpiration = function(){
 		    	var sJWT = interfazPublica.getToken();
 	    		if(sJWT){
@@ -36,19 +38,19 @@ app.factory("userService",
 		    var interfazPublica = {
 		    		
 		    	isAdmin: function(){
-		    		return ( this.issLogged() && this.getToken().rol.nombre == "Admin" );
+		    		return ( this.isLogged() && this.getToken().rol.nombre == "Admin" );
 		    	},
 		    	
 		    	isEstudiante: function(){
-		    		return ( this.issLogged() && this.getToken().rol.nombre == "Estudiante" );
+		    		return ( this.isLogged() && this.getToken().rol.nombre == "Estudiante" );
 		    	},
 		    	
 		    	isProfesor: function(){
-		    		return ( this.issLogged() && this.getToken().rol.nombre == "Profesor" );
+		    		return ( this.isLogged() && this.getToken().rol.nombre == "Profesor" );
 		    	},
 		    	
 		    	isEmpresa: function(){
-		    		return ( this.issLogged() && this.getToken().rol.nombre == "Empresa" );
+		    		return ( this.isLogged() && this.getToken().rol.nombre == "Empresa" );
 		    	},
 		    	
 		    	getToken: function(){
@@ -58,9 +60,9 @@ app.factory("userService",
 		    	getUserData: function(){
 		    		var sJWT = this.getToken();
 		    		if(sJWT){
+		    			this.loginRefresh();
 		    			var payloadObj = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(sJWT.split(".")[1]));
 						var contenido = JSON.parse(payloadObj.content);
-						this.loginRefresh();
 						return contenido;
 		    		}
 		    		else{
@@ -110,13 +112,15 @@ app.factory("userService",
 						  if( tokenExpired() ){
 							  console.log("token expirado");
 							  sessionExpired();
+							  return false;
 						  }
 						  else{
-							  if( tokenCloseToExpired() ){
+							  if( tokenCloseToExpired() & !refreshing ){
+								refreshing = true;
 							  console.log("actualizando token");
 							  $http({
 					        	  	method  : 'PUT',
-					        	  	url     : baseRESTurl + "login/refresh/"+this.getUserData().userID,
+					        	  	url     : baseRESTurl + "login/refresh/"+this.getUserData().id,
 					        	  	data    : '',
 					        	  	headers : { 'Authorization': this.getToken() }
 					         		})
@@ -125,11 +129,13 @@ app.factory("userService",
 				        	 				console.log("nuevo token");
 				        	 				console.log(respuesta.data.token);
 				        	 				localstorage.setItem("token",respuesta.data.token);
+				        	 				refreshing = false;
 				        	 				return true;
 				        	 			},
 				        	 			function(respuesta){
 				        	 				console.log("Error al actualizar token.");
 				        	 				console.log(respuesta);
+				        	 				refreshing = false;
 				        	 				return false;
 				        	 			});
 							  }
