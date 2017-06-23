@@ -17,6 +17,8 @@ public class JView {
 	public interface Rol extends SoloID{};
 	public interface Usuario extends SoloID{};
 	
+	public interface UsuarioPermisos extends Usuario{};
+	
 	public interface CarteleraCompleta extends Cartelera{};
 	
 }
