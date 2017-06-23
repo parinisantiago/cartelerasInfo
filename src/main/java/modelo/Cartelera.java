@@ -36,7 +36,7 @@ public class Cartelera implements Serializable {
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Cartelera.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class})
+	@JsonView({JView.Cartelera.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class, JView.UsuarioPermisos.class})
 	private String titulo;
 	
 	@ManyToMany(fetch=FetchType.EAGER)

@@ -302,6 +302,110 @@ app.factory("todopoderosoDAO",
 								
 								return promise;
 						  },
+						  
+						  getUsuariosPermisos : function(){
+								var defered = $q.defer();
+						        var promise = defered.promise;
+								$http.get(baseRESTurl + "usuario/permisos").then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al cargar los datos y permisos de los usuarios.");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
+						  
+						  addPermisoPublicar: function(usuario, cartelera){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'POST',
+						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/publicar",
+						        	  data    : '',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al agregar permiso publicar");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
+						  
+						  addPermisoEliminar: function(usuario, cartelera){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'POST',
+						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/eliminar",
+						        	  data    : '',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al agregar permiso eliminar");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
+						  
+						  removePermisoPublicar: function(usuario, cartelera){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'DELETE',
+						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/publicar",
+						        	  data    : '',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al eliminar permiso publicar");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
+						  
+						  removePermisoEliminar: function(usuario, cartelera){
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'DELETE',
+						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/eliminar",
+						        	  data    : '',
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al eliminar permiso eliminar");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
 		    }
 		    
 		    return interfazPublica;
