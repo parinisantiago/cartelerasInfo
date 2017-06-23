@@ -58,11 +58,13 @@ public class Usuario {
 	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="usuarioEliminar")
+	@ManyToMany(mappedBy="usuarioEliminar", fetch=FetchType.EAGER)
+	@JsonView(JView.UsuarioPermisos.class)
 	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="usuarioPublicar")
-	private Set<Cartelera> cartelerasModificar;
+	@ManyToMany(mappedBy="usuarioPublicar", fetch=FetchType.EAGER)
+	@JsonView(JView.UsuarioPermisos.class)
+	private Set<Cartelera> cartelerasModificar = new HashSet<Cartelera>();
 	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
 	private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
@@ -208,5 +210,25 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", user=" + user + ", habilitado=" + habilitado + ", rol=" + rol + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Usuario){
+			Usuario otro = (Usuario) obj;
+			boolean ids = otro.getId() == this.getId() ;
+			boolean nombre = otro.getUser().equals(this.getUser());
+			return (ids && nombre);
+		}
+		else{
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return (this.getId().intValue() + this.getId().hashCode()+ this.getUser().hashCode() );
+	}
+	
+	
 	
 }
