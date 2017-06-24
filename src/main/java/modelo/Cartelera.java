@@ -36,7 +36,7 @@ public class Cartelera implements Serializable {
 	
 	@Column(nullable = false, unique=true)
 	//@JsonView(JView.Publico.class)
-	@JsonView({JView.Cartelera.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class, JView.UsuarioPermisos.class})
+	@JsonView({JView.Cartelera.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Anuncio.class, JView.Usuario.class})
 	private String titulo;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -51,19 +51,11 @@ public class Cartelera implements Serializable {
 	@JsonView({JView.Cartelera.class, JView.CarteleraCompleta.class})
 	private List<Anuncio> anuncios;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="cartelera_usuarioEliminar",	
-		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
-	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
+	@ManyToMany(mappedBy="cartelerasEliminar", fetch=FetchType.EAGER)
 	@JsonView(JView.CarteleraCompleta.class)
 	private Set<Usuario> usuarioEliminar = new HashSet<Usuario>();
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="cartelera_usuarioModificar",	
-		joinColumns=@JoinColumn(name="cartelera_id", nullable=false),
-	    inverseJoinColumns=@JoinColumn(name="usuario_id", nullable=false))
+	@ManyToMany(mappedBy="cartelerasModificar", fetch=FetchType.EAGER)
 	@JsonView(JView.CarteleraCompleta.class)
 	private Set<Usuario> usuarioPublicar = new HashSet<Usuario>();
 	
@@ -188,7 +180,24 @@ public class Cartelera implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cartelera [id=" + id + ", titulo=" + titulo + ", habilitado=" + habilitado + "]";
+		return "Cartelera [id=" + id + ", titulo=" + titulo + "]";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Cartelera){
+			Cartelera otro = (Cartelera) obj;
+			boolean ids = otro.getId() == this.getId() ;
+			boolean titulo = otro.getTitulo().equals(this.getTitulo());
+			return (ids && titulo);
+		}
+		else{
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return (this.getId().intValue() + this.getId().hashCode()+ this.getTitulo().hashCode() );
+	}
 }

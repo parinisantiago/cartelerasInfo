@@ -1,6 +1,8 @@
 package rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import modelo.Cartelera;
 import modelo.Rol;
 import modelo.Usuario;
+import modeloDAO.CarteleraDAO;
 import modeloDAO.Dao;
 import modeloDAO.RolDAO;
 import modeloDAO.UsuarioDAO;
@@ -29,6 +33,9 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 
 	@Autowired
 	private RolDAO daoRol;
+	
+	@Autowired
+	private CarteleraDAO daoCartelera;
 	
 	@Override	
 	protected Dao<Usuario> getEntityDao() {
@@ -54,10 +61,57 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 			entity.setPassword(jsonEntity.getPassword());
 		}
 		
-		if(jsonEntity.getRol_id() != null){
+		if(jsonEntity.getRol_id() != null && jsonEntity.getRol_id() != entity.getRol().getId()){
 			Rol aux = daoRol.getById(jsonEntity.getRol_id());
 			if(aux != null){
 				entity.setRol(aux);
+			}
+		}
+		
+		if(jsonEntity.getCartelerasModificar_id() != null){
+			//borrar
+			Set<Cartelera> cartelerasABorrar= new HashSet<>();
+			for (Cartelera cartelera : entity.getCartelerasModificar()) {
+				//si las carteleras viejas no estan en el nuevo arreglo, osea las que hay que borrar
+				if(! jsonEntity.getCartelerasModificar_id().contains(cartelera.getId()) ){
+					//la borro despues para que no tire error al estar recorriendo esta misma coleccion
+					cartelerasABorrar.add(cartelera);
+				}
+				//saco las carteleras viejas y las borradas, dejando solo las que hay que agregar
+				jsonEntity.getCartelerasModificar_id().remove(cartelera.getId());
+			}
+			//las borro del usuario
+			entity.getCartelerasModificar().removeAll(cartelerasABorrar);
+			//agregar
+			for (Long cartelera_id : jsonEntity.getCartelerasModificar_id()) {
+				Cartelera cartelera = daoCartelera.getById(cartelera_id);
+				if(cartelera!=null){
+					entity.getCartelerasModificar().add(cartelera);
+				}
+			}	
+		}
+		
+		if(jsonEntity.getCartelerasEliminar_id() != null){
+			//borrar
+			Set<Cartelera> cartelerasABorrar= new HashSet<>();
+			for (Cartelera cartelera : entity.getCartelerasEliminar()) {
+				//si las carteleras viejas no estan en el nuevo arreglo, osea las que hay que borrar
+				if(! jsonEntity.getCartelerasEliminar_id().contains(cartelera.getId()) ){
+					//la borro despues para que no tire error al estar recorriendo esta misma coleccion
+					cartelerasABorrar.add(cartelera);
+					
+				}
+				//saco las carteleras viejas, dejando solo las que hay que agregar
+				jsonEntity.getCartelerasEliminar_id().remove(cartelera.getId());
+			}
+			//las borro del usuario
+			entity.getCartelerasEliminar().removeAll(cartelerasABorrar);
+			//agregar
+			for (Long cartelera_id : jsonEntity.getCartelerasEliminar_id()) {
+				Cartelera cartelera = daoCartelera.getById(cartelera_id);
+				if(cartelera!=null){
+					entity.getCartelerasEliminar().add(cartelera);
+				}
 			}
 		}
 		
@@ -119,10 +173,21 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	
 }
 
+/** JSON (los campos pueden dejarse en vacío):
+{
+"user":"agus",
+"password":"password",
+"rol_id":2,
+"cartelerasEliminar_id":[11,10],
+"cartelerasModificar_id":[10,11,12]
+}
+**/
 final class EntityJsonUsuario extends EntityJsonAbstract{
 	private String user;
 	private String password;
 	private Long rol_id;
+	private List<Long> cartelerasModificar_id;
+	private List<Long> cartelerasEliminar_id;
 	
 	public EntityJsonUsuario() {
 		super();
@@ -150,6 +215,22 @@ final class EntityJsonUsuario extends EntityJsonAbstract{
 
 	public void setRol_id(Long rol_id) {
 		this.rol_id = rol_id;
+	}
+
+	public List<Long> getCartelerasModificar_id() {
+		return cartelerasModificar_id;
+	}
+
+	public void setCartelerasModificar_id(List<Long> cartelerasModificar_id) {
+		this.cartelerasModificar_id = cartelerasModificar_id;
+	}
+
+	public List<Long> getCartelerasEliminar_id() {
+		return cartelerasEliminar_id;
+	}
+
+	public void setCartelerasEliminar_id(List<Long> cartelerasEliminar_id) {
+		this.cartelerasEliminar_id = cartelerasEliminar_id;
 	}
 	
 	@Override

@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -58,12 +60,20 @@ public class Usuario {
 	@ManyToMany(mappedBy="interesados")
 	private Set<Cartelera> intereses = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="usuarioEliminar", fetch=FetchType.EAGER)
-	@JsonView(JView.UsuarioPermisos.class)
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="cartelera_usuarioEliminar",	
+			joinColumns=@JoinColumn(name="usuario_id", nullable=false),
+		    inverseJoinColumns=@JoinColumn(name="cartelera_id", nullable=false))
+	@JsonView(JView.Usuario.class)
 	private Set<Cartelera> cartelerasEliminar = new HashSet<Cartelera>();
 	
-	@ManyToMany(mappedBy="usuarioPublicar", fetch=FetchType.EAGER)
-	@JsonView(JView.UsuarioPermisos.class)
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="cartelera_usuarioModificar",	
+			joinColumns=@JoinColumn(name="usuario_id", nullable=false),
+		    inverseJoinColumns=@JoinColumn(name="cartelera_id", nullable=false))
+	@JsonView(JView.Usuario.class)
 	private Set<Cartelera> cartelerasModificar = new HashSet<Cartelera>();
 	
 	@OneToMany(mappedBy="usuario", cascade={CascadeType.ALL})
