@@ -1,14 +1,21 @@
 package tokenJWT;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import modelo.Rol;
 import modelo.Usuario;
+import modelo.Cartelera;
 import modeloDAO.UsuarioDAO;
+
 
 public class UserInfoToken{
 	
 	private long id;
 	private String user;
 	private Rol rol;
+	private Set<Long> cartelerasModificarId = new HashSet<Long>();
+	private Set<Long> cartelerasEliminarId = new HashSet<Long>();
 	
 	public UserInfoToken(){}
 	
@@ -16,14 +23,20 @@ public class UserInfoToken{
 		this.id = usuario.getId();
 		this.user = usuario.getUser();
 		this.rol = usuario.getRol();
+		for (Cartelera cartelera : usuario.getCartelerasEliminar()) {	
+			this.cartelerasEliminarId.add(cartelera.getId());
+		}
+		for (Cartelera cartelera : usuario.getCartelerasModificar()) {	
+			this.cartelerasModificarId.add(cartelera.getId());
+		}
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long userID) {
-		this.id = userID;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getUser() {
@@ -44,7 +57,15 @@ public class UserInfoToken{
 
 	@Override
 	public String toString() {
-		return "UserInfoToken [userID=" + id + ", user=" + user + ", rol=" + rol + "]";
+		return "UserInfoToken [id=" + id + ", user=" + user + ", rol=" + rol + "]";
+	}
+
+	public Set<Long> getCartelerasModificar() {
+		return cartelerasModificarId;
+	}
+
+	public Set<Long> getCartelerasEliminar() {
+		return cartelerasEliminarId;
 	}
 
 }
