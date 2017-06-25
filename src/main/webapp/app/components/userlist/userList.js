@@ -124,7 +124,7 @@ function UserListController(todopoderosoDAO, notificationService, $scope) {
 
 	$scope.cambiarPermisoEliminar= function(usuario, cartelera){
 		if( $scope.tienePermisoEliminar(usuario,cartelera)){
-			usuario.cartelerasEliminar.splice(usuario.cartelerasEliminar.indexOf(cartelera),1);
+			$scope.removerPermiso(usuario.cartelerasEliminar, cartelera);
 		}
 		else{
 			usuario.cartelerasEliminar.push(cartelera);
@@ -133,12 +133,25 @@ function UserListController(todopoderosoDAO, notificationService, $scope) {
 	
 	$scope.cambiarPermisoPublicar = function(usuario, cartelera){
 		if( $scope.tienePermisoPublicar(usuario,cartelera)){
-			usuario.cartelerasModificar.splice(usuario.cartelerasModificar.indexOf(cartelera),1);
+			$scope.removerPermiso(usuario.cartelerasModificar, cartelera);
 		}
 		else{
 			usuario.cartelerasModificar.push(cartelera);
 		}
 	}
+	
+	$scope.removerPermiso = function(permisos, cartelera){
+		var encontrado = -1; 
+		for(var i = 0; i < permisos.length; i++){
+			if(permisos[i].id == cartelera.id){
+				encontrado = i;
+				break;
+			}
+		};
+		if(encontrado > -1){
+			permisos.splice(encontrado,1);
+		}
+	} 
 
 
 }
