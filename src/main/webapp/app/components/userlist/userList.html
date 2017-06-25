@@ -86,22 +86,14 @@
 									<tr ng-repeat="cartelera in carteleras | orderBy:'id'" >
 										<td>{{ cartelera.titulo }}</td>
 										<td>
-											<!--
-											<div >
-												<button type="button" ng-show="!tienePermisoPublicar(usuarioActual,cartelera)" ng-mouseover="activo=false" class="btn btn-success" ng-click="crearPermisoPublicar(usuarioActual,cartelera)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-												<button type="button" ng-show="tienePermisoPublicar(usuarioActual,cartelera)" ng-mouseover="activo=true" class="btn btn-danger active" ng-click="eliminarPermisoPublicar(usuarioActual,cartelera)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											</div>
-											 -->
 											<input type="checkbox"
-											ng-model="noexiste" 
-											ng-checked="tienePermisoPublicar(usuarioActual,cartelera)"
-											ng-change="cambiarPermisoPublicar(usuarioActual,cartelera)">
+											ng-click="cambiarPermisoPublicar(usuarioActual,cartelera)"
+											ng-checked="tienePermisoPublicar(usuarioActual,cartelera)">
 										</td>
 										<td>
 											<input type="checkbox"
-											ng-model="noexiste2" 
-											ng-checked="tienePermisoEliminar(usuarioActual,cartelera)"
-											ng-change="cambiarPermisoEliminar(usuarioActual,cartelera)">
+											ng-click="cambiarPermisoEliminar(usuarioActual,cartelera)"
+											ng-checked="tienePermisoEliminar(usuarioActual,cartelera)">
 										</td>
 									</tr>
 								</table>

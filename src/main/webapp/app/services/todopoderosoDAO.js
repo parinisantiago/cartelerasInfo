@@ -93,6 +93,7 @@ app.factory("todopoderosoDAO",
 							
 							return promise;
 					  },
+					  
 					  createCartelera: function(cartelera){
 						  	var defered = $q.defer();
 					        var promise = defered.promise;
@@ -164,16 +165,28 @@ app.factory("todopoderosoDAO",
 					  },
 					  
 					  editUsuario : function(usuario){
+						  var usuarioJSON = {
+						  			user : usuario.user,
+						  			rol_id : usuario.rol.id,
+						  			cartelerasModificar_id : [],
+						  			cartelerasEliminar_id : [],
+						  	}
+						  	for (var int = 0; int < usuario.cartelerasModificar.length; int++) {
+								usuarioJSON.cartelerasModificar_id.push(usuario.cartelerasModificar[int].id);
+							}
+						  	for (var int = 0; int < usuario.cartelerasEliminar.length; int++) {
+								usuarioJSON.cartelerasEliminar_id.push(usuario.cartelerasEliminar[int].id);
+							}
+						  	if(usuario.password != null){
+					        	usuarioJSON.password = usuario.password;
+					        }
+						  	
 						  	var defered = $q.defer();
 					        var promise = defered.promise;
-					        var passString = '';
-					        if(usuario.password != null){
-					        	passString=',"password":"'+usuario.password+'"';
-					        }
 					        $http({
 					        	  method  : 'PUT',
 					        	  url     : baseRESTurl + "usuario/" + usuario.id,
-					        	  data    : '{ "user":"'+usuario.user+'"' + passString+',"rol_id":"'+usuario.rol.id+'"}',
+					        	  data    : angular.toJson(usuarioJSON),
 					        	  headers : { 'Authorization' : userService.getToken() }
 					        	 })
 					        .then(
@@ -181,7 +194,7 @@ app.factory("todopoderosoDAO",
 									defered.resolve(respuesta.data);
 								},
 								function(respuesta){
-									console.log("Error al editar usuario");
+									console.log("Error al modificar usuario");
 									console.log(respuesta);
 									defered.reject(respuesta);
 							    });
@@ -296,110 +309,6 @@ app.factory("todopoderosoDAO",
 									},
 									function(respuesta){
 										console.log("Error al cargar los anuncios del usuario.");
-										console.log(respuesta);
-										defered.reject(respuesta);
-								    });
-								
-								return promise;
-						  },
-						  
-						  getUsuariosPermisos : function(){
-								var defered = $q.defer();
-						        var promise = defered.promise;
-								$http.get(baseRESTurl + "usuario/permisos").then(
-									function(respuesta){
-										defered.resolve(respuesta.data);
-									},
-									function(respuesta){
-										console.log("Error al cargar los datos y permisos de los usuarios.");
-										console.log(respuesta);
-										defered.reject(respuesta);
-								    });
-								
-								return promise;
-						  },
-						  
-						  addPermisoPublicar: function(usuario, cartelera){
-							  	var defered = $q.defer();
-						        var promise = defered.promise;
-						        $http({
-						        	  method  : 'POST',
-						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/publicar",
-						        	  data    : '',
-						        	  headers : { 'Authorization' : userService.getToken() }
-						        	 })
-						        .then(
-									function(respuesta){
-										defered.resolve(respuesta.data);
-									},
-									function(respuesta){
-										console.log("Error al agregar permiso publicar");
-										console.log(respuesta);
-										defered.reject(respuesta);
-								    });
-								
-								return promise;
-						  },
-						  
-						  addPermisoEliminar: function(usuario, cartelera){
-							  	var defered = $q.defer();
-						        var promise = defered.promise;
-						        $http({
-						        	  method  : 'POST',
-						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/eliminar",
-						        	  data    : '',
-						        	  headers : { 'Authorization' : userService.getToken() }
-						        	 })
-						        .then(
-									function(respuesta){
-										defered.resolve(respuesta.data);
-									},
-									function(respuesta){
-										console.log("Error al agregar permiso eliminar");
-										console.log(respuesta);
-										defered.reject(respuesta);
-								    });
-								
-								return promise;
-						  },
-						  
-						  removePermisoPublicar: function(usuario, cartelera){
-							  	var defered = $q.defer();
-						        var promise = defered.promise;
-						        $http({
-						        	  method  : 'DELETE',
-						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/publicar",
-						        	  data    : '',
-						        	  headers : { 'Authorization' : userService.getToken() }
-						        	 })
-						        .then(
-									function(respuesta){
-										defered.resolve(respuesta.data);
-									},
-									function(respuesta){
-										console.log("Error al eliminar permiso publicar");
-										console.log(respuesta);
-										defered.reject(respuesta);
-								    });
-								
-								return promise;
-						  },
-						  
-						  removePermisoEliminar: function(usuario, cartelera){
-							  	var defered = $q.defer();
-						        var promise = defered.promise;
-						        $http({
-						        	  method  : 'DELETE',
-						        	  url     : baseRESTurl + "usuario/permisos/" + usuario.id + "/cartelera/"+cartelera.id + "/eliminar",
-						        	  data    : '',
-						        	  headers : { 'Authorization' : userService.getToken() }
-						        	 })
-						        .then(
-									function(respuesta){
-										defered.resolve(respuesta.data);
-									},
-									function(respuesta){
-										console.log("Error al eliminar permiso eliminar");
 										console.log(respuesta);
 										defered.reject(respuesta);
 								    });
