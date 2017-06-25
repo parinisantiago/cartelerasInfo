@@ -65,10 +65,6 @@ function UserListController(todopoderosoDAO, notificationService, $scope) {
 		if(usuario!= null && usuario.id>0){
 			todopoderosoDAO.editUsuario(usuario)
 			.then(function(data){
-				console.log($scope.usuarios);
-				console.log(data);
-				console.log($scope.usuarios.indexOf($scope.usuarioOriginal));
-				
 				$scope.usuarios[$scope.usuarios.indexOf($scope.usuarioOriginal)] = data;
 				notificationService.addNotificacion('Usuario modificado correctamente', 'Nombre: '+data.user, 'success');
 			},function(error){
