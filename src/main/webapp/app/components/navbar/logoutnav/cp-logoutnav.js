@@ -25,6 +25,9 @@ function logoutnavController(userService, $scope, localstorage) {
 		$scope.misAnuncios = function(){
 			localstorage.setSessionItem('body', 'misAnuncios');
 		}
+		$scope.administrar = function(){
+			return (userService.getUserData().rol.id == '1')
+		}
 }
 
 app.component("logoutnav", {
