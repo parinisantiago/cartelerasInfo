@@ -32,6 +32,24 @@ function UserListController(todopoderosoDAO, notificationService, $scope) {
 	$scope.usuarioActual = usuarioVacio;
 	$scope.usuarioOriginal = usuarioVacio;
 	
+	$scope.getRol = function(id){
+		switch(id){
+			case 1: 
+				id = "Admin"
+				break
+			case 2: 
+				id = "Profesor"
+				break
+			case 3: 
+				id = "Estudiante"
+				break
+			case 4: 
+				id = "Empresa"
+				break
+		} 
+		return id;
+	}
+	
 	$scope.setUsuarioActual = function(user){
 		$scope.usuarioActual = angular.copy(user);
 		$scope.usuarioOriginal = user;
