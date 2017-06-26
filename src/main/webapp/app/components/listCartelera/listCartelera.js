@@ -83,7 +83,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	}
 	
 	$scope.publicar = function(){
-		return true;
+		return (userService.getUserData().rol.id == '2');
 	}
 	
 	$scope.removeInteres = function(){
