@@ -35,22 +35,48 @@ app.factory("userService",
 		    	return (getTokenExpiration() < ( Date.now()+ (secondsToRefresh*1000) )); 
 		    }
 		    
+		    var tienePermiso = function(permisos, cartelera){
+		    	if( pemisos == null || cartelera == null){
+		    		return false;
+		    	}
+		    	else{
+			    	for(var i = 0; i < permisos.length; i++){
+						if(permisos[i].id == cartelera.id){
+							return true;
+						}
+					};
+					return false;
+		    	}
+		    }
+		    
 		    var interfazPublica = {
 		    		
 		    	isAdmin: function(){
-		    		return ( this.isLogged() && this.getToken().rol.nombre == "Admin" );
+		    		return ( this.isLogged() && this.getUserData().rol.nombre == "Admin" );
 		    	},
 		    	
 		    	isEstudiante: function(){
-		    		return ( this.isLogged() && this.getToken().rol.nombre == "Estudiante" );
+		    		return ( this.isLogged() && this.getUserData().rol.nombre == "Estudiante" );
 		    	},
 		    	
 		    	isProfesor: function(){
-		    		return ( this.isLogged() && this.getToken().rol.nombre == "Profesor" );
+		    		return ( this.isLogged() && this.getUserData().rol.nombre == "Profesor" );
 		    	},
 		    	
 		    	isEmpresa: function(){
-		    		return ( this.isLogged() && this.getToken().rol.nombre == "Empresa" );
+		    		return ( this.isLogged() && this.getUserData().rol.nombre == "Empresa" );
+		    	},
+
+		    	tienePermisoVer: function(cartelera){
+		    		return true;
+		    	},
+		    	
+		    	tienePermisoPublicar: function(cartelera){
+		    		return ( this.isLogged() && tienePermiso(this.getUserData().cartelerasModificar, cartelera) );
+		    	},
+		    	
+		    	tienePermisoEliminar: function(cartelera){
+		    		return ( this.isLogged() && tienePermiso(this.getUserData().cartelerasEliminar, cartelera) );
 		    	},
 		    	
 		    	getToken: function(){
