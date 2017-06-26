@@ -13,10 +13,9 @@
 		Carteleras
 	</button>
 
-	<a ng-click="abmUsuario()" class="btn btn-default"
-		data-toggle="tooltip" data-placement="bottom"
-		title="Requiere ser Administrador"> Administrar </a>
-	
+		<a ng-if="administrar()" ng-click="abmUsuario()" class="btn btn-default"
+			data-toggle="tooltip" data-placement="bottom"
+			title="Requiere ser Administrador"> Administrar </a>
 	<button ng-click="configuracion()" class="btn btn-default">
 		Configuracion
 	</button>
