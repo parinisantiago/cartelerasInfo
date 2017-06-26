@@ -27,7 +27,7 @@
 	  </tr>
 		<tr ng-repeat="user in usuarios | filter : busqueda" >
 			<td>{{ user.user }}</td>
-			<td>{{ user.rol.nombre }}</td>
+			<td>{{getRol(user.rol.id)}}</td>
 			<td>
 				<p ng-repeat="cartelera in user.cartelerasModificar | orderBy:'id'">
 					{{cartelera.titulo}}
