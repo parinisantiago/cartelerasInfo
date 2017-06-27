@@ -49,7 +49,7 @@ public class CargarDatosREST {
 	
 	@RequestMapping(value="/cargardatos/comentarios", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @JsonView(JView.Publico.class)
-    public ResponseEntity<List<Comentario>> entityById() {
+    public ResponseEntity<List<Comentario>> cargaComentarios() {
 		
 		Rol rol = null;
 		rol = daoRol.getByNombre("TestRol");
@@ -123,27 +123,33 @@ public class CargarDatosREST {
 			
 			//carteleras
 			Cartelera carteleraPrimero = new Cartelera("Primer Año");
-			carteleraPrimero.addUsuarioPublicar(usuarioAdmin);
-			carteleraPrimero.addUsuarioPublicar(usuarioProfesor);
-			carteleraPrimero.addUsuarioEliminar(usuarioProfesor);
-			carteleraPrimero.addUsuarioEliminar(usuarioAdmin);
-			carteleraPrimero.addUsuarioCrear(usuarioAdmin);
 			Cartelera carteleraSegundo = new Cartelera("Segundo Año");
-			carteleraSegundo.addUsuarioPublicar(usuarioProfesor);
-			carteleraSegundo.addUsuarioPublicar(usuarioAdmin);
-			carteleraSegundo.addUsuarioEliminar(usuarioProfesor);
-			carteleraSegundo.addUsuarioEliminar(usuarioAdmin);
-			carteleraSegundo.addUsuarioCrear(usuarioAdmin);
 			Cartelera carteleraLaboral= new Cartelera("Laboral");
-			carteleraLaboral.addUsuarioPublicar(usuarioAdmin);
-			carteleraLaboral.addUsuarioPublicar(usuarioEmpresa);
-			carteleraLaboral.addUsuarioEliminar(usuarioEmpresa);
-			carteleraLaboral.addUsuarioEliminar(usuarioAdmin);
-			carteleraLaboral.addUsuarioCrear(usuarioAdmin);
 			
 			daoCartelera.persist(carteleraPrimero);
 			daoCartelera.persist(carteleraSegundo);
 			daoCartelera.persist(carteleraLaboral);
+			
+			//permisos
+			usuarioAdmin.getCartelerasModificar().add(carteleraPrimero);
+			usuarioAdmin.getCartelerasModificar().add(carteleraSegundo);
+			usuarioAdmin.getCartelerasModificar().add(carteleraLaboral);
+			usuarioAdmin.getCartelerasEliminar().add(carteleraPrimero);
+			usuarioAdmin.getCartelerasEliminar().add(carteleraSegundo);
+			usuarioAdmin.getCartelerasEliminar().add(carteleraLaboral);
+			daoUsuario.update(usuarioAdmin);
+			
+			usuarioProfesor.getCartelerasModificar().add(carteleraPrimero);
+			usuarioProfesor.getCartelerasModificar().add(carteleraSegundo);
+			usuarioProfesor.getCartelerasEliminar().add(carteleraPrimero);
+			usuarioProfesor.getCartelerasEliminar().add(carteleraSegundo);
+			daoUsuario.update(usuarioProfesor);
+			
+			
+			usuarioEmpresa.getCartelerasModificar().add(carteleraLaboral);
+			usuarioEmpresa.getCartelerasEliminar().add(carteleraLaboral);
+			daoUsuario.update(usuarioEmpresa);
+			
 			
 			//anuncios
 			Anuncio anuncioUno = new Anuncio("Horarios ADP", "estos son los horarios de adp de este año ...", true, usuarioProfesor, new Date(nowMillis - (1000 * 60 * 30)));
