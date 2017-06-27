@@ -335,6 +335,50 @@ app.factory("todopoderosoDAO",
 							  		defered.reject(respuesta)
 							  	})
 							 return promise;
+						  },
+						  
+						  editCartelera : function(cartelera){
+							  	
+							  	var defered = $q.defer();
+						        var promise = defered.promise;
+						        $http({
+						        	  method  : 'PUT',
+						        	  url     : baseRESTurl + "cartelera/" + cartelera.id,
+						        	  data    : '{"titulo":"' + cartelera.titulo + '"}' ,
+						        	  headers : { 'Authorization' : userService.getToken() }
+						        	 })
+						        .then(
+									function(respuesta){
+										defered.resolve(respuesta.data);
+									},
+									function(respuesta){
+										console.log("Error al modificar cartelera");
+										console.log(respuesta);
+										defered.reject(respuesta);
+								    });
+								
+								return promise;
+						  },
+						  
+						  eliminarCartelera: function(cartelera){
+							  var defered = $q.defer();
+							  var promise = defered.promise;
+							  $http({
+								  method	:	'DELETE',
+								  url		: 	baseRESTurl + "cartelera/"+ cartelera.id,
+								  data		:	'',
+					        	  headers 	:	{ 'Authorization' : userService.getToken() }
+							  })
+							  .then(
+								function(respuesta){
+							  		defered.resolve(respuesta.data);
+								},
+							  	function(respuesta){
+							  		console.log("Error al borrar la cartelera");
+							  		console.log(respuesta);
+							  		defered.reject(respuesta);
+							  	})
+							 return promise;
 						  }
 		    }
 		    

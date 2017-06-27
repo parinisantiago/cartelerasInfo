@@ -3,15 +3,36 @@
 		<div class="col-xs-12">
 			<div class="btn-group btn-group-justified" role="group" aria-label="...">
 				<div class="btn-group" role="group" ng-repeat="cartelera in carteleras">
-					<button type="button" class="btn btn-default" ng-click="cambiarCartelera(cartelera)">{{cartelera.titulo}}</button>
+					<button type="button" class="btn btn-default" ng-click="cambiarCartelera(cartelera)">
+						<span>{{cartelera.titulo}}</span>
+					</button>
 				</div>
-				<div class="btn-group" role="group" ng-if="admin()">
+				<div class="btn-group" role="group" ng-if="isAdmin()">
 					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCarteleraCrear">Crear cartelera</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<h3 class="text-center" id="headerCartelera">{{carteleraActiva.titulo}}</h3>
+	<h3 class="text-center" id="headerCartelera" ng-switch="cambiarTitulo">
+		<div ng-switch-when="false">
+			<span>{{carteleraActiva.titulo}}</span>
+			<a href="#" ng-click="editarTitulo(carteleraActual)" ng-if="isAdmin()" class="small">
+				<span class="glyphicon glyphicon-pencil editar" aria-hidden="true"></span>
+			</a>
+			<a href="#" ng-click="eliminarCartelera(carteleraActiva)" ng-if="isAdmin()" class="small">
+				<span class="glyphicon glyphicon-trash eliminar" aria-hidden="true"></span>
+			</a>
+		</div>
+		<div ng-switch-when="true">
+			<div class="input-group col-md-offset-3 input-group col-md-6">
+			  <input type="text" class="form-control" aria-label="Nuevo titulo" ng-model="carteleraActiva.titulo" style="text-align:center" required>
+			  <div class="input-group-btn">
+			  	<button type="button" class="btn btn-success" ng-click="guardarEditar()">Guardar</button>
+				<button type="button" class="btn btn-default" ng-click="cancelarEditar()">Cancelar</button>
+			  </div>
+			</div>
+		</div>
+	</h3>
 	<div class="tab-content">
 		<div class="tab-pane col-xs-12 cartelera fade in active">
 			<div class="col-xs-12 opciones-cartelera">

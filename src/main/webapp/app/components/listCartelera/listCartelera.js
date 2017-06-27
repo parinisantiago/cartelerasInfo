@@ -6,6 +6,10 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
 	$scope.cartel= {titulo:'', cuerpo:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
+	
+	$scope.cambiarTitulo=false;
+	$scope.tituloViejo='';
+	
 	todopoderosoDAO.getCarteleras()
 			.then(function(data){
 				$scope.carteleras = data;
@@ -48,7 +52,6 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 								$scope.carteleras = data;
 								$scope.carteleraActiva = data[data.length - 1];
 							})
-						console.log(cartelera)
 						notificationService.addNotificacion('Cartelera creada correctamente', '', 'info');
 				})
 				.catch(function(error){
@@ -60,6 +63,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 
 	$scope.cambiarCartelera = function(cartelera){
 				$scope.carteleraActiva = cartelera;
+				$scope.cambiarTitulo = false;
 			}
 	
 	$scope.logueado = function(){
@@ -67,8 +71,61 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	}
 	
 	
-	$scope.admin= function(){
-		return(userService.isLogged() && (userService.getUserData().rol.nombre == "Admin"));
+	$scope.isAdmin= function(){
+		return(userService.isLogged() && (userService.isAdmin()));
+	}
+	
+	$scope.eliminarCartelera = function(cartelera){
+		if( confirm("Eliminar cartelera "+cartelera.titulo + "?") ){
+			todopoderosoDAO.eliminarCartelera(cartelera)
+			.then(function(data){
+				var index = -1;
+				for (var i = 0; i < $scope.carteleras.length; i++) {
+					if($scope.carteleras[i].id == cartelera.id){
+						index = i;
+						break;
+					}
+				}
+				if(index >= 0){
+					$scope.carteleras.splice(index,1);
+				}
+				$scope.carteleraActiva = $scope.carteleras[0]; 
+				$scope.cambiarTitulo=false;
+				notificationService.addNotificacion('Cartelera eliminada ' + cartelera.titulo, '', 'success');
+			},
+			function(error){
+				notificationService.addNotificacion('Error al cartelera ' + '', '', 'danger');
+			});
+		}
+	}
+	
+	$scope.editarTitulo = function(){
+		$scope.cambiarTitulo = true;
+		$scope.tituloViejo=angular.copy($scope.carteleraActiva.titulo);
+	}
+	
+	$scope.cancelarEditar = function(){
+		$scope.cambiarTitulo = false;
+		$scope.carteleraActiva.titulo = $scope.tituloViejo;
+	}
+	
+	$scope.guardarEditar = function(){
+		todopoderosoDAO.editCartelera($scope.carteleraActiva)
+		.then(function(data){
+			for (var i = 0; i < $scope.carteleras.length; i++) {
+				if($scope.carteleras[i].id == data.id){
+					$scope.carteleras[i] = data;
+					break;
+				}
+			}
+			$scope.carteleraActiva = data;
+			$scope.cambiarTitulo=false;
+			notificationService.addNotificacion('Titulo de cartelera modificado ' + data.titulo, '', 'success');
+		},
+		function(error){
+			$scope.cancelarEditar();
+			notificationService.addNotificacion('Error al modificadar cartelera ' + '', '', 'danger');
+		});
 	}
 	
 	$scope.addInteres = function(){
