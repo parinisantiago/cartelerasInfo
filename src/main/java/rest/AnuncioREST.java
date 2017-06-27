@@ -187,6 +187,7 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 	private boolean comentarioHabilitado;
 	private Long creador_id;
 	private Long cartelera_id;
+	private boolean habilitado;
 	
 	public EntityJsonAnuncio() {
 		super();
@@ -229,6 +230,14 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 		return "EntityJsonAnuncio [titulo=" + titulo + ", cuerpo=" + cuerpo + ", comentarioHabilitado="
 				 + ", creador_id=" + creador_id + ", cartelera_id="
 				+ cartelera_id + "]";
+	}
+
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
 	}
 	
 }
