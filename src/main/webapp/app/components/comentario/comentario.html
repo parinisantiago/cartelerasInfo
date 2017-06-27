@@ -5,12 +5,12 @@
 		</div>
 	</div>
 	<div ng-show="$ctrl.logueado()">
-		<button id="comment-button-{{$index}}"
+		<button id="comment-button-{{$ctrl.anuncio.id}}"
 				class="btn btn-info collapsed center-block boton-comentar"
-				data-toggle="collapse" data-target="#comment-box-{{$index}}"
+				data-toggle="collapse" data-target="#comment-box-{{$ctrl.anuncio.id}}"
 				aria-expanded="false">Comentar</button>
 	
-		<form id="comment-box-{{$index}}" class="collapse form-comentar" >
+		<form id="comment-box-{{$ctrl.anuncio.id}}" class="collapse form-comentar" >
 			<div class="form-group">
 				<label for="exampleInputEmail1">Comentar:</label>
 				<textarea class="form-control" rows="3" ng-model="$ctrl.text"></textarea>
