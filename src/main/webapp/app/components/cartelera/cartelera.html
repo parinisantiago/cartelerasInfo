@@ -1,1 +1,1 @@
-<anuncio ng-repeat="anuncio in $ctrl.cart.anuncios" anuncio="anuncio" elim="$ctrl.cart.usuarioEliminar.indexOf(usuario)"></anuncio>
+<anuncio ng-repeat="anuncio in $ctrl.cart.anuncios" anuncio="anuncio" elim="eliminar().indexOf($ctrl.cart.id)"></anuncio>
