@@ -9,6 +9,16 @@ function anuncioController($scope, todopoderosoDAO, userService, $http) {
 	$scope.achicar = function(){
 		$scope.expandido=false;
 	}
+	$scope.eliminar = function(id){
+		todopoderosoDAO.eliminarAnuncio(id)
+		.then(function(data){
+			console.log(data)
+		})
+		.catch(function(error){
+			console.log("ocurrio un error, ups")
+			console.log(error);
+		})
+	}
 }
 
 app.component("anuncio", {

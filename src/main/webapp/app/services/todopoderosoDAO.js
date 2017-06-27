@@ -315,6 +315,27 @@ app.factory("todopoderosoDAO",
 								
 								return promise;
 						  },
+						  
+						  eliminarAnuncio: function(id){
+							  var defered = $q.defer();
+							  var promise = defered.promise;
+							  $http({
+								  method	:	'DELETE',
+								  url		: 	baseRESTurl + "anuncio/"+id,
+								  data		:	'',
+					        	  headers 	:	{ 'Authorization' : userService.getToken() }
+							  })
+							  .then(
+								function(respuesta){
+							  		defered.resolve(respuesta.data)
+								},
+							  	function(respuesta){
+							  		console.log("Error al borrar el anuncio")
+							  		console.log(respuesta)
+							  		defered.reject(respuesta)
+							  	})
+							 return promise;
+						  }
 		    }
 		    
 		    return interfazPublica;
