@@ -52,7 +52,7 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 		Anuncio entity = new Anuncio();
 		entity.setTitulo(jsonEntity.getTitulo());
 		entity.setCuerpo( (jsonEntity.getCuerpo() != null?jsonEntity.getCuerpo():"") );
-		entity.setComentarioHabilitado(true);
+		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
 		entity.setCartelera(daoCartelera.getById(jsonEntity.getCartelera_id()));
 		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
 		entity.setHabilitado(jsonEntity.isComentarioHabilitado());
