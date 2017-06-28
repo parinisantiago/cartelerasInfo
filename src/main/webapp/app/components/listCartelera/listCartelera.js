@@ -2,6 +2,8 @@ app.controller('listCarteleraController', listCarteleraController);
 listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', 'notificationService', '$http', '$filter'];
 
 function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http, $filter) {
+	ctl = this
+	
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
@@ -18,6 +20,28 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			.catch(function(error){
 				notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 			})
+	
+	ctl.actualizar = function(id, titulo, cart){
+				console.log('llegamos')
+				if( confirm("Eliminar anuncio "+ titulo + "?") ){
+					todopoderosoDAO.eliminarAnuncio(id)
+					.then(function(data){
+						todopoderosoDAO.getCarteleras()
+						.then(function(data){
+							$scope.carteleras = data;
+							todopoderosoDAO.getCarteleraById(cart)
+							.then(function(data){
+								$scope.carteleraActiva = data;
+							})
+						})
+					})
+					.catch(function(error){
+						console.log("ocurrio un error, ups")
+						console.log(error);
+					})
+				}
+
+			}
 	
 	$scope.publicarCartelera= function(cartel){
 				cartel.fecha= $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
