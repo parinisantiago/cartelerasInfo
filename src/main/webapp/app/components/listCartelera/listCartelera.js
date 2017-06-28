@@ -22,7 +22,6 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			})
 	
 	ctl.actualizar = function(id, titulo, cart){
-				console.log('llegamos')
 				if( confirm("Eliminar anuncio "+ titulo + "?") ){
 					todopoderosoDAO.eliminarAnuncio(id)
 					.then(function(data){
