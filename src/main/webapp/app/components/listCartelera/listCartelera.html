@@ -121,11 +121,11 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="modalInscriptosh4">Listado de inscriptos</h4>
+					<h4 class="modal-title" id="modalInscriptosh4">Listado de inscriptos {{carteleraActiva.titulo}}</h4>
 				</div>
 				<div class="modal-body">
-					<ul class="list-group" ng-repeat="usuario in carteleraActiva.interesados">
-						<li class="list-group-item">{{carteleraActiva.titulo}}-{{usuario.user}}</li>	
+					<ul class="list-group" ng-repeat="usuario in carteleraActiva.interesados | orderBy: 'user'">
+						<li class="list-group-item">{{usuario.user}}</li>	
 					</ul>
 				</div>
 			</div>
