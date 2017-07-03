@@ -170,6 +170,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 		todopoderosoDAO.removeInteres($scope.carteleraActiva)
 		.then(function(data){
 			$scope.carteleraActiva = data;
+			notificationService.addNotificacion('Usted se ha desuscripto de ' + data.titulo, '', 'success');
 		})
 		.catch(function(error){
 			notificationService.addNotificacion('Error al desuscribirse', '', 'danger');
@@ -186,7 +187,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				var user = userService.getUserData();
 				var interesados = $scope.carteleraActiva.interesados; 
 				interesados.forEach(function(usuario) {
-				    if(usuario.id == user.userID){
+				    if(usuario.id == user.id){
 				    	resultado = true;
 				    }
 				});
