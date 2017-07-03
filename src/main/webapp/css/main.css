@@ -110,3 +110,13 @@
 .listarBotones{
 	margin-left: 1em;
 }
+
+.notificacion{
+	position:fixed;
+	top:0px;
+	width:100%;
+	z-index:999999999999999;
+}
+.notificacion.ng-hide{
+	z-index:0;
+}
