@@ -23,7 +23,6 @@ app.factory("userService",
 		    }
 		    
 		    var sessionExpired = function(){
-		    	alert("sesion expirada, por favor vuelva a loguearse");
 		    	interfazPublica.logout();
 		    }
 		    
