@@ -157,6 +157,13 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	public ResponseEntity<Usuario> entityCreate(@RequestBody String jsonString) {
 		return super.entityCreate(jsonString);
 	}
+	
+	@PostMapping(value="/usuario/registrar", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Usuario.class)
+	public ResponseEntity<Usuario> registrarUsuario(@RequestBody String jsonString) {
+		return super.entityCreate(jsonString);
+	}
+
 
 	@Override
 	@PutMapping(value="/usuario/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

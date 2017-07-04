@@ -52,7 +52,7 @@ public class TokenJWTFilter implements Filter{
 			chain.doFilter(req, response);
 		}
 		else{
-			if( ("login".equals(splitPath[splitPath.length -1]) || "login".equals(splitPath[splitPath.length -1]) )
+			if( ("login".equals(splitPath[splitPath.length -1]) || "registrar".equals(splitPath[splitPath.length -1]) )
 					&& (req.getMethod().equals("POST")) ){
 				// sigue la cadena de ejecucion hacia el login
 				chain.doFilter(req, response);

@@ -164,6 +164,27 @@ app.factory("todopoderosoDAO",
 							return promise;
 					  },
 					  
+					  registrarUsuario : function(usuario){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        $http({
+					        	  method  : 'POST',
+					        	  url     : baseRESTurl + "usuario/registrar",
+					        	  data    : '{ "user":"'+usuario.user+'"'+',"password":"'+usuario.password+'","rol_id":"'+usuario.rol.id+'"}',
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al registrar usuario ");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
 					  editUsuario : function(usuario){
 						  var usuarioJSON = {
 						  			user : usuario.user,

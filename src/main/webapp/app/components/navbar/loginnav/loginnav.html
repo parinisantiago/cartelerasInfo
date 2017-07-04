@@ -1,4 +1,39 @@
 <nav class="navbar navbar-default">
 	<cp-login></cp-login>
-	<button class="btn btn-success navbar-btn" data-toggle="modal" data-target="#modalNuevoUsuario" data-backdrop="static">Registrarse</button>
+	<button class="btn btn-success navbar-btn" data-toggle="modal" data-target="#modalUsuarioCrear" data-backdrop="static">Registrarse</button>
 </nav>
+
+<!-- modal de crear usuario -->
+	<div class="modal fade" id="modalUsuarioCrear" tabindex="-1" role="dialog" aria-labelledby="Usuario">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalUsuarioHeader">Nuevo usuario</h4>
+					</div>
+					<div class="modal-body">
+						<form >
+							<div class="form-group">
+								<label for="modalUsuarioNombre" class="control-label">Nombre de usuario:</label>
+								<input type="text" class="form-control" id="modalUsuarioNombre" ng-model="registro.user" required>
+							</div>
+							<div class="form-group">
+								<label for="modalUsuarioPass" class="control-label">Contraseña:</label>
+								<input type="text" class="form-control" id="modalUsuarioPass" ng-model="registro.password" required>
+							</div>
+							<div>
+								<label for="modalCartelText" class="control-label">Rol:</label>
+								<select ng-model="registro.rol" ng-options="option.nombre for option in roles track by option.id" required>
+								</select> 
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="modalUsuarioEnviar" ng-click="registrar(registro)" data-dismiss="modal">Registrarse</button>
+					</div>
+				</div>
+			</div>
+		</div>
