@@ -1,9 +1,17 @@
-UserListController.$inject = ['todopoderosoDAO', 'notificationService', '$scope'];
-function UserListController(todopoderosoDAO, notificationService, $scope) {
+UserListController.$inject = ['todopoderosoDAO', 'notificationService', 'userService', '$scope', '$state'];
+function UserListController(todopoderosoDAO, notificationService, userService, $scope, $state) {
 	$scope.roles = [];
 	$scope.usuarios=[];
 	$scope.carteleras=[];
-
+	
+	$scope.logueadoOHome = function(){
+		var logueado = userService.isLogged();
+		if(!logueado){
+			$state.go("home");
+		}
+		return logueado;
+	}
+	
 	todopoderosoDAO.getCarteleras()
 	.then(function(data){
 		$scope.carteleras = data;

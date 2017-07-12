@@ -1,5 +1,13 @@
-userConfigController.$inject = ['notificationService', 'userService', 'todopoderosoDAO', 'localstorage', '$scope'];
-function userConfigController(notificationService, userService, todopoderosoDAO, localstorage, $scope) {
+userConfigController.$inject = ['notificationService', 'userService', 'todopoderosoDAO', 'localstorage', '$scope', '$state'];
+function userConfigController(notificationService, userService, todopoderosoDAO, localstorage, $scope, $state) {
+	$scope.logueadoOHome = function(){
+		var logueado = userService.isLogged();
+		if(!logueado){
+			$state.go("home");
+		}
+		return logueado;
+	}
+	
 	$scope.userData = userService.getUserData(); 
 	$scope.form = { PasswordOld : null, PasswordNew : null, PasswordNew2 : null};
 	$scope.vaciarform = function(){

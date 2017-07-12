@@ -1,7 +1,8 @@
 app.controller('misAnunciosController', carteleraController);
-carteleraController.$inject = ['$scope', 'localstorage', 'todopoderosoDAO', 'userService', 'notificationService', '$http'];
+carteleraController.$inject = ['$scope', 'localstorage', 'todopoderosoDAO', 'userService', 'notificationService', '$http', '$state'];
 
-function carteleraController($scope, localstorage, todopoderosoDAO, userService, notificationService, $http) {
+function carteleraController($scope, localstorage, todopoderosoDAO, userService, notificationService, $http, $state) {
+	
 	$scope.wrapperCartelera= {anuncios:[]};
 	if(userService.isLogged()){
 		todopoderosoDAO.getAnunciosUsuario(userService.getUserData())
@@ -13,10 +14,8 @@ function carteleraController($scope, localstorage, todopoderosoDAO, userService,
 		})
 	}
 	else{
-		notificationService.addNotificacion('Usted debe loguearse para ver su anuncios', '', 'danger');
-		$scope.misAnuncios = function(){
-			localstorage.setSessionItem('body', 'publicaciones');
-		}
+		notificationService.addNotificacion('Usted debe loguearse para ver sus anuncios', '', 'danger');
+		$state.go("home");
 	}
 	
 }
