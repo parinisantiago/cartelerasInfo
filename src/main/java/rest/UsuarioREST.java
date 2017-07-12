@@ -1,10 +1,12 @@
 package rest;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import modelo.Cartelera;
 import modelo.Rol;
@@ -163,7 +166,33 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	public ResponseEntity<Usuario> registrarUsuario(@RequestBody String jsonString) {
 		return super.entityCreate(jsonString);
 	}
-
+	
+	@PutMapping(value="/usuario/{id}/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Usuario.class)
+	public ResponseEntity<Usuario> cambiarPasswordUsuario(@PathVariable("id") Long id, @RequestBody String jsonString) {
+		Usuario entity = daoUsuario.getById(id);
+    	
+		EntityJsonPassword parsedEntity = null;
+		try {
+			parsedEntity = new ObjectMapper().readValue(jsonString, EntityJsonPassword.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+    	if(entity!= null && parsedEntity!= null && parsedEntity.getPassword_old() != "" && parsedEntity.getPassword_new() != ""){
+    		if( entity.getPassword().equals(parsedEntity.getPassword_old()) ){
+	    		entity.setPassword(parsedEntity.getPassword_new());
+	    		daoUsuario.update(entity);
+	    		return new ResponseEntity<>(HttpStatus.OK);
+    		}
+    		else{
+    			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    		}
+    	}
+    	else{
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
+	}
 
 	@Override
 	@PutMapping(value="/usuario/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -243,6 +272,37 @@ final class EntityJsonUsuario extends EntityJsonAbstract{
 	@Override
 	public String toString() {
 		return "EntityJsonUsuario [user=" + user + ", password=" + password + ", rol_id=" + rol_id + "]";
+	}
+
+}
+
+final class EntityJsonPassword extends EntityJsonAbstract{
+	private String password_old;
+	private String password_new;
+	
+	public EntityJsonPassword() {
+		super();
+	}
+	
+	public String getPassword_old() {
+		return password_old;
+	}
+
+	public void setPassword_old(String password_old) {
+		this.password_old = password_old;
+	}
+
+	public String getPassword_new() {
+		return password_new;
+	}
+
+	public void setPassword_new(String password_new) {
+		this.password_new = password_new;
+	}
+
+	@Override
+	public String toString() {
+		return "EntityJsonPassword [password_old=" + password_old + ", password_new=" + password_new + "]";
 	}
 
 }

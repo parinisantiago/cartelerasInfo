@@ -1,0 +1,35 @@
+<div class="col-xs-12">
+	<form class="form-horizontal">
+		<fieldset>
+			<legend>Cambio de contraseña</legend>
+			<div class="form-group">
+			    <label for="pass_old" class="col-sm-2 control-label">Contraseña anterior:</label>
+			    <div class="col-sm-4">
+			    	<input type="password" class="form-control" id="pass_old" placeholder="contraseña anterior" ng-model="form.PasswordOld">
+		    	</div>
+		  	</div>
+		  	<div class="form-group">
+			    <label for="pass_new" class="col-sm-2 control-label">Contraseña nueva:</label>
+			    <div class="col-sm-4">
+			    	<input type="password" class="form-control" id="pass_new" placeholder="contraseña nueva" ng-model="form.PasswordNew">
+			    </div>
+		  	</div>
+		  	<div class="form-group {{ form.PasswordNew2 == form.PasswordNew ? '' :'has-error has-feedback' }}">
+			    <label for="pass_new2" class="col-sm-2 control-label">Repetir contraseña nueva:</label>
+			    <div class="col-sm-4">
+			    	<input type="password" class="form-control" id="pass_new2" placeholder="contraseña nueva" ng-model="form.PasswordNew2">
+			    	<span class="text-danger" ng-if="form.PasswordNew2 != form.PasswordNew">Las contraseñas no coinciden</span>
+			    </div>
+		  	</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div ng-switch="(form.PasswordNew != null && form.PasswordNew != '' && (form.PasswordNew2 == form.PasswordNew) )">
+				  		<button ng-switch-when="true" ng-click="changePassword()" class="btn btn-primary" >Cambiar Contraseña </button>
+				  		<button ng-switch-when="false" class="btn btn-primary" disabled>Cambiar Contraseña </button>
+				  	</div>
+				</div>
+			</div>
+			
+	  	</fieldset>
+	</form>
+</div>

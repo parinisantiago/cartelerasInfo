@@ -185,6 +185,28 @@ app.factory("todopoderosoDAO",
 							return promise;
 					  },
 					  
+					  editPasswordUsuario : function(usuario, pass_old, pass_new){
+						  	var defered = $q.defer();
+					        var promise = defered.promise;
+					        $http({
+					        	  method  : 'PUT',
+					        	  url     : baseRESTurl + "usuario/" + usuario.id + "/password",
+					        	  data    : '{ "password_old":"'+ pass_old +'","password_new":"'+ pass_new +'"}',
+					        	  headers : { 'Authorization' : userService.getToken() }
+					        	 })
+					        .then(
+								function(respuesta){
+									defered.resolve(respuesta.data);
+								},
+								function(respuesta){
+									console.log("Error al cambiar contraseña de usuario ");
+									console.log(respuesta);
+									defered.reject(respuesta);
+							    });
+							
+							return promise;
+					  },
+					  
 					  editUsuario : function(usuario){
 						  var usuarioJSON = {
 						  			user : usuario.user,
