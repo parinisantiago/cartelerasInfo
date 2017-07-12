@@ -6,7 +6,7 @@ function carteleraController($scope, localstorage, todopoderosoDAO, userService,
 	if(userService.isLogged()){
 		todopoderosoDAO.getAnunciosUsuario(userService.getUserData())
 		.then(function(data){
-					$scope.wrapperCartelera.anuncios = data;
+			$scope.wrapperCartelera.anuncios = data;
 		})
 		.catch(function(error){
 			notificationService.addNotificacion('Error al buscar anuncios propios', '', 'danger');
