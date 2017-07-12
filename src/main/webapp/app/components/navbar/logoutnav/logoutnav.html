@@ -3,24 +3,29 @@
 		<strong class="navbar-text">
 		{{usuario.user}}
 		</strong>
-		{{usuario.rol.nombre}}
 	</a>
+	
 	<user-notifications></user-notifications>
+	
 	<button ng-click="misAnuncios()" class="btn btn-default navbar-btn">
 		Mis Publicaciones
 	</button>
-	<button ng-click="publicaciones()" class="btn btn-default">
+	
+	<button ng-click="publicaciones()" class="btn btn-default navbar-btn">
 		Carteleras
 	</button>
 
-		<a ng-if="administrar()" ng-click="abmUsuario()" class="btn btn-default"
-			data-toggle="tooltip" data-placement="bottom"
-			title="Requiere ser Administrador"> Administrar </a>
-	<button ng-click="configuracion()" class="btn btn-default">
-		Configuracion
+	<a ng-if="administrar()" ng-click="abmUsuario()" class="btn btn-default navbar-btn" data-toggle="tooltip" data-placement="bottom"
+		title="Requiere ser Administrador"> 
+		Administrar 
+	</a>
+	
+	<button type="submit" class="btn btn-default navbar-btn pull-right" ng-click="logout()">
+		Desloguear
 	</button>
-
-
-	<button type="submit" class="btn btn-default navbar-btn pull-right" ng-click="logout()">Desloguear</button>
+	
+	<button ng-click="configuracion()" class="btn btn-default navbar-btn pull-right">
+		<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+	</button>
 
 </nav>
