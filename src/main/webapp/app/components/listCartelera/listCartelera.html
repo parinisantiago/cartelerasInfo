@@ -3,7 +3,7 @@
 		<div class="col-xs-12">
 			<div class="btn-group btn-group-justified" role="group" aria-label="...">
 				<div class="btn-group" role="group" ng-repeat="cartelera in carteleras">
-					<button type="button" class="btn btn-default" ng-click="cambiarCartelera(cartelera)">
+					<button type="button" class="btn btn-default {{carteleraActiva.id == cartelera.id? 'active':''}}" ng-click="cambiarCartelera(cartelera)">
 						<span>{{cartelera.titulo}}</span>
 					</button>
 				</div>
