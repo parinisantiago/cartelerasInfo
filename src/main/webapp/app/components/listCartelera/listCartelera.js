@@ -163,7 +163,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	}
 	
 	$scope.publicar = function(){
-		return ((userService.getUserData().rol.id == '2') && (userService.getUserData().cartelerasModificar.indexOf($scope.carteleraActiva.id) != -1));
+		return ((userService.getUserData().rol.id == '2') && $scope.carteleraActiva && (userService.getUserData().cartelerasModificar.indexOf($scope.carteleraActiva.id) != -1));
 	}
 	
 	$scope.removeInteres = function(){

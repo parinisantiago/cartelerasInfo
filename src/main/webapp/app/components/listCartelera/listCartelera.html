@@ -54,7 +54,8 @@
 					</div>
 				</div>
 			</div>
-			<cartelera cart="carteleraActiva" on-update="$ctrl.actualizar(id, titulo, cart)"></cartelera>
+			<search-bar classes="col-xs-12" search="busqueda" placeholder="Buscar por titulo" id="busquedaTitulo"></search-bar>
+			<cartelera cart="carteleraActiva" on-update="$ctrl.actualizar(id, titulo, cart)" busqueda="busqueda"></cartelera>
 		</div>
 	</div>
 	<!-- modal de crear cartelera -->
