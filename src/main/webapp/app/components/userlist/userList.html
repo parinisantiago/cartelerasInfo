@@ -1,15 +1,7 @@
 <div ng-if="logueadoOHome()">
 	<h2>Usuarios:</h2>
 	<div class="form-group col-md-6">
-		<div class="input-group">
-			<label class="sr-only" for="userSearch">Busque usuarios por nombre o rol</label>
-			<div class="input-group-addon">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			</div>
-			<input type="search" ng-model="busqueda" autofocus
-				class="form-control" id="userSearch"
-				placeholder="busque usuarios por nombre o rol">
-		</div>
+		<search-bar search="busqueda" placeholder="busque usuarios por nombre o rol"></search-bar>
 	</div>
 	<div class="col-md-6">
 		<button class="btn btn-info col-xs-12" data-toggle="modal" data-target="#modalUsuarioCrear" ng-click="vaciarUsuarioActual()">
