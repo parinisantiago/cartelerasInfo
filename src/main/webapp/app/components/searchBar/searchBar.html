@@ -1,0 +1,11 @@
+<div class="{{$ctrl.classes}}">
+	<form>
+		<div class="input-group">
+			<label class="sr-only" for="{{ $ctrl.id ? $ctrl.id : $ctrl.config.id }}">{{$ctrl.placeholder ? $ctrl.placeholder : $ctrl.config.placeholder }}</label>
+			<div class="input-group-addon">
+				<span class="glyphicon glyphicon-search" id="{{ $ctrl.id ? $ctrl.id : $ctrl.config.id }}-glyph" aria-hidden="true"></span>
+			</div> 
+			<input ng-model="$ctrl.data" ng-change="change()" type="text" class="form-control" placeholder="{{$ctrl.placeholder ? $ctrl.placeholder : $ctrl.config.placeholder }}" id="{{ $ctrl.id ? $ctrl.id : $ctrl.config.id }}" aria-describedby="{{ $ctrl.id ? $ctrl.id : $ctrl.config.id }}-glyph">
+		</div>
+	</form>
+</div>
