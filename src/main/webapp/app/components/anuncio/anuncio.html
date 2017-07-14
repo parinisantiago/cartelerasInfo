@@ -20,9 +20,9 @@
 		<comentario comentarios="$ctrl.anuncio.comentarios" anuncio="$ctrl.anuncio" ng-show="expandido && $ctrl.anuncio.comentarioHabilitado"></comentario>
 	</div>
 	<div class="cartel-footer col-xs-12" ng-switch="expandido">
-		<a ng-switch-when="true" href="#anuncio-{{$ctrl.anuncio.id}}" class="pull-right"
+		<a ng-switch-when="true" class="pull-right"
 		ng-click="achicar()">Ver menos</a>
-		<a ng-switch-default href="#anuncio-{{$ctrl.anuncio.id}}" class="pull-right"
+		<a ng-switch-default class="pull-right"
 			ng-click="expandir()">Ver mas</a>
 	</div>
 </div>

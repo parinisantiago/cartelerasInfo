@@ -19,6 +19,7 @@ app.component("cartelera", {
 		templateUrl: 'app/components/cartelera/cartelera.html',
 		bindings: {
 			cart:'<',
+			busqueda:'<',
 			onUpdate: '&'
 		}
 });
