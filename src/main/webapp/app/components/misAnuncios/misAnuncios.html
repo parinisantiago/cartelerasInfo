@@ -1,8 +1,9 @@
 <h2>Mis Publicaciones:</h2>
+<search-bar search="busqueda" placeholder="Buscar por titulo" id="busquedaTitulo"></search-bar>
 
 <div ng-switch="wrapperCartelera.anuncios.length > 0">
 	<div ng-switch-when="true" class="cartelera col-xs-12">
-		<cartelera  cart="wrapperCartelera"></cartelera>
+		<cartelera  cart="wrapperCartelera" busqueda="busqueda"></cartelera>
 	</div>
 	<div ng-switch-when="false">
 		<h3>No Tienes anuncios Publicados</h3>
