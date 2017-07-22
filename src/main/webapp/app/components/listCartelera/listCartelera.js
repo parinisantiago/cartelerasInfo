@@ -7,7 +7,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
-	$scope.cartel= {titulo:'', cuerpo:'', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
+	$scope.cartel= {titulo:'un titulo', cuerpo:'un cuerpo', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
 	
 	$scope.cambiarTitulo=false;
 	$scope.tituloViejo='';
@@ -20,6 +20,26 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			.catch(function(error){
 				notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 			})
+	
+	ctl.modifyCartel= function(cartelmod, cart){
+				if( confirm("Modificar anuncio "+ cartelmod.titulo + "?") ){
+					todopoderosoDAO.modificarAnuncio(cartelmod, cart)
+					.then(function(data){
+						todopoderosoDAO.getCarteleras()
+						.then(function(data){
+							$scope.carteleras = data;
+							todopoderosoDAO.getCarteleraById(cart)
+							.then(function(data){
+								$scope.carteleraActiva = data;
+							})
+						})
+					})
+					.catch(function(error){
+						console.log("ocurrio un error, ups")
+						console.log(error);
+					})
+				}
+			}
 	
 	ctl.actualizar = function(id, titulo, cart){
 				if( confirm("Eliminar anuncio "+ titulo + "?") ){
