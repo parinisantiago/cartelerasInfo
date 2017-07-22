@@ -327,7 +327,7 @@ app.factory("todopoderosoDAO",
 						        $http({
 						        	  method  : 'POST',
 						        	  url     : baseRESTurl + "comentario",
-						        	  data    : '{ "texto":"'+texto+'"'+', "creador_id":"'+usuario.id+'"'+ ', "anuncio_id":"'+ anuncio.id +'"}',
+						        	  data    : '{ "texto":"'+texto+'"'+', "creador_id":"'+usuario.id+'"'+ ', "_id":"'+ anuncio.id +'"}',
 						        	  headers : { 'Authorization' : userService.getToken() }
 						        	 })
 						        .then(
@@ -359,6 +359,26 @@ app.factory("todopoderosoDAO",
 								return promise;
 						  },
 						  
+						  modificarAnuncio: function(cartel, idCartelera){
+							  var defered = $q.defer();
+							  var promise = defered.promise;
+							  $http({
+								  method	:	'PUT',
+								  url		: 	baseRESTurl + "anuncio/"+cartel.id,
+								  data		:	 '{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarios+'","creador_id":"'+cartel.idCreador+'","cartelera_id":"'+idCartelera+'"}',
+					        	  headers 	:	{ 'Authorization' : userService.getToken() }
+							  })
+							  .then(
+								function(respuesta){
+							  		defered.resolve(respuesta.data)
+								},
+							  	function(respuesta){
+							  		console.log("Error al borrar el anuncio")
+							  		console.log(respuesta)
+							  		defered.reject(respuesta)
+							  	})
+							 return promise;
+						  },
 						  eliminarAnuncio: function(id){
 							  var defered = $q.defer();
 							  var promise = defered.promise;
