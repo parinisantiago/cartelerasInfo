@@ -8,6 +8,10 @@ function carteleraController($scope, todopoderosoDAO, userService, $http) {
 		ctl.onUpdate({id:id, titulo:titulo, cart:ctl.cart.id})
 	}
 	
+	ctl.modifyCartel = function(cartel){
+		ctl.onModify({cartelmod:cartel, cart:ctl.cart.id})
+	}
+	
 	$scope.eliminar = function(){
 		return userService.getUserData().cartelerasEliminar
 	}
@@ -20,6 +24,7 @@ app.component("cartelera", {
 		bindings: {
 			cart:'<',
 			busqueda:'<',
-			onUpdate: '&'
+			onUpdate: '&',
+			onModify: '&'
 		}
 });
