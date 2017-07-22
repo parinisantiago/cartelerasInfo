@@ -2,10 +2,8 @@
 	<div class="cartel-header col-xs-12" id="anuncio-{{$ctrl.anuncio.id}}">
 		<div class="btn-group pull-right" role="group" aria-label="...">
 			<a href="#" class="editar" data-toggle="modal"
-				data-target="#modalCartel" data-text="{{$ctrl.anuncio.cuerpo}}"
-				data-title="{{$ctrl.anuncio.titulo}}" data-modify="true"
-				data-backdrop="static" ng-if="$ctrl.elim >= 0"> <span
-				class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				data-target="#modalModificar" ng-if="$ctrl.elim >= 0"> <span
+				class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="datosModificar()"></span>
 			</a>
 			<a href="#" ng-click="eliminar($ctrl.anuncio)" class="eliminar" data-toggle="tooltip" title="Eliminar"
 				ng-if="$ctrl.elim >= 0">
@@ -25,4 +23,36 @@
 		<a ng-switch-default class="pull-right"
 			ng-click="expandir()">Ver mas</a>
 	</div>
+			<!-- modal modificar -->
+			<div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="Cartelera">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalModificarHeader">Modificar anuncio</h4>
+					</div>
+					<div class="modal-body">
+						<form >
+							<div class="form-group">
+								<label for="modalModificarNombre" class="control-label">Título:</label>
+								<input type="text" class="form-control" id="modalModificarNombre" ng-model="$ctrl.cartel.titulo" value="algo" required>
+							</div>
+							<div class="form-group">
+								<label for="modalModificarContenido" class="control-label">Contenido:</label>
+								<textarea class="form-control" id="modalModificarContenido" rows="5" ng-model="$ctrl.cartel.cuerpo" required></textarea>
+							</div>
+							<div class="form-group">	
+  									<input type="checkbox" value="comentario" ng-model="$ctrl.cartel.comentarios" checked>Comentarios habilitados
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="modalCarteleraModifica" ng-click="modificarCartelera($ctrl.cartel)" data-dismiss="modal">Publicar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
