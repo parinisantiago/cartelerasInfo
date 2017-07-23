@@ -327,7 +327,7 @@ app.factory("todopoderosoDAO",
 						        $http({
 						        	  method  : 'POST',
 						        	  url     : baseRESTurl + "comentario",
-						        	  data    : '{ "texto":"'+texto+'"'+', "creador_id":"'+usuario.id+'"'+ ', "_id":"'+ anuncio.id +'"}',
+						        	  data    : '{ "texto":"'+texto+'"'+', "creador_id":"'+usuario.id+'"'+ ', "anuncio_id":"'+ anuncio.id +'"}',
 						        	  headers : { 'Authorization' : userService.getToken() }
 						        	 })
 						        .then(
