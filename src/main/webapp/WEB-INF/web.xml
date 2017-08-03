@@ -21,8 +21,7 @@
 		<servlet-name>cartelerasInfo</servlet-name>
 		<url-pattern>/REST/*</url-pattern>
 	</servlet-mapping>
-
-
+	
 	<filter>
 		<filter-name>TokenJWTFilter</filter-name>
 		<filter-class>tokenJWT.TokenJWTFilter</filter-class>
