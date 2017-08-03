@@ -120,3 +120,17 @@
 .notificacion.ng-hide{
 	z-index:0;
 }
+
+.carrusel-fotos{
+	
+}
+
+.item img {
+    min-height: 300px;
+    max-height: 100%;
+}
+
+.imagen-muestra{
+	min-height: 100px;
+	max-height: 150px;
+}

@@ -94,25 +94,47 @@
 						<h4 class="modal-title" id="modalCarteleraHeader">Publicar en cartelera</h4>
 					</div>
 					<div class="modal-body">
-						<form >
+						<form>
 							<div class="form-group">
 								<label for="modalPublicarNombre" class="control-label">Título:</label>
-								<input type="text" class="form-control" id="modalPublicarNombre" ng-model="$ctrl.cartel.titulo" required>
+								<input type="text" class="form-control" id="modalPublicarNombre" ng-model="cartel.titulo" required>
 							</div>
 							<div class="form-group">
 								<label for="modalPublicarContenido" class="control-label">Contenido:</label>
-								<textarea class="form-control" id="modalPublicarContenido" rows="5" ng-model="$ctrl.cartel.cuerpo" required></textarea>
+								<textarea class="form-control" id="modalPublicarContenido" rows="5" ng-model="cartel.cuerpo" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="modalPublicarImagenes" class="control-label">Imagenes:</label>
+								<div>
+									<button class="btn btn-success" ngf-select="addImages($files)" 
+										 
+										multiple="true" accept="'image/*'" 
+										ngf-keep="'distinct'" ngf-allow-dir="false" 
+										ngf-max-files="10" ngf-max-size="5MB" ngf-max-total-size="15MB">
+										Agregar imagenes
+									</button>
+	
+									<div class="col-xs-12">
+										<div ng-repeat="file in cartel.files" class="col-sm-3">
+											<img ngf-thumbnail="file" class="img-responsive img-thumbnail imagen-muestra">
+											<br>
+											<span>{{file.name}} - {{file.size / 1000 | number : 2}} Kb</span>
+										</div>
+									</div>
+								</div>
+							<!-- <input flow-btn type="file" class="form-control" id="modalPublicarImagenes" ng-model="$ctrl.cartel.imagenes" > -->
 							</div>
 							<div class="form-group">	
 								<div class="checkbox">
-  									<label><input type="checkbox" value="comentario" ng-model="$ctrl.cartel.comentarios">Comentarios habilitados</label>
+  									<label><input type="checkbox" value="comentario" ng-model="cartel.comentarioHabilitado">Comentarios habilitados</label>
 								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-primary" id="modalCarteleraEnviar" ng-click="publicarCartelera($ctrl.cartel)" data-dismiss="modal">Publicar</button>
+						<button ng-click="log(cartel)" type="button" class="btn btn-default" >Mostrar</button>
+						<button type="button" class="btn btn-primary {{cartel.flow.isUploading()?'disabled':''}}"  id="modalCarteleraEnviar" ng-click="publicarCartelera(cartel)" data-dismiss="modal" >Publicar</button>
 					</div>
 				</div>
 			</div>

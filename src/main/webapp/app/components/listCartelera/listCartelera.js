@@ -2,13 +2,39 @@ app.controller('listCarteleraController', listCarteleraController);
 listCarteleraController.$inject = ['$scope', 'todopoderosoDAO', 'userService', 'notificationService', '$http', '$filter'];
 
 function listCarteleraController($scope, todopoderosoDAO, userService, notificationService, $http, $filter) {
-	ctl = this
+	ctl = this;
+	
 	
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
-	$scope.cartel= {titulo:'un titulo', cuerpo:'un cuerpo', comentarios:'algo', fecha:'', idCreador:'', idCartelera:''};
 	
+	$scope.cartelVacio = function(){
+		return JSON.parse(JSON.stringify({titulo:'', cuerpo:'', comentarioHabilitado:true, creador_id:'', cartelera_id:'', files:[], imagenesEliminar:[]}));
+	}
+	
+	$scope.cartel = new $scope.cartelVacio;
+	
+	
+	$scope.addImages = function(files){
+		$scope.cartel.files = files;
+	}
+	
+	/*
+	$scope.addImages = function(files, event, flow){
+		console.log($scope.cartel.flow);
+		var reader = new FileReader();
+		for (var int = 0; int < $scope.cartel.flow.files.length; int++) {
+			
+			
+			var fd=new FormData();
+			fd.append('file',$scope.cartel.flow.files[int].file);
+			console.log(fd);
+			//$scope.cartel.imagenes.push(reader.readAsDataURL($scope.cartel.flow.files[int].file)) ;
+		}
+		console.log($scope.cartel);
+	}
+	*/
 	$scope.cambiarTitulo=false;
 	$scope.tituloViejo='';
 	
@@ -22,6 +48,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			})
 	
 	ctl.modifyCartel= function(cartelmod, cart){
+				console.log(cartelmod);
 				if( confirm("Modificar anuncio "+ cartelmod.titulo + "?") ){
 					todopoderosoDAO.modificarAnuncio(cartelmod, cart)
 					.then(function(data){
@@ -63,12 +90,12 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			}
 	
 	$scope.publicarCartelera= function(cartel){
-				cartel.fecha= $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
-				cartel.idCreador = userService.getUserData().id;
-				cartel.idCartelera = $scope.carteleraActiva.id;
-				cartel.comentarios? cartel.comentarios = true : cartel.comentarios = false;
+				cartel.creador_id = userService.getUserData().id;
+				cartel.cartelera_id = $scope.carteleraActiva.id;
+				cartel.comentarioHabilitado? cartel.comentarioHabilitado = true : cartel.comentarioHabilitado = false;
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
+						$scope.cartel = new $scope.cartelVacio;
 						todopoderosoDAO.getCarteleraById(data['cartelera'].id)
 						.then(function(data){
 							$scope.carteleraActiva = data;
@@ -76,9 +103,9 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 						.catch(function(error){
 							notificationService.addNotificacion('Error al buscar carteleras', '', 'danger');
 						})
-						cartel.titulo = ''
-						cartel.cuerpo = ''
-						cartel.comentarios = ''
+						cartel.titulo = '';
+						cartel.cuerpo = '';
+						cartel.comentarios = true;
 						notificationService.addNotificacion('Se agrego su anuncio correctamente', '', 'info');
 					})
 					.catch(function(error){
@@ -183,7 +210,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	}
 	
 	$scope.publicar = function(){
-		return ((userService.getUserData().rol.id == '2') && $scope.carteleraActiva && (userService.getUserData().cartelerasModificar.indexOf($scope.carteleraActiva.id) != -1));
+		return ((userService.isProfesor) && $scope.carteleraActiva && (userService.getUserData().cartelerasModificar.indexOf($scope.carteleraActiva.id) != -1));
 	}
 	
 	$scope.removeInteres = function(){

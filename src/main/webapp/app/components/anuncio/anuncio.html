@@ -2,7 +2,7 @@
 	<div class="cartel-header col-xs-12" id="anuncio-{{$ctrl.anuncio.id}}">
 		<div class="btn-group pull-right" role="group" aria-label="...">
 			<a href="#" class="editar" data-toggle="modal"
-				data-target="#modalModificar" ng-if="$ctrl.elim >= 0"> <span
+				data-target="#modalModificarAnuncio-{{$ctrl.anuncio.id}}" ng-if="$ctrl.elim >= 0"> <span
 				class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="datosModificar()"></span>
 			</a>
 			<a href="#" ng-click="eliminar($ctrl.anuncio)" class="eliminar" data-toggle="tooltip" title="Eliminar"
@@ -13,9 +13,24 @@
 		</div>
 	</div>
 	<div class="nota col-xs-12">
-		<p class="text-center nota-titulo">{{$ctrl.anuncio.titulo}}</p>
-		<p class="nota-texto">{{$ctrl.anuncio.cuerpo}}</p>
-		<comentario comentarios="$ctrl.anuncio.comentarios" anuncio="$ctrl.anuncio" ng-show="expandido && $ctrl.anuncio.comentarioHabilitado"></comentario>
+		<div class="col-xs-12">
+			<p class="text-center nota-titulo">{{$ctrl.anuncio.titulo}}</p>
+		</div>
+		<div class="col-xs-12">
+			<p class="nota-texto">{{$ctrl.anuncio.cuerpo}}</p>
+		</div>
+		
+		<div class="col-xs-12" ng-show="$ctrl.anuncio.imagenes.length != 0 && expandido">
+			<div ng-repeat="imagen in $ctrl.anuncio.imagenes" class="img-muestra col-sm-3">
+				<a href="#" data-toggle="modal" data-target="#modalImagenes-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}">
+					<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail imagen-muestra"
+					data-target="#carousel-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}"/> 
+				</a>
+		    </div>
+		</div>
+		<div class="col-xs-12">
+			<comentario comentarios="$ctrl.anuncio.comentarios" anuncio="$ctrl.anuncio" ng-show="expandido && $ctrl.anuncio.comentarioHabilitado"></comentario>
+		</div>
 	</div>
 	<div class="cartel-footer col-xs-12" ng-switch="expandido">
 		<a ng-switch-when="true" class="pull-right"
@@ -24,7 +39,7 @@
 			ng-click="expandir()">Ver mas</a>
 	</div>
 			<!-- modal modificar -->
-			<div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="Cartelera">
+			<div class="modal fade" id="modalModificarAnuncio-{{$ctrl.anuncio.id}}" tabindex="-1" role="dialog" aria-labelledby="Cartelera">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -36,21 +51,113 @@
 					<div class="modal-body">
 						<form >
 							<div class="form-group">
-								<label for="modalModificarNombre" class="control-label">Título:</label>
-								<input type="text" class="form-control" id="modalModificarNombre" ng-model="$ctrl.cartel.titulo" value="algo" required>
+								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-Nombre" class="control-label">Título:</label>
+								<input type="text" class="form-control" id="modalModificarAnuncio-{{$ctrl.anuncio.id}}-Nombre" ng-model="$ctrl.cartel.titulo" value="algo" required>
 							</div>
 							<div class="form-group">
-								<label for="modalModificarContenido" class="control-label">Contenido:</label>
-								<textarea class="form-control" id="modalModificarContenido" rows="5" ng-model="$ctrl.cartel.cuerpo" required></textarea>
+								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-Contenido" class="control-label">Contenido:</label>
+								<textarea class="form-control" id="modalModificarAnuncio-{{$ctrl.anuncio.id}}-Contenido" rows="5" ng-model="$ctrl.cartel.cuerpo" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-ImagenesActuales" class="control-label">Imagenes actuales:</label>
+								<div class="col-xs-12">
+									<div ng-repeat="imagen in $ctrl.anuncio.imagenes | filter:imagenesSinBorrar" class="col-sm-3">
+										<div id="muestraImagen-{{imagen}}">
+											<a href="#" data-toggle="modal" data-target="#modalImagenes-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}">
+												<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail"
+												data-target="#carousel-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}"/> 
+											</a>
+											<button class="btn btn-danger" ng-click="removeImagen(imagen)">
+												Eliminar
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-ImagenesEliminar" class="control-label">Imagenes a borrar:</label>
+								<div class="col-xs-12">
+									<div ng-repeat="imagen in imagenesEliminar" class="col-sm-3">
+										<div id="muestraImagenBorrar-{{imagen}}">
+											<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail"/> 
+											<button class="btn btn-warning" ng-click="cancelRemoveImagen(imagen)">
+												Cancelar
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-PublicarImagenes" class="control-label">Imagenes nuevas:</label>
+								<div>
+									<button class="btn btn-success" ngf-select="addImages($files)" 
+									
+										multiple="true" accept="'image/*'" 
+										ngf-keep="'distinct'" ngf-allow-dir="false" 
+										ngf-max-files="10" ngf-max-size="5MB" ngf-max-total-size="15MB">
+										Agregar imagenes
+									</button>
+	
+									<div class="col-xs-12">
+										<div ng-repeat="file in files" class="col-sm-3">
+											<img ngf-thumbnail="file" class="img-responsive img-thumbnail imagen-muestra">
+											<!-- <img flow-img="$flow.files[$index]" class="img-responsive img-thumbnail"/> -->
+											<br>
+											<span>{{file.name}} - {{file.size / 1000 | number : 2}} Kb</span>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="form-group">	
-  									<input type="checkbox" value="comentario" ng-model="$ctrl.cartel.comentarios" checked>Comentarios habilitados
+								<div class="checkbox">
+  									<label><input type="checkbox" value="comentario" ng-model="$ctrl.anuncio.comentarioHabilitado">Comentarios habilitados</label>
+								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-primary" id="modalCarteleraModifica" ng-click="modificarCartelera($ctrl.cartel)" data-dismiss="modal">Publicar</button>
+						<button type="button" class="btn btn-primary" id="modalModificarAnuncio-{{$ctrl.anuncio.id}}-CarteleraModifica" ng-click="modificarCartelera($ctrl.cartel)" data-dismiss="modal">Guardar Cambios</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- FOTOS -->
+		<div class="modal fade" id="modalImagenes-{{$ctrl.anuncio.id}}" tabindex="-1" role="dialog" aria-labelledby="Cartelera">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="modalImagenes-{{$ctrl.anuncio.id}}-ModificarHeader">Imágenes de {{$ctrl.anuncio.titulo}}</h4>
+					</div>
+					<div class="modal-body">
+						
+							<div id="carousel-{{$ctrl.anuncio.id}}" class="carousel slide" data-ride="carousel">
+							  <!-- Indicators -->
+							  <ol class="carousel-indicators">
+							    <li ng-repeat="imagen in $ctrl.anuncio.imagenes" data-target="#carousel-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}" class="{{$first?'active':''}}"></li>
+							  </ol>
+							
+							  <!-- Wrapper for slides -->
+							  <div class="carousel-inner" role="listbox">
+							    <div ng-repeat="imagen in $ctrl.anuncio.imagenes" class="item {{$first?'active':''}}" >
+							      <img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}">
+							    </div>
+							  </div>
+							
+							  <!-- Controls -->
+							  <a class="left carousel-control" href="#carousel-{{$ctrl.anuncio.id}}" role="button" data-slide="prev">
+							    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							    <span class="sr-only">Anterior</span>
+							  </a>
+							  <a class="right carousel-control" href="#carousel-{{$ctrl.anuncio.id}}" role="button" data-slide="next">
+							    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							    <span class="sr-only">Siguiente</span>
+							  </a>
+							</div>
+						
 					</div>
 				</div>
 			</div>
