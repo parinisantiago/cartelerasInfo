@@ -1,6 +1,6 @@
 app.factory("todopoderosoDAO",
-		['$http', '$q', 'userService',
-		function($http, $q, userService){
+		['$http', '$q', 'userService', 'Upload',
+		function($http, $q, userService, Upload){
 		    var baseRESTurl = "REST/";
 		
 		    var interfazPublica = {
@@ -118,12 +118,42 @@ app.factory("todopoderosoDAO",
 					  createCartel: function(cartel){
 						  var defered = $q.defer();
 						  var promise = defered.promise;
-						  $http({
-							  method	: 'POST',
-							  url		: baseRESTurl + "anuncio",
-							  data		: '{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarios+'","creador_id":"'+cartel.idCreador+'","cartelera_id":"'+cartel.idCartelera+'"}',
-							  headers	: {'Authorization': userService.getToken()}
+						  
+						  var fd = new FormData();
+						  angular.forEach(cartel.files, function(f) {
+						         fd.append('files', f);
+					         	});
+						  fd.append("data",
+								new Blob([
+									//JSON.stringify(cartel)
+									'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+cartel.cartelera_id+'"}'
+									],
+								{
+									type: "application/json"
+								}));
+						  
+						  $http.post(baseRESTurl + "anuncio", fd, {
+							  transformRequest : angular.identity,
+							  headers : {
+							  'Content-Type' : undefined,
+							  'Authorization': userService.getToken()
+							  }
 						  })
+						  
+						  
+						  /*
+						  $http.({
+							  method	: 'POST',
+							  url		:baseRESTurl + "anuncio", 
+							  data		: fd,
+							  transformRequest : angular.identity,
+							  headers : {
+							  'Content-Type' : undefined,
+							  'Authorization': userService.getToken()
+							  }
+						  })
+						  */
+						  
 						  .then(
 							function(respuesta){
 								defered.resolve(respuesta.data);
@@ -135,6 +165,7 @@ app.factory("todopoderosoDAO",
 							});
 						  
 						  return promise;
+						  
 					  },
 					  createUsuario : function(usuario){
 						  	var defered = $q.defer();
@@ -362,12 +393,41 @@ app.factory("todopoderosoDAO",
 						  modificarAnuncio: function(cartel, idCartelera){
 							  var defered = $q.defer();
 							  var promise = defered.promise;
+							  
+							  var fd = new FormData();
+							  angular.forEach(cartel.files, function(f) {
+							         fd.append('files', f);
+						         	});
+							  fd.append("data",
+									new Blob([
+										'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+idCartelera+'","imagenesEliminar:"'+ angular.toJson(cartel.imagenesEliminar) +'"}'
+										],
+									{
+										type: "application/json"
+									}));
+							  
+							  $http.put(
+								  baseRESTurl + "anuncio/"+cartel.id,
+								  fd,
+								  {
+									  transformRequest : angular.identity,
+									  headers : {
+										  'Content-Type' : undefined, 
+										  'Authorization' : userService.getToken()
+									  }
+							  })
+							  /*
 							  $http({
 								  method	:	'PUT',
 								  url		: 	baseRESTurl + "anuncio/"+cartel.id,
-								  data		:	 '{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarios+'","creador_id":"'+cartel.idCreador+'","cartelera_id":"'+idCartelera+'"}',
-					        	  headers 	:	{ 'Authorization' : userService.getToken() }
+								  data		:	 fd,
+								  transformRequest : angular.identity,
+								  headers : {
+									  'Content-Type' : undefined, 
+					        		  'Authorization' : userService.getToken()
+					        	  }
 							  })
+							  */
 							  .then(
 								function(respuesta){
 							  		defered.resolve(respuesta.data)
