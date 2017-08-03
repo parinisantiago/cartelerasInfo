@@ -1,2 +1,2 @@
 'use strict';
-var app = angular.module('cartelerasInfo',['ui.router']);
+var app = angular.module('cartelerasInfo',['ui.router', 'ngFileUpload']);
