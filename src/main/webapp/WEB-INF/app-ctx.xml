@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.2.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-	<context:component-scan base-package="modeloDAO, modeloDAOJPA, rest, testDAO, tokenJWT"></context:component-scan>
+	<context:component-scan base-package="modeloDAO, modeloDAOJPA, rest, testDAO, tokenJWT" ></context:component-scan>
 	<!--propiedades de la Base de Datos -->
 
 	<!-- DataSource -->
@@ -25,7 +25,17 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name="maxIdleTime" value="600" />
 	</bean>
 
-
+	<bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="maxUploadSize" value="5000000"/>
+	</bean>
+	<!-- 
+	<bean id="multipartResolver" 
+        class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+        
+	</bean>
+ 	-->
+ 	
 	<bean id="emf"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<!-- Estos tag hace que /META-INF/persistence.xml ya no sea necesario -->
@@ -45,10 +55,13 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		</property>
 	</bean>
 
+	
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager ">
 		<property name="entityManagerFactory" ref="emf" />
 	</bean>
+	
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
 	<!-- 
 	<bean id="AnuncioDAO" class="modeloDAOJPA.AnuncioJpaDao"></bean>
 	<bean id="CarteleraDAO" class="modeloDAOJPA.CarteleraJpaDao"></bean>
@@ -56,5 +69,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="NotificacionDAO" class="modeloDAOJPA.NotificacionJpaDao"></bean>
 	<bean id="RolDAO" class="modeloDAOJPA.RolJpaDao"></bean>
 	<bean id="UsuarioDAO" class="modeloDAOJPA.UsuarioJpaDao"></bean>
+	<bean id="TemplateDAO" class="modeloDAOJPA.TemplateJpaDao"></bean>
 	 -->
 </beans>
