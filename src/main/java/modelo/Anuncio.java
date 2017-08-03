@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -65,6 +67,12 @@ public class Anuncio implements Serializable {
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="anuncio", fetch=FetchType.EAGER)
 	@JsonView({JView.Anuncio.class,JView.CarteleraCompleta.class})
 	private List<Comentario> comentarios = new ArrayList<Comentario>();
+	
+	@ElementCollection
+	@CollectionTable(name="imagenes_anuncios")
+	@Column(name="imagenes")
+	@JsonView({JView.Anuncio.class,JView.CarteleraCompleta.class})
+	private List<String> imagenes = new ArrayList<String>();
 	
 	@Column(nullable = false)
 	@JsonView(JView.Privado.class)
@@ -181,6 +189,22 @@ public class Anuncio implements Serializable {
 	
 	public void habilitar(){
 		this.setHabilitado(true);
+	}
+
+	public List<String> getImagenes() {
+		return imagenes;
+	}
+
+	public void setImagenes(List<String> imagenes) {
+		this.imagenes = imagenes;
+	}
+	
+	public void addImagen(String imagen){
+		this.imagenes.add(imagen);
+	}
+	
+	public void removeImagen(String imagen){
+		this.imagenes.remove(imagen);
 	}
 
 	@Override
