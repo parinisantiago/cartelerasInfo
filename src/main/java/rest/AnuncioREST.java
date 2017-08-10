@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.internal.Nullable;
 
@@ -69,7 +68,7 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
 		entity.setCartelera(daoCartelera.getById(jsonEntity.getCartelera_id()));
 		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
-		entity.setHabilitado(jsonEntity.isComentarioHabilitado());
+		entity.setHabilitado(true);
 		return entity;
 	}
 
@@ -100,6 +99,10 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 			if(aux != null){
 				entity.setCreador(aux);
 			}
+		}
+		
+		if(jsonEntity.isComentarioHabilitado() != entity.isComentarioHabilitado()){
+			entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
 		}
 		
 		return entity;
@@ -200,11 +203,10 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 
 	@PutMapping(value="/anuncio/{id}", consumes = MediaType.ALL_VALUE)
 	@JsonView(JView.Anuncio.class)
-	public ResponseEntity<Anuncio> entityUpdate( //@PathVariable("id") Long id,
+	public ResponseEntity<Anuncio> entityUpdate( @PathVariable("id") Long id,
 			@RequestPart("files") @Nullable MultipartFile[] files,
 			@RequestPart("data") String jsonString
 			) {
-		Long id = 38l;
 		Anuncio entity = getEntityDao().getById(id);
     	EntityJsonAnuncio parsedEntity = mapFromJson(jsonString);
     	if(entity!= null && isValidJsonEntityToUpdate(parsedEntity)){

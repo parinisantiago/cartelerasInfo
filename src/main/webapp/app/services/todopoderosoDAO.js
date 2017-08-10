@@ -400,7 +400,7 @@ app.factory("todopoderosoDAO",
 						         	});
 							  fd.append("data",
 									new Blob([
-										'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+idCartelera+'","imagenesEliminar:"'+ angular.toJson(cartel.imagenesEliminar) +'"}'
+										'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+idCartelera+'","imagenesEliminar":'+ angular.toJson(cartel.imagenesEliminar) +'}'
 										],
 									{
 										type: "application/json"
