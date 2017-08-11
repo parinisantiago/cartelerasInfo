@@ -64,10 +64,10 @@
 									<div ng-repeat="imagen in $ctrl.anuncio.imagenes | filter:imagenesSinBorrar" class="col-sm-3">
 										<div id="muestraImagen-{{imagen}}">
 											<a href="#" data-toggle="modal" data-target="#modalImagenes-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}">
-												<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail"
+												<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail imagen-muestra"
 												data-target="#carousel-{{$ctrl.anuncio.id}}" data-slide-to="{{$index}}"/> 
 											</a>
-											<button class="btn btn-danger" ng-click="removeImagen(imagen)">
+											<button class="btn btn-xs btn-danger" ng-click="removeImagen(imagen)">
 												Eliminar
 											</button>
 										</div>
@@ -78,39 +78,43 @@
 								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-ImagenesEliminar" class="control-label">Imagenes a borrar:</label>
 								<div class="col-xs-12">
 									<div ng-repeat="imagen in imagenesEliminar" class="col-sm-3">
-										<div id="muestraImagenBorrar-{{imagen}}">
-											<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail"/> 
-											<button class="btn btn-warning" ng-click="cancelRemoveImagen(imagen)">
+										<div id="muestraImagenBorrar-{{imagen}}" >
+											<img src="{{baseImgAnuncioUrl}}{{imagen}}" alt="imagen {{imagen}}" class="img-responsive img-thumbnail imagen-muestra"/> 
+											<button class="btn btn-xs btn-warning" ng-click="cancelRemoveImagen(imagen)">
 												Cancelar
 											</button>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" >
 								<label for="modalModificarAnuncio-{{$ctrl.anuncio.id}}-PublicarImagenes" class="control-label">Imagenes nuevas:</label>
-								<div>
-									<button class="btn btn-success" ngf-select="addImages($files)" 
-									
-										multiple="true" accept="'image/*'" 
-										ngf-keep="'distinct'" ngf-allow-dir="false" 
-										ngf-max-files="10" ngf-max-size="5MB" ngf-max-total-size="15MB">
+								<div class="col-xs-12" flow-init="" flow-files-submitted="addImages($flow.files)">
+									<button class="btn btn-success" flow-btn 
+										flow-attrs="{accept:'image/*'}"
+										multiple="true">
 										Agregar imagenes
 									</button>
 	
-									<div class="col-xs-12">
-										<div ng-repeat="file in files" class="col-sm-3">
-											<img ngf-thumbnail="file" class="img-responsive img-thumbnail imagen-muestra">
+									<div class="col-xs-12" ng-show="$flow.files.length">
+										<div ng-repeat="file in $flow.files" class="col-sm-3">
+											<img flow-img="file" class="img-responsive img-thumbnail imagen-muestra">
 											<!-- <img flow-img="$flow.files[$index]" class="img-responsive img-thumbnail"/> -->
-											<br>
-											<span>{{file.name}} - {{file.size / 1000 | number : 2}} Kb</span>
+											<p class="nombreAlgo">{{file.name}} </p>
+											<p>{{file.size / 1000 | number : 2}} Kb</p>
+											<button class="btn btn-xs btn-danger" ng-click="file.cancel()">
+									        	Eliminar
+									        </button>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">	
 								<div class="checkbox">
-  									<label><input type="checkbox" value="comentario" ng-model="$ctrl.anuncio.comentarioHabilitado">Comentarios habilitados</label>
+  									<label>
+  										<input type="checkbox" value="comentario" ng-model="$ctrl.anuncio.comentarioHabilitado">
+  										Comentarios habilitados
+									</label>
 								</div>
 							</div>
 						</form>

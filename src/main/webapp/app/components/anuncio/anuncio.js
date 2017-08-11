@@ -41,11 +41,17 @@ function anuncioController($scope, todopoderosoDAO, userService, $http) {
 		ctrl.onDelete({id:anuncio.id, titulo:anuncio.titulo});
 	}
 	$scope.modificarCartelera = function(cartel){
-		ctrl.cartel= {titulo:ctrl.anuncio.titulo, cuerpo:ctrl.anuncio.cuerpo, comentarioHabilitado:ctrl.anuncio.comentarioHabilitado, id:ctrl.anuncio.id, fecha:ctrl.anuncio.fecha, creador_id:ctrl.anuncio.creador.id, cartelera_id:'', files: $scope.files, imagenesEliminar:$scope.imagenesEliminar};
+		ctrl.cartel= {titulo:ctrl.anuncio.titulo, cuerpo:ctrl.anuncio.cuerpo, comentarioHabilitado:ctrl.anuncio.comentarioHabilitado, id:ctrl.anuncio.id, fecha:ctrl.anuncio.fecha, creador_id:ctrl.anuncio.creador.id, cartelera_id:'', imagenesEliminar:$scope.imagenesEliminar, files:[]};
+		angular.forEach($scope.files, function(value) {
+			  this.files.push(value.file);
+		},ctrl.cartel);
 		ctrl.onModify({cartel:ctrl.cartel})
 	}
 	$scope.datosModificar = function(){
-		ctrl.cartel= {titulo:ctrl.anuncio.titulo, cuerpo:ctrl.anuncio.cuerpo, comentarioHabilitado:ctrl.anuncio.comentarioHabilitado, id:ctrl.anuncio.id, fecha:ctrl.anuncio.fecha, creador_id:ctrl.anuncio.creador.id, cartelera_id:'', files: $scope.files, imagenesEliminar:$scope.imagenesEliminar};
+		ctrl.cartel= {titulo:ctrl.anuncio.titulo, cuerpo:ctrl.anuncio.cuerpo, comentarioHabilitado:ctrl.anuncio.comentarioHabilitado, id:ctrl.anuncio.id, fecha:ctrl.anuncio.fecha, creador_id:ctrl.anuncio.creador.id, cartelera_id:'', files: [], imagenesEliminar:$scope.imagenesEliminar};
+		angular.forEach($scope.files, function(value) {
+			  this.files.push(value.file);
+		},ctrl.cartel);
 	}
 }
 

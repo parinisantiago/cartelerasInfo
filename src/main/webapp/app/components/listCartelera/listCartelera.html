@@ -105,20 +105,22 @@
 							</div>
 							<div class="form-group">
 								<label for="modalPublicarImagenes" class="control-label">Imagenes:</label>
-								<div>
-									<button class="btn btn-success" ngf-select="addImages($files)" 
-										 
-										multiple="true" accept="'image/*'" 
-										ngf-keep="'distinct'" ngf-allow-dir="false" 
-										ngf-max-files="10" ngf-max-size="5MB" ngf-max-total-size="15MB">
+								<div class="col-xs-12" flow-init="" flow-files-submitted="addImages($flow.files)">
+									<button class="btn btn-success" flow-btn 
+										flow-attrs="{accept:'image/*'}"
+										multiple="true">
 										Agregar imagenes
 									</button>
 	
-									<div class="col-xs-12">
-										<div ng-repeat="file in cartel.files" class="col-sm-3">
-											<img ngf-thumbnail="file" class="img-responsive img-thumbnail imagen-muestra">
-											<br>
-											<span>{{file.name}} - {{file.size / 1000 | number : 2}} Kb</span>
+									<div class="col-xs-12" ng-show="$flow.files.length">
+										<div ng-repeat="file in $flow.files" class="col-sm-3">
+											<img flow-img="file" class="img-responsive img-thumbnail imagen-muestra">
+											<!-- <img flow-img="$flow.files[$index]" class="img-responsive img-thumbnail"/> -->
+											<p class="nombreAlgo">{{file.name}} </p>
+											<p>{{file.size / 1000 | number : 2}} Kb</p>
+											<button class="btn btn-xs btn-danger" ng-click="file.cancel()">
+									        	Eliminar
+									        </button>
 										</div>
 									</div>
 								</div>

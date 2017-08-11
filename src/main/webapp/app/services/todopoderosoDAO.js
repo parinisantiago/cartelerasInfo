@@ -1,6 +1,6 @@
 app.factory("todopoderosoDAO",
-		['$http', '$q', 'userService', 'Upload',
-		function($http, $q, userService, Upload){
+		['$http', '$q', 'userService',
+		function($http, $q, userService){
 		    var baseRESTurl = "REST/";
 		
 		    var interfazPublica = {

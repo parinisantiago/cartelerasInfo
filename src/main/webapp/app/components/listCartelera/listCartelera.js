@@ -8,6 +8,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.carteleras = null;
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
+	$scope.files = [];
 	
 	$scope.cartelVacio = function(){
 		return JSON.parse(JSON.stringify({titulo:'', cuerpo:'', comentarioHabilitado:true, creador_id:'', cartelera_id:'', files:[], imagenesEliminar:[]}));
@@ -17,7 +18,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	
 	
 	$scope.addImages = function(files){
-		$scope.cartel.files = files;
+		$scope.files = files;
 	}
 	
 	/*
@@ -93,6 +94,13 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				cartel.creador_id = userService.getUserData().id;
 				cartel.cartelera_id = $scope.carteleraActiva.id;
 				cartel.comentarioHabilitado? cartel.comentarioHabilitado = true : cartel.comentarioHabilitado = false;
+				console.log(cartel);
+				console.log($scope.files);
+				angular.forEach($scope.files, function(value) {
+					console.log(value.file);
+					  this.files.push(value.file);
+				},cartel);
+				console.log(cartel);
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
 						$scope.cartel = new $scope.cartelVacio;
