@@ -8,6 +8,10 @@ function userConfigController(notificationService, userService, todopoderosoDAO,
 		return logueado;
 	}
 	
+	$scope.file=null;
+	
+	$scope.imagenPerfil = userService.getImagenPerfil();
+	
 	$scope.userData = userService.getUserData(); 
 	$scope.form = { PasswordOld : null, PasswordNew : null, PasswordNew2 : null};
 	$scope.vaciarform = function(){
@@ -28,6 +32,32 @@ function userConfigController(notificationService, userService, todopoderosoDAO,
 				else{
 					notificationService.addNotificacion('Error al cambiar contraseña usuario', '', 'danger');
 				}
+			});
+	}
+	
+	$scope.addImage = function(imagen){
+		$scope.file = imagen.file;
+	}
+	
+	$scope.removeImage = function(file){
+		file.cancel();
+		$scope.file = null;
+	}
+	
+	$scope.cambiarFotoPerfil= function(){
+		todopoderosoDAO.editFotoUsuario(userService.getUserData(), $scope.file)
+		.then(
+			function(data){
+				notificationService.addNotificacion('foto perfil cambiada correctamente', '', 'success');
+				userService.forceLoginRefresh()
+				setTimeout(function(){
+							$scope.imagenPerfil = userService.getImagenPerfil();
+						}
+						,1000);
+				
+			},
+			function(data){
+				notificationService.addNotificacion('Error al cambiar foto perfil de usuario', '', 'danger');
 			});
 	}
 }

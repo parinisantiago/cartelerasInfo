@@ -1,9 +1,14 @@
 <nav class="navbar navbar-default">
-	<a ui-sref="home"> 
-		<strong class="navbar-text">
-		{{usuario.user}}
-		</strong>
-	</a>
+	<div class="navbar-header">
+   		<a  ui-sref="home">
+   			<img src="{{usuario.profilePic}}" class="img-responsive pull-left"
+       			style="max-height:50px" alt="Imagen perfil usuario {{usuario.user}}"  >
+   			<strong class="navbar-text">
+				{{usuario.user}}
+			</strong>
+   		</a>
+   	</div>
+  	
 	
 	<user-notifications></user-notifications>
 	
@@ -27,5 +32,4 @@
 	<button ui-sref="configuracion" class="btn btn-default navbar-btn pull-right">
 		<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 	</button>
-
 </nav>

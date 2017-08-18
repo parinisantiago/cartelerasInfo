@@ -3,6 +3,7 @@ app.factory("userService",
 		function($http, $q, localstorage){
 			//necesita <script src="https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js"></script>
 		    var baseRESTurl = "REST/";
+		    var baseProfilePic = "img/perfil/";
 		    
 		    //segundos a restar a la fecha de expiracion para refrescar el token
 		    var secondsToRefresh = 500;
@@ -76,6 +77,10 @@ app.factory("userService",
 		    	
 		    	tienePermisoEliminar: function(cartelera){
 		    		return ( this.isLogged() && tienePermiso(this.getUserData().cartelerasEliminar, cartelera) );
+		    	},
+		    	
+		    	getImagenPerfil: function(){
+		    		return this.getUserData().profilePic;
 		    	},
 		    	
 		    	getToken: function(){
@@ -164,6 +169,41 @@ app.factory("userService",
 				        	 				return false;
 				        	 			});
 							  }
+						  }
+					  }
+				  },
+				  
+				  forceLoginRefresh: function(){
+					  if( this.isLogged() ){
+						  if( tokenExpired() ){
+							  console.log("token expirado");
+							  sessionExpired();
+							  return false;
+						  }
+						  else{
+							  refreshing = true;
+							  console.log("actualizando token");
+							  $http({
+					        	  	method  : 'PUT',
+					        	  	url     : baseRESTurl + "login/refresh/"+this.getUserData().id,
+					        	  	data    : '',
+					        	  	headers : { 'Authorization': this.getToken() }
+					         		})
+				        	 		.then(
+				        	 			function(respuesta){
+				        	 				console.log("nuevo token");
+				        	 				console.log(respuesta.data.token);
+				        	 				localstorage.setItem("token",respuesta.data.token);
+				        	 				refreshing = false;
+				        	 				return true;
+				        	 			},
+				        	 			function(respuesta){
+				        	 				console.log("Error al actualizar token.");
+				        	 				console.log(respuesta);
+				        	 				refreshing = false;
+				        	 				return false;
+				        	 			});
+							  
 						  }
 					  }
 				  }
