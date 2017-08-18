@@ -50,16 +50,18 @@
 	<script src="app/router.js"></script>
 	
 	<!-- Para el file upload -->
-	<!-- https://github.com/flowjs/ng-flow 
-		<script src="app/lib/ng-flow-2.7.7/dist/ng-flow-standalone.min.js"></script>  
-	-->
+	<!-- https://github.com/flowjs/ng-flow --> 
+	<script src="app/lib/ng-flow-2.7.7/dist/ng-flow-standalone.min.js"></script>  
+	
 	<!-- https://github.com/danialfarid/ng-file-upload#manual -->
+	<!--
 	<script src="app/lib/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
 	<script src="app/lib/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
-	
+	-->
 <link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="cartelerasInfo">
+
+<body ng-app="cartelerasInfo" flow-prevent-drop>
 
 		<cp-main></cp-main>
 		
