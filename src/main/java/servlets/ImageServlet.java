@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;
@@ -21,11 +22,13 @@ public class ImageServlet extends HttpServlet {
         
         	String url = request.getRequestURI();
 	        String urlImage = url.substring(url.lastIndexOf("img/")+4,url.length());
-	        response.setContentType("image/"+ FileManager.getExtension(urlImage));
+	        FileManager fm = new FileManager();
+	        File file = fm.getFile(FileManager.ImagenesDir + urlImage);
+	        response.setContentType("image/"+ FileManager.getExtension(file.getAbsolutePath()));
 	        ServletOutputStream out;
 	        out = response.getOutputStream();
         try{
-	        FileInputStream fin = new FileInputStream(FileManager.ImagenesDir + urlImage);
+	        FileInputStream fin = new FileInputStream(file);
 	
 	        BufferedInputStream bin = new BufferedInputStream(fin);
 	        BufferedOutputStream bout = new BufferedOutputStream(out);
