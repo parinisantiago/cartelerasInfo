@@ -59,6 +59,7 @@ public class LoginRest {
 	}
 		    	
 	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JsonView(JView.Usuario.class)
 	public ResponseEntity<?> login(@RequestBody String jsonString) {
 		try {
 			//parseo lo enviado en el post

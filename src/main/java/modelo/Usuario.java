@@ -38,6 +38,10 @@ public class Usuario {
 	private String user;
 	
 	@Column(nullable = false)
+	@JsonView({JView.Usuario.class, JView.Simple.class, JView.CarteleraCompleta.class, JView.Cartelera.class, JView.Anuncio.class})
+	private String profilePic;
+	
+	@Column(nullable = false)
 	@JsonView(JView.Privado.class)
 	private String password;
 	
@@ -158,6 +162,14 @@ public class Usuario {
 		this.user = user;
 	}
 
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -238,7 +250,5 @@ public class Usuario {
 	public int hashCode() {
 		return (this.getId().intValue() + this.getId().hashCode()+ this.getUser().hashCode() );
 	}
-	
-	
-	
+
 }

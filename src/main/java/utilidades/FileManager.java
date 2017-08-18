@@ -7,20 +7,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileManager {
 
+	private static final String defaultProfilePic = FileManager.ImagenesPerfilDir+"default.png";
+	
 	public static final String multimediaDir = "/home/agustin/workspace/cartelerasInfo/src/main/webapp/";
 	public static final String ImagenesDir = multimediaDir + "img/";
 	public static final String ImagenesAnuncioDir = ImagenesDir + "upload/";
 	public static final String ImagenesPerfilDir = ImagenesDir + "perfil/";
 	
+	public static final String ImagenesDirURL = "img/";
+	public static final String ImagenesAnuncioDirURL = ImagenesDirURL + "upload/";
+	public static final String ImagenesPerfilDirURL = ImagenesDirURL + "perfil/";
+	
+	public static final String defaultProfilePicURL = ImagenesPerfilDirURL +"default.png";
+	
 	public static String getDefaultName(MultipartFile fileInput){
         String name = fileInput.getOriginalFilename(); 
-        String ext = name.substring(name.lastIndexOf("."),name.length()); 
-        String fileName = System.currentTimeMillis()+ext;
+        String ext = name.substring(name.lastIndexOf("."),name.length());
+        Integer random = new Integer((int) (Math.random()*100));
+        String fileName = System.currentTimeMillis()+"_"+random+ext;
         return fileName; 
 	}
 	
 	public static String getExtension(String name){
-		return name.substring(name.lastIndexOf("."),name.length()).replaceAll(".", "");
+		return name.substring(name.lastIndexOf("."),name.length()).replaceAll("\\.", "");
 	}
 	
 	public File getFile(String path){
@@ -29,6 +38,14 @@ public class FileManager {
 	
 	public File getImageAnuncio(String nombre){
 		return this.getFile(FileManager.ImagenesAnuncioDir+nombre);
+	}
+	
+	public File getImagePerfil(Long id){
+		File file = this.getFile(FileManager.ImagenesPerfilDir+id.toString());
+		if(file == null){
+			file = this.getFile(FileManager.defaultProfilePic);
+		}
+		return file;
 	}
 	
 	public String save(MultipartFile fileInput, String dirPath, String fileName) throws IOException{
@@ -71,10 +88,6 @@ public class FileManager {
 		return this.delete(FileManager.ImagenesAnuncioDir + fileName);
 	}
 	
-	public String saveImagenPerfil(MultipartFile fileInput) throws IOException{
-		return this.save(fileInput, FileManager.ImagenesPerfilDir , FileManager.getDefaultName(fileInput));
-	}
-
 	public String saveImagenPerfil(MultipartFile fileInput, String fileName) throws IOException{
 		return this.save(fileInput, FileManager.ImagenesPerfilDir , fileName);
 	}

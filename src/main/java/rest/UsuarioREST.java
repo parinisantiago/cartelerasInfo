@@ -15,18 +15,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import modelo.Anuncio;
 import modelo.Cartelera;
+import modelo.Notificacion;
 import modelo.Rol;
 import modelo.Usuario;
 import modeloDAO.CarteleraDAO;
 import modeloDAO.Dao;
 import modeloDAO.RolDAO;
 import modeloDAO.UsuarioDAO;
+import utilidades.FileManager;
 
 @RestController
 public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
@@ -40,6 +45,8 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	@Autowired
 	private CarteleraDAO daoCartelera;
 	
+	private FileManager fileManager = new FileManager();
+	
 	@Override	
 	protected Dao<Usuario> getEntityDao() {
 		return daoUsuario;
@@ -52,6 +59,7 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 		entity.setPassword(jsonEntity.getPassword());
 		entity.setRol(daoRol.getById(jsonEntity.getRol_id()));
 		entity.setHabilitado(true);
+		entity.setProfilePic(FileManager.defaultProfilePicURL);
 		return entity;
 	}
 
@@ -205,6 +213,36 @@ public class UsuarioREST extends GenericREST<Usuario, EntityJsonUsuario> {
 	@DeleteMapping("/usuario/{id}")
 	public ResponseEntity<Usuario> entityRemove(@PathVariable("id") Long id) {
 		return super.entityRemove(id);
+	}
+	
+	@PutMapping("/usuario/{id}/perfil")
+	public ResponseEntity<Usuario> profilePicUpdate(@PathVariable("id") Long id, @RequestPart("file") MultipartFile file) {
+		Usuario entity = daoUsuario.getById(id);
+		String img = entity.getProfilePic();
+		String ext = FileManager.getExtension(file.getOriginalFilename());
+		try{
+			img = fileManager.saveImagenPerfil(file, id.toString() + "." + ext);
+		}
+		catch (IOException e){
+			 System.out.println("error al guardar imagen");
+			 return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);
+		}
+		
+		if(!entity.getProfilePic().equals(img)){
+			entity = daoUsuario.getById(id);
+			entity.setProfilePic(FileManager.ImagenesPerfilDirURL+img);
+			getEntityDao().update(entity);
+		}
+    		
+    	return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/usuario/{id}/perfil")
+	public ResponseEntity<Usuario> profilePicRemove(@PathVariable("id") Long id) {
+		Usuario entity = daoUsuario.getById(id);
+		entity.setProfilePic(FileManager.defaultProfilePicURL);
+		getEntityDao().persist(entity);
+    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 }

@@ -13,6 +13,7 @@ public class UserInfoToken{
 	
 	private long id;
 	private String user;
+	private String profilePic;
 	private Rol rol;
 	private Set<Long> cartelerasModificarId = new HashSet<Long>();
 	private Set<Long> cartelerasEliminarId = new HashSet<Long>();
@@ -23,6 +24,7 @@ public class UserInfoToken{
 		this.id = usuario.getId();
 		this.user = usuario.getUser();
 		this.rol = usuario.getRol();
+		this.profilePic = usuario.getProfilePic();
 		for (Cartelera cartelera : usuario.getCartelerasEliminar()) {	
 			this.cartelerasEliminarId.add(cartelera.getId());
 		}
@@ -53,6 +55,10 @@ public class UserInfoToken{
 	
 	public Rol getRol(){
 		return this.rol;
+	}
+	
+	public String getProfilePic() {
+		return profilePic;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package rest;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import modeloDAO.Dao;
 import modeloDAO.NotificacionDAO;
 import modeloDAO.RolDAO;
 import modeloDAO.UsuarioDAO;
+import utilidades.FileManager;
 
 
 // crear base de datos con 
@@ -110,10 +112,15 @@ public class CargarDatosREST {
 			
 			//usuarios
 			Usuario usuarioAdmin = new Usuario("Admin", "admin", true, rolAdmin);
+			usuarioAdmin.setProfilePic(FileManager.defaultProfilePicURL);
 			Usuario usuarioEuge = new Usuario("Euge", "piturro", true, rolEstudiante);
+			usuarioEuge.setProfilePic(FileManager.defaultProfilePicURL);
 			Usuario usuarioAgus = new Usuario("Agus", "agus", true, rolEstudiante);
+			usuarioAgus.setProfilePic(FileManager.defaultProfilePicURL);
 			Usuario usuarioProfesor = new Usuario("Profe", "profe", true, rolProfesor);
+			usuarioProfesor.setProfilePic(FileManager.defaultProfilePicURL);
 			Usuario usuarioEmpresa = new Usuario("Empresa", "empresa", true, rolEmpresa);
+			usuarioEmpresa.setProfilePic(FileManager.defaultProfilePicURL);
 			
 			daoUsuario.persist(usuarioAdmin);
 			daoUsuario.persist(usuarioAgus);
@@ -162,6 +169,7 @@ public class CargarDatosREST {
 				carteleraPrimero.addAnuncio(aux);
 				aux.setCartelera(carteleraPrimero);
 				daoAnuncio.persist(aux);
+				TimeUnit.SECONDS.sleep(1);
 			}
 			
 			Anuncio anuncioDos = new Anuncio("Horarios Base de Datos", "estos son los horarios de Base de Datos de este año ...", true, usuarioProfesor, new Date(nowMillis - (1000 * 60 * 20)) );
@@ -176,7 +184,9 @@ public class CargarDatosREST {
 			anuncioCuatro.setCartelera(carteleraLaboral);
 			
 			daoAnuncio.persist(anuncioDos);
+			TimeUnit.SECONDS.sleep(1);
 			daoAnuncio.persist(anuncioTres);
+			TimeUnit.SECONDS.sleep(1);
 			daoAnuncio.persist(anuncioCuatro);
 			
 			
