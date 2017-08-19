@@ -400,6 +400,27 @@ app.factory("todopoderosoDAO",
 						return promise;
 				  },
 				  
+				  eliminarComentario: function(comentario){
+					  	var defered = $q.defer();
+				        var promise = defered.promise;
+				        $http({
+				        	  method  : 'DELETE',
+				        	  url     : baseRESTurl + "comentario/" + comentario.id,
+				        	  headers : { 'Authorization' : userService.getToken() }
+				        	 })
+				        .then(
+							function(respuesta){
+								defered.resolve(respuesta.data);
+							},
+							function(respuesta){
+								console.log("Error al borrar comentario ");
+								console.log(respuesta);
+								defered.reject(respuesta);
+						    });
+						
+						return promise;
+				  },
+				  
 				  getAnunciosUsuario: function(usuario){
 						var defered = $q.defer();
 				        var promise = defered.promise;

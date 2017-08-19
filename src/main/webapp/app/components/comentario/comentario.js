@@ -21,6 +21,23 @@ function comentarioController($scope, todopoderosoDAO, userService, notification
 			});
 		}
 	};
+	
+	$scope.puedeEliminarComentario = function(comentario){
+		return true;
+	}
+	
+	$scope.eliminar = function(comentario){
+		if(confirm("Esta seguro de borrar este comentario?")){
+			todopoderosoDAO.eliminarComentario(comentario)
+			.then(function(){
+				ctrl.anuncio.comentarios.splice( ctrl.anuncio.comentarios.indexOf(comentario), 1 );
+			},
+			function(){
+				notificationService.addNotificacion('Error al borrar comentario', error.data, 'danger');
+			}
+			);
+		}
+	}
 }
 
 app.component("comentario", {

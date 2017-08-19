@@ -1,7 +1,14 @@
 <div class="comentario">
 	<div class="col-xs-12" ng-repeat="comentario in $ctrl.comentarios">
 		<div class="pull-right">
-			<p class="col-xs-12">{{comentario.texto}} &nbsp;{{comentario.creador.user}} @ {{comentario.fecha | date}}</p>
+			<p class="col-xs-12">
+				{{comentario.texto}} &nbsp;{{comentario.creador.user}} @ {{comentario.fecha | date}}
+				<a href="#" ng-click="eliminar(comentario)" class="eliminar" data-toggle="tooltip" title="Eliminar"
+					ng-if="puedeEliminarComentario(comentario)">
+					<span class="glyphicon glyphicon-trash"
+					aria-hidden="true"></span>
+				</a>
+			</p>
 		</div>
 	</div>
 	<div ng-show="$ctrl.logueado()">
