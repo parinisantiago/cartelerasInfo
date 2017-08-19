@@ -40,8 +40,8 @@
 					<div class="btn-group" role="group" ng-if="carteleraActiva.usuarioPublicar.indexOf(usuario) >= 0">
 						<button class="btn btn-primary" data-toggle="modal"	data-target="#modalCartel" data-backdrop="static" data-modify="false">Publicar en cartelera</button>
 					</div>
-					<div class="btn-group" role="group">
-						<button class="btn btn-primary" data-toggle="modal" data-target="#modalInscriptos">Ver inscriptos</button>
+					<div class="btn-group" role="group" ng-if="puedeVerInscriptos()">
+						<button class="btn btn-primary" data-toggle="modal" data-target="#modalInscriptos" >Ver inscriptos</button>
 					</div>
 					<div class="btn-group" role="group" ng-if="!interesado()">
 						<button class="btn btn-success" ng-click="addInteres()">Recibir Notificaciones</button>
@@ -103,6 +103,34 @@
 								<label for="modalPublicarContenido" class="control-label">Contenido:</label>
 								<textarea class="form-control" id="modalPublicarContenido" rows="5" ng-model="cartel.cuerpo" required></textarea>
 							</div>
+							
+							<div class="form-group">
+								<label for="modalPublicarLinks">Links agregar:</label>
+								<div ng-repeat="link in cartel.linksAgregar">
+									<label class="sr-only" for="modalPublicarLink-{{$index}}">Link:</label>
+									<div class="input-group">
+										<div class="input-group-addon">
+											<a target="_blank" href="{{link}}" class="col-xs-12">
+												{{link}}
+											</a>
+										</div>
+										<span class="input-group-btn">
+											<button class="btn btn-warning" ng-click="cancelarAgregarLink(link)">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											</button>
+										</span>
+									</div>
+								</div>
+								<div class="input-group">
+									<input ng-model="nuevoLink" type="url" class="form-control" id="modalPublicarLinks" placeholder="url link">
+									<span class="input-group-btn">
+										<button class="btn btn-success" ng-click="agregarLink()">
+											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+							
 							<div class="form-group">
 								<label for="modalPublicarImagenes" class="control-label">Imagenes:</label>
 								<div class="col-xs-12" flow-init="" flow-files-submitted="addImages($flow.files)">

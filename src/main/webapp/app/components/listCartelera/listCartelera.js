@@ -9,9 +9,10 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	$scope.carteleraActiva = null;
 	$scope.carteleraNueva = {titulo:''};
 	$scope.files = [];
+	$scope.nuevoLink = "";
 	
 	$scope.cartelVacio = function(){
-		return JSON.parse(JSON.stringify({titulo:'', cuerpo:'', comentarioHabilitado:true, creador_id:'', cartelera_id:'', files:[], imagenesEliminar:[]}));
+		return JSON.parse(JSON.stringify({titulo:'', cuerpo:'', comentarioHabilitado:true, creador_id:'', cartelera_id:'', files:[], imagenesEliminar:[], linksAgregar:[]}));
 	}
 	
 	$scope.cartel = new $scope.cartelVacio;
@@ -94,13 +95,9 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 				cartel.creador_id = userService.getUserData().id;
 				cartel.cartelera_id = $scope.carteleraActiva.id;
 				cartel.comentarioHabilitado? cartel.comentarioHabilitado = true : cartel.comentarioHabilitado = false;
-				console.log(cartel);
-				console.log($scope.files);
 				angular.forEach($scope.files, function(value) {
-					console.log(value.file);
 					  this.files.push(value.file);
 				},cartel);
-				console.log(cartel);
 				todopoderosoDAO.createCartel(cartel)
 					.then(function(data){
 						$scope.cartel = new $scope.cartelVacio;
@@ -253,6 +250,30 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			}
 		}
 	}
+	
+	$scope.puedeVerInscriptos = function(){
+		return userService.tienePermisoVerInscriptos();
+	}
+	
+
+	$scope.agregarLink = function(){
+		var regex = new RegExp("^(http|https):\/\/[a-zA-Z]+\..+");
+		var msg="Ingrese solo urls que empiecen con http:// o https://";
+		if(regex.test($scope.nuevoLink)){
+			if($scope.cartel.linksAgregar.indexOf($scope.nuevoLink) == -1){
+				$scope.cartel.linksAgregar.push($scope.nuevoLink);
+			}
+			$scope.nuevoLink = "";
+		}
+		else{
+			notificationService.addNotificacion('Link no valido', msg, 'danger');
+		}
+	}
+	
+	$scope.cancelarAgregarLink = function(link){
+		$scope.cartel.linksAgregar.splice($scope.cartel.linksAgregar.indexOf(link),1);
+	}
+	
 }
 
 app.component("listCartelera", {

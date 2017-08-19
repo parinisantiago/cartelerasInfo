@@ -126,7 +126,7 @@ app.factory("todopoderosoDAO",
 					  fd.append("data",
 							new Blob([
 								//JSON.stringify(cartel)
-								'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+cartel.cartelera_id+'"}'
+								'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+cartel.cartelera_id+'","linksAgregar":'+ angular.toJson(cartel.linksAgregar) +'}'
 								],
 							{
 								type: "application/json"
@@ -447,7 +447,7 @@ app.factory("todopoderosoDAO",
 				         	});
 					  fd.append("data",
 							new Blob([
-								'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+idCartelera+'","imagenesEliminar":'+ angular.toJson(cartel.imagenesEliminar) +'}'
+								'{"titulo":"'+cartel.titulo+'","cuerpo":"'+cartel.cuerpo+'","comentarioHabilitado":"'+cartel.comentarioHabilitado+'","creador_id":"'+cartel.creador_id+'","cartelera_id":"'+idCartelera+'","imagenesEliminar":'+ angular.toJson(cartel.imagenesEliminar) +',"linksAgregar":'+ angular.toJson(cartel.linksAgregar) +',"linksEliminar":'+ angular.toJson(cartel.linksEliminar) +'}'
 								],
 							{
 								type: "application/json"

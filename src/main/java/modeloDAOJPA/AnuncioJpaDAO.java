@@ -24,6 +24,7 @@ public class AnuncioJpaDAO extends JpaDao<Anuncio> implements AnuncioDAO {
 		if(all!=null){
 			for (Anuncio anuncio : all) {
 				anuncio.getImagenes().size();
+				anuncio.getLinks().size();
 			}
 		}
 		return all;
@@ -34,6 +35,7 @@ public class AnuncioJpaDAO extends JpaDao<Anuncio> implements AnuncioDAO {
 		Anuncio anuncio = super.getById(id);
 		if(anuncio!=null){
 			anuncio.getImagenes().size();
+			anuncio.getLinks().size();
 		}
 		return anuncio;
 	}
@@ -52,6 +54,7 @@ public class AnuncioJpaDAO extends JpaDao<Anuncio> implements AnuncioDAO {
 		if(resultado!=null){
 			for (Anuncio anuncio : resultado) {
 				anuncio.getImagenes().size();
+				anuncio.getLinks().size();
 			}
 		}
 		return resultado;
@@ -70,6 +73,7 @@ public class AnuncioJpaDAO extends JpaDao<Anuncio> implements AnuncioDAO {
 		if(resultado!=null){
 			for (Anuncio anuncio : resultado) {
 				anuncio.getImagenes().size();
+				anuncio.getLinks().size();
 			}
 		}
 		return resultado;

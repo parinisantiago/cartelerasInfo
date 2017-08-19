@@ -24,6 +24,7 @@ public class CarteleraJpaDAO extends JpaDao<Cartelera> implements CarteleraDAO {
 			for (Cartelera cartelera : all) {
 				for (Anuncio anuncio : cartelera.getAnuncios()) {
 					anuncio.getImagenes().size();
+					anuncio.getLinks().size();
 				}
 			}
 		}
@@ -36,6 +37,7 @@ public class CarteleraJpaDAO extends JpaDao<Cartelera> implements CarteleraDAO {
 		if(cartelera != null){
 			for (Anuncio anuncio : cartelera.getAnuncios()) {
 				anuncio.getImagenes().size();
+				anuncio.getLinks().size();
 			}
 		}
 		return cartelera;

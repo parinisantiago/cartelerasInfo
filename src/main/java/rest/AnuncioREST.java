@@ -68,6 +68,9 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 		entity.setComentarioHabilitado(jsonEntity.isComentarioHabilitado());
 		entity.setCartelera(daoCartelera.getById(jsonEntity.getCartelera_id()));
 		entity.setCreador(daoUsuario.getById(jsonEntity.getCreador_id()));
+		if(jsonEntity.getLinksAgregar()!=null){
+				entity.setLinks(jsonEntity.getLinksAgregar());
+		}
 		entity.setHabilitado(true);
 		return entity;
 	}
@@ -85,6 +88,18 @@ public class AnuncioREST extends GenericREST<Anuncio, EntityJsonAnuncio> {
 			for (String imagen : jsonEntity.getImagenesEliminar()) {
 				entity.removeImagen(imagen);
 				fileManager.deleteImagenAnuncio(imagen);
+			}
+		}
+		
+		if(jsonEntity.getLinksEliminar()!=null){
+			for (String link : jsonEntity.getLinksEliminar()) {
+				entity.removeLink(link);
+			}
+		}
+		
+		if(jsonEntity.getLinksAgregar()!=null){
+			for (String link : jsonEntity.getLinksAgregar()) {
+				entity.addLink(link);
 			}
 		}
 		
@@ -248,6 +263,8 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 	private Long creador_id;
 	private Long cartelera_id;
 	private List<String> imagenesEliminar;
+	private List<String> linksAgregar;
+	private List<String> linksEliminar;
 	private boolean habilitado;
 	
 	public EntityJsonAnuncio() {
@@ -292,6 +309,22 @@ final class EntityJsonAnuncio extends EntityJsonAbstract{
 
 	public void setImagenesEliminar(List<String> imagenesEliminar) {
 		this.imagenesEliminar = imagenesEliminar;
+	}
+
+	public List<String> getLinksAgregar() {
+		return linksAgregar;
+	}
+
+	public void setLinksAgregar(List<String> links_agregar) {
+		this.linksAgregar = links_agregar;
+	}
+
+	public List<String> getLinksEliminar() {
+		return linksEliminar;
+	}
+
+	public void setLinksEliminar(List<String> links_eliminar) {
+		this.linksEliminar = links_eliminar;
 	}
 
 	@Override

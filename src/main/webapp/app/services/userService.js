@@ -71,6 +71,10 @@ app.factory("userService",
 		    		return true;
 		    	},
 		    	
+		    	tienePermisoVerInscriptos: function(cartelera){
+		    		return ( this.isLogged() && (this.isProfesor() || this.isAdmin()) );
+		    	},
+		    	
 		    	tienePermisoPublicar: function(cartelera){
 		    		return ( this.isLogged() && tienePermiso(this.getUserData().cartelerasModificar, cartelera) );
 		    	},
@@ -120,7 +124,6 @@ app.factory("userService",
 			        	 })
 					.then(
 						function(respuesta){
-							console.log(respuesta);
 							localstorage.setItem("token",respuesta.data.token);
 							defered.resolve(respuesta.data);
 						},

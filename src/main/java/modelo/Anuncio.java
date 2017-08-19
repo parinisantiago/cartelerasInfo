@@ -74,6 +74,12 @@ public class Anuncio implements Serializable {
 	@JsonView({JView.Anuncio.class,JView.CarteleraCompleta.class})
 	private List<String> imagenes = new ArrayList<String>();
 	
+	@ElementCollection
+	@CollectionTable(name="links_anuncios")
+	@Column(name="links")
+	@JsonView({JView.Anuncio.class,JView.CarteleraCompleta.class})
+	private List<String> links = new ArrayList<String>();
+	
 	@Column(nullable = false)
 	@JsonView(JView.Privado.class)
 	private boolean habilitado;
@@ -202,9 +208,25 @@ public class Anuncio implements Serializable {
 	public void addImagen(String imagen){
 		this.imagenes.add(imagen);
 	}
-	
+
 	public void removeImagen(String imagen){
 		this.imagenes.remove(imagen);
+	}
+	
+	public List<String> getLinks() {
+		return links;
+	}
+
+	public void setLinks(List<String> links) {
+		this.links = links;
+	}
+	
+	public void addLink(String imagen){
+		this.links.add(imagen);
+	}
+	
+	public void removeLink(String link){
+		this.links.remove(link);
 	}
 
 	@Override
