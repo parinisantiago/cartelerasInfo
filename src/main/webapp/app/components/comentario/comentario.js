@@ -22,8 +22,16 @@ function comentarioController($scope, todopoderosoDAO, userService, notification
 		}
 	};
 	
+	$scope.isDuenioCartel = function(){
+		return (ctrl.anuncio.creador.id == userService.getUserData().id);
+	}
+	
+	$scope.isDuenioComentario = function(comentario){
+		return (comentario.creador.id == userService.getUserData().id);
+	}
+	
 	$scope.puedeEliminarComentario = function(comentario){
-		return true;
+		return (userService.isLogged() && (userService.isAdmin() || $scope.isDuenioCartel() || $scope.isDuenioComentario(comentario)));
 	}
 	
 	$scope.eliminar = function(comentario){
