@@ -84,8 +84,12 @@ app.factory("userService",
 		    	},
 		    	
 		    	isDuenioAnuncio: function(anuncio){
-		    		return ( this.isLogged() && (this.getUserData().id == anuncio.id ));
+		    		return ( this.isLogged() && (this.getUserData().id == anuncio.creador.id ));
 		    	},
+		    	
+		    	isDuenioComentario: function(comentario){
+		    		return ( this.isLogged() && (this.getUserData().id == comentario.creador.id ));
+		    	}, 
 		    	
 		    	isInteresado: function(cartelera){
 		    		var resultado = false;
