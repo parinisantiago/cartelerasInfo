@@ -85,6 +85,14 @@ function anuncioController($scope, todopoderosoDAO, userService, $http, notifica
 		ctrl.anuncio.links.splice(ctrl.anuncio.links.indexOf(link),1);
 	}
 	
+	$scope.permisoEliminar = function(){
+		return (userService.tienePermisoEliminar(ctrl.cartelera) || isDuenioAnuncio(ctrl.anuncio));
+	}
+	
+	$scope.permisoModificar = function(){
+		return (userService.tienePermisoEliminar(ctrl.cartelera) || isDuenioAnuncio(ctrl.anuncio));
+	}
+	
 }
 
 app.component("anuncio", {
@@ -92,7 +100,7 @@ app.component("anuncio", {
 		templateUrl: 'app/components/anuncio/anuncio.html',
 		bindings: {
 			anuncio:'<',
-			elim:'<',
+			cartelera:'<',
 			onDelete:'&',
 			onModify:'&'
 		}

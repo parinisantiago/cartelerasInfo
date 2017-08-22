@@ -147,7 +147,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	
 	
 	$scope.isAdmin= function(){
-		return(userService.isLogged() && (userService.isAdmin()));
+		return(userService.isAdmin());
 	}
 	
 	$scope.eliminarCartelera = function(cartelera){
@@ -215,7 +215,12 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 	}
 	
 	$scope.publicar = function(){
-		return ((userService.isProfesor) && $scope.carteleraActiva && (userService.getUserData().cartelerasModificar.indexOf($scope.carteleraActiva.id) != -1));
+		if(!$scope.carteleraActiva){
+			return false;
+		}
+		else{
+			return userService.tienePermisoPublicar($scope.carteleraActiva);
+		}
 	}
 	
 	$scope.removeInteres = function(){
@@ -234,20 +239,7 @@ function listCarteleraController($scope, todopoderosoDAO, userService, notificat
 			return false;
 		}
 		else{
-			if(userService.isLogged()){
-				var resultado = false;
-				var user = userService.getUserData();
-				var interesados = $scope.carteleraActiva.interesados; 
-				interesados.forEach(function(usuario) {
-				    if(usuario.id == user.id){
-				    	resultado = true;
-				    }
-				});
-				return resultado;
-			}
-			else{
-				return false;
-			}
+			return userService.isInteresado($scope.carteleraActiva);
 		}
 	}
 	

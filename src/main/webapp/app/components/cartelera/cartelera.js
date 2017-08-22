@@ -12,10 +12,6 @@ function carteleraController($scope, todopoderosoDAO, userService, $http) {
 		ctl.onModify({cartelmod:cartel, cart:ctl.cart.id})
 	}
 	
-	$scope.eliminar = function(){
-		return userService.getUserData().cartelerasEliminar
-	}
-
 }
 
 app.component("cartelera", {

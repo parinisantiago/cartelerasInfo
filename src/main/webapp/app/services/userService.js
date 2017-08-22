@@ -36,12 +36,12 @@ app.factory("userService",
 		    }
 		    
 		    var tienePermiso = function(permisos, cartelera){
-		    	if( pemisos == null || cartelera == null){
+		    	if( permisos == null || cartelera == null){
 		    		return false;
 		    	}
 		    	else{
 			    	for(var i = 0; i < permisos.length; i++){
-						if(permisos[i].id == cartelera.id){
+						if(permisos[i] == cartelera.id){
 							return true;
 						}
 					};
@@ -81,6 +81,24 @@ app.factory("userService",
 		    	
 		    	tienePermisoEliminar: function(cartelera){
 		    		return ( this.isLogged() && tienePermiso(this.getUserData().cartelerasEliminar, cartelera) );
+		    	},
+		    	
+		    	isDuenioAnuncio: function(anuncio){
+		    		return ( this.isLogged() && (this.getUserData().id == anuncio.id ));
+		    	},
+		    	
+		    	isInteresado: function(cartelera){
+		    		var resultado = false;
+		    		if(this.isLogged()){
+						var user = this.getUserData();
+						var interesados = cartelera.interesados;
+						for (var int = 0; (int < interesados.length) && !resultado; int++) {
+							if(interesados[int].id == user.id){
+						    	resultado = true;
+						    }
+						}
+					}
+					return resultado;;
 		    	},
 		    	
 		    	getImagenPerfil: function(){
