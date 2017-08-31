@@ -86,11 +86,11 @@ function anuncioController($scope, todopoderosoDAO, userService, $http, notifica
 	}
 	
 	$scope.permisoEliminar = function(){
-		return (userService.tienePermisoEliminar(ctrl.cartelera) || isDuenioAnuncio(ctrl.anuncio));
+		return (userService.tienePermisoEliminar(ctrl.cartelera) || userService.isDuenioAnuncio(ctrl.anuncio));
 	}
 	
 	$scope.permisoModificar = function(){
-		return (userService.tienePermisoEliminar(ctrl.cartelera) || isDuenioAnuncio(ctrl.anuncio));
+		return (userService.tienePermisoEliminar(ctrl.cartelera) || userService.isDuenioAnuncio(ctrl.anuncio));
 	}
 	
 }
