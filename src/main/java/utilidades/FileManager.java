@@ -23,8 +23,8 @@ public class FileManager {
 	public static final String ImagenesAnuncioDirURL = ImagenesDirURL + "upload/";
 	public static final String ImagenesPerfilDirURL = ImagenesDirURL + "perfil/";
 	
-	public static final String defaultProfilePicURL = ImagenesPerfilDirURL +"default.png";
-	private static final String defaultProfilePic = ImagenesPerfilDir+"default.png";
+	public static final String defaultProfilePicURL = ImagenesPerfilDirURL +"default.jpg";
+	private static final String defaultProfilePic = ImagenesPerfilDir+"default.jpg";
 	
 	private static boolean directoriosCreados = false;
 	
